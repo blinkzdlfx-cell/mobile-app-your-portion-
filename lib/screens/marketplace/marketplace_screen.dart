@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../services/supabase_service.dart';
+import '../../models/property.dart';
 
 class MarketplaceScreen extends StatefulWidget {
   const MarketplaceScreen({super.key});
@@ -16,6 +17,8 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   bool _initialized = false;
   bool _canSell = false;
   bool _isLoadingRole = true;
+  bool _isLoadingProperties = false;
+  bool _isLoadingSaved = false;
 
   double _minPrice = 0;
   double _maxPrice = 500000;
@@ -27,24 +30,81 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   double _maxSize = 100;
   final _locationController = TextEditingController();
 
-  List<Map<String, dynamic>> get _allProperties => [
-    { 'imageLabel': 'Farm Land', 'title': 'Serene Valley Farm', 'location': 'Abuja, Nigeria', 'price': '\$120,000', 'seller': 'Elijah O.', 'rating': '4.8', 'isVerified': true },
-    { 'imageLabel': 'Apartments', 'title': 'Modern Heights', 'location': 'Nairobi, Kenya', 'price': '\$1,500/mo', 'seller': 'Sarah K.', 'rating': '4.9', 'isVerified': true },
-    { 'imageLabel': 'Houses', 'title': 'Grace Villa', 'location': 'Lagos, Nigeria', 'price': '\$250,000', 'seller': 'David A.', 'rating': '4.7', 'isVerified': true },
-    { 'imageLabel': 'Land', 'title': 'Green Acre Plot', 'location': 'Enugu, Nigeria', 'price': '\$80,000', 'seller': 'Esther M.', 'rating': '4.6', 'isVerified': false },
-    { 'imageLabel': 'Rooms', 'title': 'Heritage Lodge', 'location': 'Abuja, Nigeria', 'price': '\$200/night', 'seller': 'Michael T.', 'rating': '4.5', 'isVerified': true },
-  ];
+  List<Property> _allProperties = [];
+  Set<String> _savedPropertyIds = {};
 
-  List<Map<String, dynamic>> _filteredProperties() {
+  List<Property> get _filteredProperties {
     var results = _allProperties;
     if (_activeFilter != 'All Listings') {
-      results = results.where((p) => p['imageLabel'] == _activeFilter).toList();
+      results = results.where((p) => p.category == _activeFilter).toList();
     }
     final loc = _selectedLocation.trim().toLowerCase();
     if (loc.isNotEmpty) {
-      results = results.where((p) => (p['location'] as String).toLowerCase().contains(loc)).toList();
+      results = results.where((p) => p.location.toLowerCase().contains(loc)).toList();
+    }
+    if (_selectedType != 'All Types') {
+      results = results.where((p) => p.category == _selectedType).toList();
+    }
+    if (_selectedSeller != 'All Sellers') {
+      results = results.where((p) {
+        final sellerId = p.sellerId;
+        if (sellerId == 'seller1') return true;
+        if (sellerId == 'seller2' && _selectedSeller == 'Trusted Member') return true;
+        if (sellerId == 'seller3' && _selectedSeller == 'Individual') return true;
+        return false;
+      }).toList();
     }
     return results;
+  }
+
+  @override
+  void dispose() {
+    _locationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      _initialized = true;
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is String && args.isNotEmpty) {
+        _activeFilter = args;
+      }
+      _loadRole();
+      _loadProperties();
+      _loadSavedPropertyIds();
+    }
+  }
+
+  Future<void> _loadRole() async {
+    final canSell = await _supabaseService.canSell();
+    if (mounted) setState(() { _canSell = canSell; _isLoadingRole = false; });
+  }
+
+  Future<void> _loadProperties() async {
+    if (mounted) setState(() { _isLoadingProperties = true; });
+    try {
+      final properties = await _supabaseService.getProperties();
+      if (mounted) setState(() { _allProperties = properties; });
+    } catch (e) {
+      print('Error loading properties: $e');
+    } finally {
+      if (mounted) setState(() { _isLoadingProperties = false; });
+    }
+  }
+
+  Future<void> _loadSavedPropertyIds() async {
+    if (mounted) setState(() { _isLoadingSaved = true; });
+    try {
+      final savedIds = await _supabaseService.getSavedPropertyIds();
+      if (mounted) setState(() { _savedPropertyIds = savedIds.toSet(); });
+    } catch (e) {
+      print('Error loading saved property ids: $e');
+    } finally {
+      if (mounted) setState(() { _isLoadingSaved = false; });
+    }
   }
 
   @override
@@ -77,39 +137,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 56, height: 56,
-              decoration: BoxDecoration(
-                color: AppTheme.secondaryContainer.withValues(alpha: 0.3),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.verified_user_outlined, color: AppTheme.primaryContainer, size: 28),
-            ),
-            const SizedBox(height: 16),
-            Text('Seller Verification Required',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppTheme.onSurface, fontWeight: FontWeight.w600, fontSize: 20)),
-            const SizedBox(height: 8),
-            Text('You need to be verified as a seller to list properties. Contact an admin or apply in your profile settings.',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.onSurfaceVariant),
-              textAlign: TextAlign.center),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () { Navigator.of(ctx).pop(); Navigator.pushNamed(context, '/profile'); },
-                child: const Text('Go to Profile'),
-              ),
-            ),
-            const SizedBox(height: 8),
-          ],
-        ),
-      ),
+      builder: (ctx) => const _SellerVerificationNeededSheet(),
     );
   }
 
@@ -263,7 +291,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
     );
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.surface,
@@ -294,85 +322,94 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                         icon: const Icon(Icons.notifications_outlined, color: AppTheme.primary),
                         onPressed: () => Navigator.pushNamed(context, '/notifications'),
                       ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const SizedBox(width: 48),
-                    Text(
-                      'Marketplace',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          // Content
-          Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 8),
-                    // Search
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.surfaceContainerLow,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        decoration: InputDecoration(
-                          hintText: 'Search land, houses, apartments...',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.outline),
-                          prefixIcon: const Icon(Icons.search, color: AppTheme.outline),
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.tune, color: AppTheme.outline),
-                            onPressed: _showFilterSheet,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const SizedBox(width: 48),
+                      Text(
+                        'Marketplace',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppTheme.onSurfaceVariant,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    // Filter chips
-                    SizedBox(
-                      height: 40,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          _FilterChip(label: 'All Listings', isActive: _activeFilter == 'All Listings', onTap: () => setState(() => _activeFilter = 'All Listings')),
-                          _FilterChip(label: 'Farm Land', isActive: _activeFilter == 'Farm Land', onTap: () => setState(() => _activeFilter = 'Farm Land')),
-                          _FilterChip(label: 'Land', isActive: _activeFilter == 'Land', onTap: () => setState(() => _activeFilter = 'Land')),
-                          _FilterChip(label: 'Houses', isActive: _activeFilter == 'Houses', onTap: () => setState(() => _activeFilter = 'Houses')),
-                          _FilterChip(label: 'Apartments', isActive: _activeFilter == 'Apartments', onTap: () => setState(() => _activeFilter = 'Apartments')),
-                          _FilterChip(label: 'Rooms', isActive: _activeFilter == 'Rooms', onTap: () => setState(() => _activeFilter = 'Rooms')),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    // Property cards
-                    ..._filteredProperties().map((p) => Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: _PropertyCard(
-                        imageLabel: p['imageLabel']!,
-                        title: p['title']!,
-                        location: p['location']!,
-                        price: p['price']!,
-                        seller: p['seller']!,
-                        rating: p['rating']!,
-                        isVerified: p['isVerified'] as bool,
-                      ),
-                    )),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
+            ),
+            // Content
+            Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 8),
+                      // Loading indicator
+                      if (_isLoadingProperties || _isLoadingSaved)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Center(
+                            child: CircularProgressIndicator(color: AppTheme.primary),
+                          ),
+                        ),
+                      // Search
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppTheme.surfaceContainerLow,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: TextField(
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          decoration: InputDecoration(
+                            hintText: 'Search land, houses, apartments...',
+                            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.outline),
+                            prefixIcon: const Icon(Icons.search, color: AppTheme.outline),
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.tune, color: AppTheme.outline),
+                              onPressed: _showFilterSheet,
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedLocation = value;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      // Filter chips
+                      SizedBox(
+                        height: 40,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            _FilterChip(label: 'All Listings', isActive: _activeFilter == 'All Listings', onTap: () => setState(() => _activeFilter = 'All Listings')),
+                            _FilterChip(label: 'Farm Land', isActive: _activeFilter == 'Farm Land', onTap: () => setState(() => _activeFilter = 'Farm Land')),
+                            _FilterChip(label: 'Land', isActive: _activeFilter == 'Land', onTap: () => setState(() => _activeFilter = 'Land')),
+                            _FilterChip(label: 'Houses', isActive: _activeFilter == 'Houses', onTap: () => setState(() => _activeFilter = 'Houses')),
+                            _FilterChip(label: 'Apartments', isActive: _activeFilter == 'Apartments', onTap: () => setState(() => _activeFilter = 'Apartments')),
+                            _FilterChip(label: 'Rooms', isActive: _activeFilter == 'Rooms', onTap: () => setState(() => _activeFilter = 'Rooms')),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      // Property cards
+                      ..._filteredProperties.map((p) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _PropertyCard(
+                          property: p,
+                          isSaved: _savedPropertyIds.contains(p.id),
+                          onSaveToggle: () => _toggleSave(p.id),
+                        ),
+                      )),
+                    ],
+                  ),
+                ),
             ),
           ],
         ),
@@ -405,6 +442,17 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
       ),
     );
   }
+
+  Future<void> _toggleSave(String propertyId) async {
+    if (_savedPropertyIds.contains(propertyId)) {
+      await _supabaseService.unsaveProperty(propertyId);
+      if (mounted) setState(() { _savedPropertyIds.remove(propertyId); });
+    } else {
+      await _supabaseService.saveProperty(propertyId);
+      if (mounted) setState(() { _savedPropertyIds.add(propertyId); });
+    }
+  }
+
 }
 
 class _FilterChip extends StatelessWidget {
@@ -440,23 +488,56 @@ class _FilterChip extends StatelessWidget {
   }
 }
 
+class _SellerVerificationNeededSheet extends StatelessWidget {
+  const _SellerVerificationNeededSheet();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 56, height: 56,
+            decoration: BoxDecoration(
+              color: AppTheme.secondaryContainer.withValues(alpha: 0.3),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.verified_user_outlined, color: AppTheme.primaryContainer, size: 28),
+          ),
+          const SizedBox(height: 16),
+          Text('Seller Verification Required',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: AppTheme.onSurface, fontWeight: FontWeight.w600, fontSize: 20)),
+          const SizedBox(height: 8),
+          Text('You need to be verified as a seller to list properties. Contact an admin or apply in your profile settings.',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.onSurfaceVariant),
+            textAlign: TextAlign.center),
+          const SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () { Navigator.pushNamed(context, '/profile'); },
+              child: const Text('Go to Profile'),
+            ),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+}
+
 class _PropertyCard extends StatelessWidget {
-  final String imageLabel;
-  final String title;
-  final String location;
-  final String price;
-  final String seller;
-  final String rating;
-  final bool isVerified;
+  final Property property;
+  final bool isSaved;
+  final VoidCallback? onSaveToggle;
 
   const _PropertyCard({
-    required this.imageLabel,
-    required this.title,
-    required this.location,
-    required this.price,
-    required this.seller,
-    required this.rating,
-    this.isVerified = false,
+    required this.property,
+    this.isSaved = false,
+    this.onSaveToggle,
   });
 
   @override
@@ -494,7 +575,7 @@ class _PropertyCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
-                      imageLabel,
+                      property.category,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         color: AppTheme.primary,
                         fontWeight: FontWeight.w600,
@@ -505,14 +586,21 @@ class _PropertyCard extends StatelessWidget {
                 Positioned(
                   top: 12,
                   right: 12,
-                  child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: AppTheme.surface.withValues(alpha: 0.9),
-                      shape: BoxShape.circle,
+                  child: GestureDetector(
+                    onTap: onSaveToggle,
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: AppTheme.surface.withValues(alpha: 0.9),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        isSaved ? Icons.favorite : Icons.favorite_border,
+                        size: 18,
+                        color: isSaved ? Colors.red : AppTheme.outline,
+                      ),
                     ),
-                    child: const Icon(Icons.favorite_border, size: 18, color: AppTheme.outline),
                   ),
                 ),
               ],
@@ -521,7 +609,7 @@ class _PropertyCard extends StatelessWidget {
           const SizedBox(height: 12),
           // Info
           Text(
-            title,
+            property.title,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: AppTheme.primary,
               fontWeight: FontWeight.w600,
@@ -534,7 +622,7 @@ class _PropertyCard extends StatelessWidget {
               const Icon(Icons.location_on, size: 16, color: AppTheme.onSurfaceVariant),
               const SizedBox(width: 4),
               Text(
-                location,
+                property.location,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: AppTheme.onSurfaceVariant,
                 ),
@@ -550,7 +638,7 @@ class _PropertyCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    price,
+                    property.formattedPrice,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       color: AppTheme.primary,
                       fontSize: 28,
@@ -560,31 +648,20 @@ class _PropertyCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Text(
-                        seller,
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: AppTheme.onSurface,
-                        ),
+                      const Text(
+                        'Verified Seller',
+                        style: TextStyle(color: AppTheme.onSurface),
                       ),
-                      if (isVerified) ...[
-                        const SizedBox(width: 4),
-                        const Icon(Icons.verified, size: 14, color: AppTheme.primaryContainer, fill: 1),
-                      ],
                       const SizedBox(width: 8),
                       const Icon(Icons.star, size: 14, color: Colors.orange, fill: 1),
                       const SizedBox(width: 2),
-                      Text(
-                        rating,
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: AppTheme.onSurfaceVariant,
-                        ),
-                      ),
+                      const Text('4.8'),
                     ],
                   ),
                 ],
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => _showPropertyDetails(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.surfaceContainer,
                   foregroundColor: AppTheme.primary,
@@ -597,6 +674,44 @@ class _PropertyCard extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  void _showPropertyDetails(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Property Details', style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            )),
+            const SizedBox(height: 16),
+            Text('Title: ${property.title}', style: Theme.of(context).textTheme.bodyMedium),
+            const SizedBox(height: 8),
+            Text('Category: ${property.category}', style: Theme.of(context).textTheme.bodyMedium),
+            const SizedBox(height: 8),
+            Text('Price: ${property.formattedPrice}', style: Theme.of(context).textTheme.bodyMedium),
+            const SizedBox(height: 8),
+            Text('Location: ${property.location}', style: Theme.of(context).textTheme.bodyMedium),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Close'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

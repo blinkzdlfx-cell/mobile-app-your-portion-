@@ -29,11 +29,11 @@
 - 🔄 `SettingsScreen` — `/settings`
 
 ### Marketplace
-- ✅ `MarketplaceScreen` — `/marketplace` (filters, chips, property cards, role-gated FAB)
+- ✅ `MarketplaceScreen` — `/marketplace` (filters, chips, property cards, role-gated FAB, real API data integration)
 - ⬜ `SearchResultsScreen` — `/search-results`
 
 ### Properties
-- ✅ `SavedPropertiesScreen` — `/saved-properties`
+- ✅ `SavedPropertiesScreen` — `/saved-properties` (real API data integration)
 - 🔄 `CreatePropertyScreen` — `/create-property`
 
 ### Kingdom Projects
@@ -55,10 +55,11 @@
 ## Services & Data Layer
 - ✅ `SupabaseService` — all CRUD methods (profile, properties, saved, projects)
 - ✅ Supabase initialization in `main.dart`
-- ⬜ Real API data in marketplace (currently hardcoded mock data)
+- ✅ Real API data in marketplace (updated to use SupabaseService)
+- ✅ Real API data in saved properties (updated to use SupabaseService)
+- ✅ Real API data in my properties (updated to use SupabaseService)
 - ⬜ Real API data in kingdom projects
 - ⬜ Real API data in daily portion
-- ⬜ Real API data in saved properties
 - ⬜ Upload/display property images
 - ⬜ Review creation & display
 - ⬜ Project donation flow

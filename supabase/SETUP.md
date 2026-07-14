@@ -9,7 +9,7 @@
 
 1. Go to your Supabase project dashboard
 2. Navigate to **SQL Editor**
-3. Copy and paste the contents of `schema.sql` into the SQL editor
+3. Copy and paste the contents of `0000*seller_buyer_schema.sql` (any migration file) into the SQL editor
 4. Click **Run** to execute the schema
 5. Verify all tables are created in the **Table Editor**
 

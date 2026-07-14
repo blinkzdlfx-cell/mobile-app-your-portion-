@@ -1,3 +1,4 @@
+
 # Supabase Keep-Alive — Full Setup Guide
 
 Prevents your free-tier Supabase project from being paused after 7 days of inactivity.
