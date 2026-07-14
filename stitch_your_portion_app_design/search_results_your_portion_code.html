@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Portion - Universal Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#ebe7e7",
+                        "surface-dim": "#dcd9d9",
+                        "inverse-primary": "#a5d0b9",
+                        "on-primary-fixed": "#002114",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "secondary-container": "#d8e2dc",
+                        "surface-tint": "#3f6653",
+                        "outline": "#717973",
+                        "surface-variant": "#e5e2e1",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface": "#fcf9f8",
+                        "primary-fixed": "#c1ecd4",
+                        "secondary": "#57615c",
+                        "tertiary-fixed": "#d0e9cf",
+                        "inverse-on-surface": "#f3f0ef",
+                        "outline-variant": "#c1c8c2",
+                        "on-tertiary-container": "#95ad95",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary": "#012d1d",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "on-background": "#1c1b1b",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#86af99",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#fcf9f8",
+                        "secondary-fixed": "#dbe5df",
+                        "primary-container": "#1b4332",
+                        "surface-container": "#f0edec",
+                        "tertiary-container": "#2c412e",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "background": "#fcf9f8",
+                        "on-secondary-fixed": "#151d1a",
+                        "tertiary": "#162b1a",
+                        "on-tertiary-fixed": "#0b2010",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#414844",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#f6f3f2",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1c1b1b",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "on-secondary-container": "#5b6560"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-lg": "48px",
+                        "unit": "8px",
+                        "stack-sm": "8px",
+                        "stack-md": "24px",
+                        "container-padding-mobile": "20px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- Top Navigation (Search Header) -->
+<header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-xl w-full">
+<div class="px-container-padding-mobile md:px-container-padding-desktop py-4 w-full max-w-7xl mx-auto flex items-center gap-4">
+<button aria-label="Go back" class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container-low text-on-surface font-body-lg rounded-[20px] pl-12 pr-12 py-3 border-transparent focus:border-primary focus:ring-0 transition-colors placeholder:text-on-surface-variant/50" placeholder="Search everything..." type="text" value="Stewardship"/>
+<button aria-label="Clear search" class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="w-full overflow-x-auto hide-scrollbar border-b border-surface-variant/50">
+<div class="flex gap-2 px-container-padding-mobile md:px-container-padding-desktop pb-4 max-w-7xl mx-auto min-w-max">
+<button class="px-4 py-2 rounded-full bg-primary-container text-on-primary-container font-label-md transition-all">All</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all font-label-md border border-surface-variant">Daily Portions</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all font-label-md border border-surface-variant">Properties</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all font-label-md border border-surface-variant">Kingdom Projects</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all font-label-md border border-surface-variant">Library</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-3xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-stack-md pb-32">
+<h2 class="font-headline-md text-headline-md text-on-background mb-stack-md px-1">Search Results</h2>
+<div class="flex flex-col gap-4">
+<!-- Result Card 1 -->
+<a class="group block bg-surface rounded-[20px] p-5 md:p-6 border border-surface-variant hover:shadow-[0px_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300" href="#">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption text-caption">Daily Portion</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-semibold text-on-background truncate mb-1 group-hover:text-primary-container transition-colors">Walking by Faith</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">A devotional on trusting God's timing and navigating life's uncertainties with a steadfast heart grounded in scripture.</p>
+</div>
+<div class="text-on-surface-variant/30 group-hover:text-primary-container/50 transition-colors pt-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+</a>
+<!-- Result Card 2 -->
+<a class="group block bg-surface rounded-[20px] p-5 md:p-6 border border-surface-variant hover:shadow-[0px_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300" href="#">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption text-caption">Property</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-semibold text-on-background truncate mb-1 group-hover:text-primary-container transition-colors">Serene Valley Farm</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Sustainable 5-acre farmland in Lagos suitable for diverse agricultural development and long-term stewardship initiatives.</p>
+</div>
+<div class="text-on-surface-variant/30 group-hover:text-primary-container/50 transition-colors pt-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+</a>
+<!-- Result Card 3 -->
+<a class="group block bg-surface rounded-[20px] p-5 md:p-6 border border-surface-variant hover:shadow-[0px_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300" href="#">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption text-caption">Kingdom Project</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-semibold text-on-background truncate mb-1 group-hover:text-primary-container transition-colors">Water for All</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Clean water initiative providing sustainable borehole systems for rural communities lacking basic infrastructure.</p>
+</div>
+<div class="text-on-surface-variant/30 group-hover:text-primary-container/50 transition-colors pt-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+</a>
+<!-- Result Card 4 -->
+<a class="group block bg-surface rounded-[20px] p-5 md:p-6 border border-surface-variant hover:shadow-[0px_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300" href="#">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">library_books</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption text-caption">Library</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-semibold text-on-background truncate mb-1 group-hover:text-primary-container transition-colors">The Wisdom of Stewardship</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">A comprehensive guide on biblical principles for managing resources, time, and talents for long-term kingdom impact.</p>
+</div>
+<div class="text-on-surface-variant/30 group-hover:text-primary-container/50 transition-colors pt-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+</a>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-3 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl shadow-[0px_-10px_30px_rgba(0,0,0,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-2 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 active:scale-90 duration-200 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-2 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 active:scale-90 duration-200 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1">storefront</span>
+<span class="font-label-md text-label-md">Marketplace</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-2 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 active:scale-90 duration-200 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="font-label-md text-label-md">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-2 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 active:scale-90 duration-200 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,27 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Database
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+
+          if [ "$HTTP_CODE" = "000" ]; then
+            echo "ERROR: Could not reach Supabase (no route to host)"
+            exit 1
+          fi
+
+          echo "Supabase responded with status: $HTTP_CODE"
+
+      - name: Log timestamp
+        run: echo "Keep-alive pinged on $(date -u)"

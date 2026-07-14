@@ -1,0 +1,430 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../theme/app_theme.dart';
+import '../../config/app_protection.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _rememberMe = false;
+  bool _obscurePassword = true;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Enable screen protection in release mode
+    if (AppProtection.isReleaseMode) {
+      AppProtection.enableScreenProtection();
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() => _isLoading = true);
+    try {
+      await Supabase.instance.client.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: kIsWeb ? null : 'io.supabase.flutter://callback',
+      );
+      if (mounted) Navigator.pushReplacementNamed(context, '/home');
+    } catch (error) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Google sign-in failed: ${error.toString()}'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _handleAppleSignIn() async {
+    setState(() => _isLoading = true);
+    try {
+      await Supabase.instance.client.auth.signInWithOAuth(
+        OAuthProvider.apple,
+        redirectTo: kIsWeb ? null : 'io.supabase.flutter://callback',
+      );
+      if (mounted) Navigator.pushReplacementNamed(context, '/home');
+    } catch (error) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Apple sign-in failed: ${error.toString()}'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Sign in with Supabase
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+
+      setState(() => _isLoading = false);
+
+      if (mounted) {
+        if (response.user != null) {
+          // Login successful
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login successful!'),
+              backgroundColor: AppTheme.primaryContainer,
+            ),
+          );
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      }
+    } catch (error) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed: ${error.toString()}'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          color: AppTheme.surface,
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top -
+                    MediaQuery.of(context).padding.bottom,
+              ),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 48),
+                        // Logo and Brand
+                        Column(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: AppTheme.primaryContainer,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                Icons.eco_outlined,
+                                color: AppTheme.onPrimaryContainer,
+                                size: 24,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'Your Portion',
+                              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                color: AppTheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 48),
+                        // Welcome Header
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Welcome Back',
+                              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                color: AppTheme.onSurface,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 28,
+                                height: 1.21,
+                                letterSpacing: -0.01,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Sign in to continue your journey of faith, stewardship, and community.',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: AppTheme.onSurfaceVariant,
+                                height: 1.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 32),
+                        // Email Input
+                        TextFormField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            hintText: 'Email Address',
+                            prefixIcon: Icon(
+                              Icons.mail_outline,
+                              color: AppTheme.onSurfaceVariant,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            if (!value.contains('@')) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        // Password Input
+                        TextFormField(
+                          controller: _passwordController,
+                          obscureText: _obscurePassword,
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            prefixIcon: Icon(
+                              Icons.lock_outline,
+                              color: AppTheme.onSurfaceVariant,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: AppTheme.onSurfaceVariant,
+                              ),
+                              onPressed: () {
+                                setState(() => _obscurePassword = !_obscurePassword);
+                              },
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password must be at least 6 characters';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        // Remember Me & Forgot Password
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: _rememberMe,
+                                  onChanged: (value) {
+                                    setState(() => _rememberMe = value ?? false);
+                                  },
+                                  activeColor: AppTheme.primaryContainer,
+                                  checkColor: AppTheme.onPrimary,
+                                ),
+                                Text(
+                                  'Remember Me',
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    color: AppTheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/forgot-password');
+                              },
+                              child: Text(
+                                'Forgot Password?',
+                                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                  color: AppTheme.primaryContainer,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        // Sign In Button
+                        ElevatedButton(
+                          onPressed: _isLoading ? null : _handleLogin,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryContainer,
+                            foregroundColor: AppTheme.onPrimary,
+                            minimumSize: const Size(double.infinity, 56),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: _isLoading
+                              ? const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(AppTheme.onPrimary),
+                                  ),
+                                )
+                              : Text(
+                                  'Sign In',
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    color: AppTheme.onPrimary,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.05,
+                                  ),
+                                ),
+                        ),
+                        const SizedBox(height: 24),
+                        // Divider
+                        Row(
+                          children: [
+                            const Expanded(child: Divider(color: AppTheme.surfaceVariant)),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(
+                                'or continue with',
+                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                  color: AppTheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ),
+                            const Expanded(child: Divider(color: AppTheme.surfaceVariant)),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        // Social Login Buttons
+                        OutlinedButton.icon(
+                          onPressed: _isLoading ? null : _handleGoogleSignIn,
+                          icon: Text(
+                            'G',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.onSurface,
+                            ),
+                          ),
+                          label: Text(
+                            'Continue with Google',
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 56),
+                            side: const BorderSide(color: AppTheme.outlineVariant),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        OutlinedButton.icon(
+                          onPressed: _isLoading ? null : _handleAppleSignIn,
+                          icon: Icon(
+                            Icons.apple,
+                            color: AppTheme.onSurface,
+                          ),
+                          label: Text(
+                            'Continue with Apple',
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 56),
+                            side: const BorderSide(color: AppTheme.outlineVariant),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        // Create Account Link
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/signup');
+                            },
+                            child: RichText(
+                              text: TextSpan(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: AppTheme.onSurfaceVariant,
+                                ),
+                                children: [
+                                  const TextSpan(text: "Don't have an account? "),
+                                  TextSpan(
+                                    text: 'Create Account',
+                                    style: TextStyle(
+                                      color: AppTheme.primaryContainer,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Security Badge
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.shield_outlined,
+                                size: 14,
+                                color: AppTheme.outline,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Your information is securely protected.',
+                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                  color: AppTheme.outline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

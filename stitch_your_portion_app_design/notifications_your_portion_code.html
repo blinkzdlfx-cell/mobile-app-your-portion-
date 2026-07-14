@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Your Portion - Notifications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "surface-container-high": "#ebe7e7",
+                        "surface": "#fcf9f8",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "primary-fixed": "#c1ecd4",
+                        "on-tertiary-fixed": "#0b2010",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "surface-bright": "#fcf9f8",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#002114",
+                        "surface-dim": "#dcd9d9",
+                        "on-surface": "#1c1b1b",
+                        "on-surface-variant": "#414844",
+                        "surface-variant": "#e5e2e1",
+                        "tertiary-fixed": "#d0e9cf",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#dbe5df",
+                        "secondary": "#57615c",
+                        "surface-tint": "#3f6653",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-tertiary-container": "#95ad95",
+                        "tertiary-container": "#2c412e",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "on-primary-container": "#86af99",
+                        "primary": "#012d1d",
+                        "inverse-primary": "#a5d0b9",
+                        "outline-variant": "#c1c8c2",
+                        "secondary-container": "#d8e2dc",
+                        "outline": "#717973",
+                        "on-error": "#ffffff",
+                        "on-background": "#1c1b1b",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e5e2e1",
+                        "inverse-surface": "#313030",
+                        "primary-container": "#1b4332",
+                        "on-secondary-fixed": "#151d1a",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#162b1a",
+                        "on-secondary-container": "#5b6560",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-container": "#f0edec",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "background": "#fcf9f8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "container-padding-mobile": "20px",
+                        "stack-md": "24px",
+                        "container-padding-desktop": "40px",
+                        "stack-lg": "48px",
+                        "stack-sm": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcf9f8; /* background */
+            color: #1c1b1b; /* on-background */
+        }
+        
+        .ambient-shadow {
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Material Symbols Outline config */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .material-symbols-outlined.fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Smooth scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e2e1;
+            border-radius: 4px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- Top Navigation Header -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/80 flex items-center justify-between px-container-padding-mobile h-16 max-w-7xl mx-auto border-b border-surface-variant/30">
+<button class="flex items-center justify-center p-2 -ml-2 rounded-full hover:bg-surface-variant/50 transition-colors active:scale-95 text-on-surface">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-semibold text-primary">Notifications</h1>
+<button class="font-label-md text-label-md text-primary hover:opacity-80 transition-opacity active:scale-95">
+            Mark all read
+        </button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow pt-[88px] pb-32 px-container-padding-mobile max-w-7xl mx-auto w-full flex flex-col gap-unit">
+<!-- Section Header (Optional, but good for grouping) -->
+<div class="py-2">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">New</h2>
+</div>
+<!-- Notification List -->
+<div class="flex flex-col gap-4">
+<!-- Notification Card 1 (Unread) -->
+<div class="bg-surface-container-lowest rounded-2xl p-5 border border-surface-container-high ambient-shadow relative overflow-hidden transition-transform active:scale-[0.98]">
+<!-- Unread Indicator Dot -->
+<div class="absolute top-6 right-5 w-2.5 h-2.5 bg-primary-container rounded-full"></div>
+<div class="flex gap-4 items-start">
+<!-- Icon Container -->
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined fill-icon text-on-primary-fixed text-2xl">menu_book</span>
+</div>
+<!-- Content -->
+<div class="flex flex-col flex-grow pr-6">
+<div class="flex items-baseline justify-between mb-1">
+<h3 class="font-body-md text-body-md font-semibold text-on-surface">Today's Portion Available</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">Read today's devotional.</p>
+<span class="font-caption text-caption text-secondary">2 mins ago</span>
+</div>
+</div>
+</div>
+<!-- Notification Card 2 (Unread) -->
+<div class="bg-surface-container-lowest rounded-2xl p-5 border border-surface-container-high ambient-shadow relative overflow-hidden transition-transform active:scale-[0.98]">
+<!-- Unread Indicator Dot -->
+<div class="absolute top-6 right-5 w-2.5 h-2.5 bg-primary-container rounded-full"></div>
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container text-2xl">agriculture</span>
+</div>
+<div class="flex flex-col flex-grow pr-6">
+<div class="flex items-baseline justify-between mb-1">
+<h3 class="font-body-md text-body-md font-semibold text-on-surface">Property Approved</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">Listing now visible.</p>
+<span class="font-caption text-caption text-secondary">1 hour ago</span>
+</div>
+</div>
+</div>
+</div>
+<div class="py-2 mt-4">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Earlier</h2>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Notification Card 3 (Read) -->
+<div class="bg-surface rounded-2xl p-5 border border-surface-container-high transition-transform active:scale-[0.98]">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-2xl">favorite</span>
+</div>
+<div class="flex flex-col flex-grow">
+<div class="flex items-baseline justify-between mb-1">
+<h3 class="font-body-md text-body-md font-medium text-on-surface">Kingdom Project Approved</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">Project reviewed and published.</p>
+<span class="font-caption text-caption text-secondary">Yesterday</span>
+</div>
+</div>
+</div>
+<!-- Notification Card 4 (Read) -->
+<div class="bg-surface rounded-2xl p-5 border border-surface-container-high transition-transform active:scale-[0.98]">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-2xl">campaign</span>
+</div>
+<div class="flex flex-col flex-grow">
+<div class="flex items-baseline justify-between mb-1">
+<h3 class="font-body-md text-body-md font-medium text-on-surface">Announcement</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">New community post.</p>
+<span class="font-caption text-caption text-secondary">Tuesday</span>
+</div>
+</div>
+</div>
+<!-- Notification Card 5 (Read) -->
+<div class="bg-surface rounded-2xl p-5 border border-surface-container-high transition-transform active:scale-[0.98]">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-fixed text-2xl">verified</span>
+</div>
+<div class="flex flex-col flex-grow">
+<div class="flex items-baseline justify-between mb-1">
+<h3 class="font-body-md text-body-md font-medium text-on-surface">Trusted Member</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">Verification approved.</p>
+<span class="font-caption text-caption text-secondary">Oct 12</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

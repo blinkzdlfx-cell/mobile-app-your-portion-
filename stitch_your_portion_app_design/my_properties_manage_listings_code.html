@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Properties - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#b4cdb4",
+                    "secondary-fixed-dim": "#bfc9c3",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1c1b1b",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#a5d0b9",
+                    "on-secondary-container": "#5b6560",
+                    "on-surface-variant": "#414844",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#f6f3f2",
+                    "background": "#fcf9f8",
+                    "on-secondary-fixed": "#151d1a",
+                    "tertiary": "#162b1a",
+                    "on-tertiary-fixed": "#0b2010",
+                    "inverse-surface": "#313030",
+                    "primary": "#012d1d",
+                    "on-primary-fixed-variant": "#274e3d",
+                    "on-background": "#1c1b1b",
+                    "error-container": "#ffdad6",
+                    "on-primary-container": "#86af99",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#fcf9f8",
+                    "secondary-fixed": "#dbe5df",
+                    "primary-container": "#1b4332",
+                    "surface-container": "#f0edec",
+                    "tertiary-container": "#2c412e",
+                    "on-secondary-fixed-variant": "#3f4945",
+                    "tertiary-fixed": "#d0e9cf",
+                    "inverse-on-surface": "#f3f0ef",
+                    "outline-variant": "#c1c8c2",
+                    "on-tertiary-container": "#95ad95",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface": "#fcf9f8",
+                    "primary-fixed": "#c1ecd4",
+                    "secondary": "#57615c",
+                    "on-tertiary-fixed-variant": "#364c39",
+                    "secondary-container": "#d8e2dc",
+                    "surface-tint": "#3f6653",
+                    "outline": "#717973",
+                    "surface-variant": "#e5e2e1",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-container-high": "#ebe7e7",
+                    "surface-dim": "#dcd9d9",
+                    "inverse-primary": "#a5d0b9",
+                    "on-primary-fixed": "#002114"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "40px",
+                    "stack-sm": "8px",
+                    "stack-md": "24px",
+                    "container-padding-mobile": "20px",
+                    "unit": "8px",
+                    "stack-lg": "48px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "caption": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface antialiased font-body-md pb-24">
+<!-- Top Navigation (Mobile App Context -> TopAppBar is suppressed for this deep screen, using custom back header) -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl flex items-center px-container-padding-mobile h-16">
+<button class="mr-4 flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors text-on-surface">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-on-surface flex-1">My Properties</h1>
+</header>
+<main class="pt-20 px-container-padding-mobile max-w-3xl mx-auto flex flex-col gap-stack-lg">
+<!-- Summary Dashboard (Horizontal Scroll on Mobile) -->
+<section class="flex overflow-x-auto gap-gutter hide-scrollbar pb-2 -mx-container-padding-mobile px-container-padding-mobile snap-x">
+<div class="snap-start shrink-0 w-36 bg-surface-container-low rounded-[20px] p-4 flex flex-col justify-between h-28 border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary-container mb-2">home_work</span>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">12</div>
+<div class="font-caption text-caption text-on-surface-variant">Total Properties</div>
+</div>
+</div>
+<div class="snap-start shrink-0 w-36 bg-primary-container/10 rounded-[20px] p-4 flex flex-col justify-between h-28 border border-primary-container/20">
+<span class="material-symbols-outlined text-primary-container mb-2">task_alt</span>
+<div>
+<div class="font-headline-md text-headline-md text-primary-container">8</div>
+<div class="font-caption text-caption text-primary-container">Active</div>
+</div>
+</div>
+<div class="snap-start shrink-0 w-36 bg-surface-container-low rounded-[20px] p-4 flex flex-col justify-between h-28 border border-outline-variant/30">
+<span class="material-symbols-outlined text-secondary mb-2">sell</span>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">4</div>
+<div class="font-caption text-caption text-on-surface-variant">Sold / Leased</div>
+</div>
+</div>
+</section>
+<!-- Property List -->
+<section class="flex flex-col gap-stack-md">
+<!-- Card 1 -->
+<article class="bg-surface-container-lowest border border-outline-variant/40 rounded-[20px] p-5 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 bg-primary-container/10 text-primary-container rounded-full font-caption text-[10px] font-semibold uppercase tracking-wider">Active</span>
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">map</span> Farm Land</span>
+</div>
+<h2 class="font-headline-md text-[20px] leading-tight text-on-surface mb-1">Serene Valley Farm</h2>
+<div class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Abuja, Nigeria
+                        </div>
+</div>
+</div>
+<div class="flex items-end justify-between border-b border-outline-variant/20 pb-4">
+<div>
+<div class="font-caption text-caption text-on-surface-variant mb-0.5">For Sale</div>
+<div class="font-headline-md text-headline-md text-primary-container">$120,000</div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-1">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-xl hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+<span class="font-label-md text-label-md">Edit</span>
+</button>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-xl hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md">Mark Sold</span>
+</button>
+<button class="flex items-center gap-2 text-error hover:bg-error/10 transition-colors p-2 rounded-xl">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface-container-lowest border border-outline-variant/40 rounded-[20px] p-5 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-4 opacity-75">
+<div class="flex justify-between items-start">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full font-caption text-[10px] font-semibold uppercase tracking-wider">Pending</span>
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">apartment</span> Apartment</span>
+</div>
+<h2 class="font-headline-md text-[20px] leading-tight text-on-surface mb-1">Modern Heights</h2>
+<div class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Nairobi, Kenya
+                        </div>
+</div>
+</div>
+<div class="flex items-end justify-between border-b border-outline-variant/20 pb-4">
+<div>
+<div class="font-caption text-caption text-on-surface-variant mb-0.5">For Lease</div>
+<div class="font-headline-md text-headline-md text-primary-container">$1,500<span class="text-on-surface-variant text-[14px] font-normal">/mo</span></div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-1">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-xl hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+<span class="font-label-md text-label-md">Edit</span>
+</button>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-xl hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md">Mark Leased</span>
+</button>
+<button class="flex items-center gap-2 text-error hover:bg-error/10 transition-colors p-2 rounded-xl">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</article>
+</section>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-container-padding-mobile bg-primary-container text-on-primary w-[56px] h-[56px] rounded-[20px] shadow-[0px_10px_30px_rgba(0,0,0,0.15)] flex items-center justify-center hover:opacity-90 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- Bottom Nav Bar (From JSON) -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl shadow-[0px_-10px_30px_rgba(0,0,0,0.04)] fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl active:scale-90 duration-200 p-2 w-16" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-md text-label-md text-[10px] mt-1">Home</span>
+</a>
+<!-- Marketplace (Active for Properties) -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-semibold hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl active:scale-90 duration-200 p-2 w-16" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="font-label-md text-label-md text-[10px] mt-1">Marketplace</span>
+</a>
+<!-- Kingdom (Inactive) -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl active:scale-90 duration-200 p-2 w-16" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">castle</span>
+<span class="font-label-md text-label-md text-[10px] mt-1">Kingdom</span>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl active:scale-90 duration-200 p-2 w-16" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-md text-label-md text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

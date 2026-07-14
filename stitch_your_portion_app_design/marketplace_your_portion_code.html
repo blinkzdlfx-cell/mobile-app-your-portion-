@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Portion - Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-bright": "#fcf9f8",
+                        "secondary-fixed": "#dbe5df",
+                        "primary-container": "#1b4332",
+                        "on-background": "#1c1b1b",
+                        "inverse-primary": "#a5d0b9",
+                        "on-secondary": "#ffffff",
+                        "outline": "#717973",
+                        "tertiary-fixed": "#d0e9cf",
+                        "primary": "#012d1d",
+                        "on-tertiary-fixed": "#0b2010",
+                        "tertiary-container": "#2c412e",
+                        "on-secondary-container": "#5b6560",
+                        "on-primary-container": "#86af99",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-container-low": "#f6f3f2",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c1c8c2",
+                        "on-surface": "#1c1b1b",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "on-tertiary-container": "#95ad95",
+                        "surface-dim": "#dcd9d9",
+                        "on-primary-fixed": "#002114",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#414844",
+                        "on-secondary-fixed": "#151d1a",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e5e2e1",
+                        "on-error": "#ffffff",
+                        "secondary": "#57615c",
+                        "surface-container-high": "#ebe7e7",
+                        "surface-tint": "#3f6653",
+                        "background": "#fcf9f8",
+                        "surface": "#fcf9f8",
+                        "tertiary": "#162b1a",
+                        "surface-container": "#f0edec",
+                        "secondary-container": "#d8e2dc",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "primary-fixed": "#c1ecd4",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px",
+                        "container-padding-desktop": "40px",
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter", "sans-serif"],
+                        "caption": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen antialiased selection:bg-primary-container selection:text-on-primary">
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl flex items-center justify-between px-container-padding-mobile h-16 w-full">
+<button class="text-primary dark:text-primary-fixed hover:opacity-70 transition-opacity scale-95 active:scale-90 transition-transform flex items-center justify-center w-10 h-10">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-display text-headline-md font-semibold text-primary dark:text-primary-fixed tracking-tight">Your Portion</h1>
+<button class="text-primary dark:text-primary-fixed hover:opacity-70 transition-opacity scale-95 active:scale-90 transition-transform flex items-center justify-center w-10 h-10 overflow-hidden rounded-full bg-surface-variant">
+<span class="material-symbols-outlined icon-fill" data-icon="person">person</span>
+</button>
+</header>
+<main class="pt-[88px] pb-32 px-container-padding-mobile flex flex-col gap-stack-md max-w-[1200px] mx-auto md:px-container-padding-desktop">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">Marketplace</h2>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full h-[56px] pl-12 pr-4 bg-surface-container-low border-transparent rounded-xl font-body-md text-on-surface placeholder:text-outline focus:border-primary-container focus:ring-0 transition-colors" placeholder="Search land, houses, apartments..." type="text"/>
+</div>
+<div class="flex gap-unit overflow-x-auto hide-scrollbar snap-x pb-2 -mx-container-padding-mobile px-container-padding-mobile md:mx-0 md:px-0">
+<button class="snap-start whitespace-nowrap px-4 py-2 rounded-full bg-primary-container text-on-primary font-label-md text-label-md shadow-[0px_10px_30px_rgba(0,0,0,0.04)]">All Listings</button>
+<button class="snap-start whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">Farm Land</button>
+<button class="snap-start whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">Land</button>
+<button class="snap-start whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">Houses</button>
+<button class="snap-start whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">Apartments</button>
+<button class="snap-start whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">Rooms</button>
+</div>
+<div class="flex flex-col gap-stack-md md:grid md:grid-cols-2 lg:grid-cols-3">
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-4 shadow-[0px_10px_30px_rgba(0,0,0,0.02)] hover:shadow-[0px_10px_30px_rgba(0,0,0,0.06)] transition-shadow">
+<div class="relative w-full h-48 rounded-lg overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A sweeping aerial view of lush, fertile farmland in a serene valley at golden hour. The high-key, soft lighting highlights the organized rows of crops and a distant modern farmhouse. The aesthetic is premium, bright, and peaceful, reflecting a quiet devotion design ethos. Rich greens and warm earth tones dominate the landscape." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdblugkKqMcQProztJH_FjbIgXg35S76IQpAqKArDxHnUsNQLb0JqcsAjdtwG9SEVF7HFj_n8r00DBVjolN9b000h5rprBhoor_wwkdQbEJ2ZEMiR-EI3NCLOCvxaF_KsuxuyRIS_ZYC4VIGJBA2QGMzNK0FhqzJ1sGnKGNh1V4HZxb2JMOYOEbfg9WmV9Vt8Caqi7OEdDmK9WMusxa303qWpyvGoSRjVGyEIe4yTUCmKm9voBhYqIwoB3NP-gp9mpMCv3lV7RfLBT"/>
+<span class="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded text-caption font-label-md text-primary font-semibold tracking-wide">Farm Land</span>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-headline-md font-semibold text-primary leading-tight">Serene Valley Farm</h3>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+<span class="font-caption text-caption">Abuja, Nigeria</span>
+</div>
+</div>
+<div class="flex justify-between items-end mt-2">
+<div class="flex flex-col">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-primary">$120,000</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-caption text-caption text-on-surface">Elijah O.</span>
+<span class="material-symbols-outlined text-[14px] text-primary-container icon-fill" data-icon="verified" title="Trusted Member">verified</span>
+<div class="flex items-center gap-0.5 ml-2">
+<span class="material-symbols-outlined text-[14px] text-orange-400 icon-fill" data-icon="star">star</span>
+<span class="font-caption text-caption text-on-surface-variant">4.8</span>
+</div>
+</div>
+</div>
+<button class="h-10 px-4 rounded-lg bg-surface-container text-primary font-label-md text-label-md hover:bg-surface-container-high transition-colors">View Details</button>
+</div>
+</article>
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-4 shadow-[0px_10px_30px_rgba(0,0,0,0.02)] hover:shadow-[0px_10px_30px_rgba(0,0,0,0.06)] transition-shadow">
+<div class="relative w-full h-48 rounded-lg overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="An interior shot of a luxurious, minimalist modern apartment living room bathed in natural sunlight. Floor-to-ceiling windows offer a distant city view. The decor is minimal, featuring deep green velvet accents against pristine white walls and light oak floors, echoing a sanctuary-like, Apple-inspired architectural aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVQ6966GR4hhh4NUaOL8zFJXIttPuDaFA7j3ockAZBcbO1LR1wV0bzy4GVLDmNN08Avd4Vg-yM5JVXNmOZn4OVUjMzE5EWTU0wvNwdDwHHXcM4UA2B6T68o24DqlU6hlZ4hdQYeX9mPsRnUxsZwQHMDH-ClmA-EyCinS2qIXoixDvqhfT3VjwHiEWZLO9_1yAiMheBBZu18n8iq2fv5EgS-lR0U8pVECdruq7ISPPiAQcosvil91HF16EWjF3BG9rZjafqMDHug0dr"/>
+<span class="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded text-caption font-label-md text-primary font-semibold tracking-wide">Apartments</span>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-headline-md font-semibold text-primary leading-tight">Modern Heights</h3>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+<span class="font-caption text-caption">Nairobi, Kenya</span>
+</div>
+</div>
+<div class="flex justify-between items-end mt-2">
+<div class="flex flex-col">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-primary">$1,500<span class="font-body-md text-body-md font-normal text-on-surface-variant">/mo</span></span>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-caption text-caption text-on-surface">Sarah K.</span>
+<span class="material-symbols-outlined text-[14px] text-primary-container icon-fill" data-icon="verified" title="Trusted Member">verified</span>
+<div class="flex items-center gap-0.5 ml-2">
+<span class="material-symbols-outlined text-[14px] text-orange-400 icon-fill" data-icon="star">star</span>
+<span class="font-caption text-caption text-on-surface-variant">4.9</span>
+</div>
+</div>
+</div>
+<button class="h-10 px-4 rounded-lg bg-surface-container text-primary font-label-md text-label-md hover:bg-surface-container-high transition-colors">View Details</button>
+</div>
+</article>
+</div>
+</main>
+<button aria-label="Create Listing" class="fixed right-container-padding-mobile bottom-28 w-14 h-14 bg-primary-container text-on-primary rounded-full shadow-[0px_10px_30px_rgba(0,0,0,0.15)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-40 md:hidden">
+<span class="material-symbols-outlined text-[28px]" data-icon="add">add</span>
+</button>
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pt-3 pb-6 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl shadow-[0px_-10px_30px_rgba(0,0,0,0.04)] md:hidden">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed-dim transition-all duration-300 ease-in-out w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="auto_stories">auto_stories</span>
+<span class="font-label-md text-caption">Daily</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-semibold hover:text-primary-container dark:hover:text-primary-fixed-dim transition-all duration-300 ease-in-out w-16" href="#">
+<span class="material-symbols-outlined mb-1 icon-fill" data-icon="storefront">storefront</span>
+<span class="font-label-md text-caption">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed-dim transition-all duration-300 ease-in-out w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="diversity_1">diversity_1</span>
+<span class="font-label-md text-caption">Kingdom</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed-dim transition-all duration-300 ease-in-out w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-label-md text-caption">Profile</span>
+</a>
+</nav>
+</body></html>

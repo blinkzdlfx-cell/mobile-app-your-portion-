@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Kingdom Projects - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c1c8c2",
+                        "surface-container-high": "#ebe7e7",
+                        "secondary": "#57615c",
+                        "tertiary": "#162b1a",
+                        "inverse-surface": "#313030",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "primary-container": "#1b4332",
+                        "on-surface-variant": "#414844",
+                        "on-background": "#1c1b1b",
+                        "on-secondary-fixed": "#151d1a",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "tertiary-container": "#2c412e",
+                        "on-primary-fixed": "#002114",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#3f6653",
+                        "surface-dim": "#dcd9d9",
+                        "secondary-fixed": "#dbe5df",
+                        "outline": "#717973",
+                        "primary-fixed": "#c1ecd4",
+                        "surface-container-low": "#f6f3f2",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#95ad95",
+                        "on-surface": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "primary": "#012d1d",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-secondary-container": "#5b6560",
+                        "background": "#fcf9f8",
+                        "surface-bright": "#fcf9f8",
+                        "secondary-container": "#d8e2dc",
+                        "inverse-primary": "#a5d0b9",
+                        "tertiary-fixed": "#d0e9cf",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-primary-container": "#86af99",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "on-tertiary-fixed": "#0b2010",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e5e2e1",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#f0edec"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "container-padding-mobile": "20px",
+                        "container-padding-desktop": "40px",
+                        "unit": "8px",
+                        "stack-sm": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .ambient-shadow { box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24 relative overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="w-full top-0 sticky bg-background dark:bg-background flat no shadows flex items-center justify-between px-gutter py-4 max-w-7xl mx-auto z-40">
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 transition-transform flex items-center">
+<span class="material-symbols-outlined text-[28px]" data-icon="arrow_back" data-weight="regular">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-semibold text-primary dark:text-primary-fixed-dim">My Kingdom Projects</h1>
+<div class="w-8"></div> <!-- Spacer for centering -->
+</header>
+<main class="px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto">
+<!-- Project Summary Section -->
+<section class="mt-stack-md mb-stack-lg">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-unit">
+<div class="bg-surface-container-low rounded-2xl p-6 ambient-shadow border border-surface-container-highest flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Total Projects</p>
+<p class="font-headline-lg text-headline-lg text-on-background">12</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" data-icon="folder" data-weight="fill" style="font-variation-settings: 'FILL' 1;">folder</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-6 ambient-shadow border border-surface-container-highest flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Active Projects</p>
+<p class="font-headline-lg text-headline-lg text-on-background">4</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-[#E8F5E9] flex items-center justify-center">
+<span class="material-symbols-outlined text-[#2E7D32]" data-icon="autorenew" data-weight="regular">autorenew</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-6 ambient-shadow border border-surface-container-highest flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Completed</p>
+<p class="font-headline-lg text-headline-lg text-on-background">8</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Project List Section -->
+<section class="space-y-stack-md">
+<!-- Project Card 1: Active -->
+<div class="bg-surface rounded-2xl p-6 ambient-shadow border border-surface-container-highest">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-background mb-1">Community Garden Renovation</h2>
+<div class="flex items-center space-x-2 text-on-surface-variant font-caption text-caption">
+<span class="flex items-center"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="category">category</span> Environmental</span>
+<span>•</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="location_on">location_on</span> Seattle, WA</span>
+</div>
+</div>
+<span class="px-3 py-1 bg-[#E8F5E9] text-[#2E7D32] rounded-full font-caption text-caption font-medium border border-[#A5D6A7]">Active</span>
+</div>
+<p class="font-caption text-caption text-outline mb-6">Submitted: Oct 12, 2023</p>
+<div class="flex items-center justify-between pt-4 border-t border-surface-container-highest">
+<button class="flex items-center space-x-2 text-primary-container font-label-md text-label-md hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+<span>View Details</span>
+</button>
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+<span class="font-label-md text-label-md">Edit</span>
+</button>
+<button class="flex items-center space-x-1 text-error hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+<span class="font-label-md text-label-md">Delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Card 2: Pending Review -->
+<div class="bg-surface rounded-2xl p-6 ambient-shadow border border-surface-container-highest">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-background mb-1">Youth Mentorship Program</h2>
+<div class="flex items-center space-x-2 text-on-surface-variant font-caption text-caption">
+<span class="flex items-center"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="category">category</span> Education</span>
+<span>•</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="location_on">location_on</span> Online</span>
+</div>
+</div>
+<span class="px-3 py-1 bg-[#FFF3E0] text-[#E65100] rounded-full font-caption text-caption font-medium border border-[#FFCC80]">Pending Review</span>
+</div>
+<p class="font-caption text-caption text-outline mb-6">Submitted: Nov 05, 2023</p>
+<div class="flex items-center justify-between pt-4 border-t border-surface-container-highest">
+<button class="flex items-center space-x-2 text-primary-container font-label-md text-label-md hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+<span>View Details</span>
+</button>
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+<span class="font-label-md text-label-md">Edit</span>
+</button>
+<button class="flex items-center space-x-1 text-error hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+<span class="font-label-md text-label-md">Delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Card 3: Completed -->
+<div class="bg-surface rounded-2xl p-6 ambient-shadow border border-surface-container-highest opacity-75">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-background mb-1">Church Roof Repair Fund</h2>
+<div class="flex items-center space-x-2 text-on-surface-variant font-caption text-caption">
+<span class="flex items-center"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="category">category</span> Church Building</span>
+<span>•</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="location_on">location_on</span> Austin, TX</span>
+</div>
+</div>
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full font-caption text-caption font-medium border border-outline-variant">Completed</span>
+</div>
+<p class="font-caption text-caption text-outline mb-6">Submitted: Jan 15, 2023</p>
+<div class="flex items-center justify-between pt-4 border-t border-surface-container-highest">
+<button class="flex items-center space-x-2 text-primary-container font-label-md text-label-md hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+<span>View Details</span>
+</button>
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+<span class="font-label-md text-label-md">Edit</span>
+</button>
+<button class="flex items-center space-x-1 text-error hover:opacity-80 transition-opacity disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+<span class="font-label-md text-label-md">Delete</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl shadow-sm md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-variant/50 transition-colors active:scale-90 transition-transform duration-200 w-16">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="home" data-weight="regular">home</span>
+<span class="font-label-md text-label-md text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-variant/50 transition-colors active:scale-90 transition-transform duration-200 w-16">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="storefront" data-weight="regular">storefront</span>
+<span class="font-label-md text-label-md text-[10px]">Marketplace</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 hover:bg-surface-variant/50 transition-colors active:scale-90 transition-transform duration-200 w-20">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="diversity_1" data-weight="fill" style="font-variation-settings: 'FILL' 1;">diversity_1</span>
+<span class="font-label-md text-label-md text-[10px] whitespace-nowrap">Kingdom</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-variant/50 transition-colors active:scale-90 transition-transform duration-200 w-16">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="person" data-weight="regular">person</span>
+<span class="font-label-md text-label-md text-[10px]">Profile</span>
+</button>
+</nav>
+</body></html>

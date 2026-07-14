@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Create Account - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#3f6653",
+                    "secondary-fixed": "#dbe5df",
+                    "on-secondary-fixed": "#151d1a",
+                    "secondary-container": "#d8e2dc",
+                    "primary-fixed": "#c1ecd4",
+                    "primary-fixed-dim": "#a5d0b9",
+                    "error-container": "#ffdad6",
+                    "background": "#fcf9f8",
+                    "on-secondary-fixed-variant": "#3f4945",
+                    "on-primary-fixed": "#002114",
+                    "primary-container": "#1b4332",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#c1c8c2",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#dcd9d9",
+                    "surface": "#fcf9f8",
+                    "inverse-surface": "#313030",
+                    "tertiary": "#162b1a",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#0b2010",
+                    "on-background": "#1c1b1b",
+                    "secondary-fixed-dim": "#bfc9c3",
+                    "outline": "#717973",
+                    "surface-container-high": "#ebe7e7",
+                    "on-surface": "#1c1b1b",
+                    "inverse-on-surface": "#f3f0ef",
+                    "surface-container": "#f0edec",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#a5d0b9",
+                    "on-tertiary-container": "#95ad95",
+                    "tertiary-fixed-dim": "#b4cdb4",
+                    "on-surface-variant": "#414844",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e5e2e1",
+                    "tertiary-fixed": "#d0e9cf",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#364c39",
+                    "on-primary-fixed-variant": "#274e3d",
+                    "primary": "#012d1d",
+                    "on-secondary-container": "#5b6560",
+                    "tertiary-container": "#2c412e",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#f6f3f2",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-bright": "#fcf9f8",
+                    "on-primary-container": "#86af99",
+                    "secondary": "#57615c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-padding-desktop": "40px",
+                    "gutter": "16px",
+                    "stack-md": "24px",
+                    "stack-lg": "48px",
+                    "stack-sm": "8px",
+                    "container-padding-mobile": "20px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "display": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "caption": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                    "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                    "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                    "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                    "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                    "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .form-input {
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .form-input:focus {
+            border-color: #1b4332;
+            box-shadow: 0 0 0 1px #1b4332;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen relative overflow-x-hidden antialiased">
+<!-- Background Pattern -->
+<div class="fixed inset-0 pointer-events-none z-0 mix-blend-multiply opacity-5 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLtCnwdzZlfg-RR_ePHqk_yOZV5-bcSpDz3yeDh7kUyUOy_h0xkNVCYSPC38Lz98ZXzS6jxIZwCuQ7UFFNzpPTnqAqwmMYYYq-xRxlPz2yBi3WoILAGbpybdfQ5sEOLG9PXWSiKG9EDC8eG-KSXZk0rspn3ZY5HemiJKrqJp9pRnor9jM2y7gnqEjq6ISqAAfKBoSKRgMg-rl44ZCJX1QrwazV5S7lEYA2IK59gzL9_JC-9IqDtYPjlZyjnA');"></div>
+<main class="relative z-10 w-full max-w-md mx-auto px-container-padding-mobile py-stack-lg min-h-screen flex flex-col justify-center">
+<!-- Header Section -->
+<header class="flex flex-col items-center mb-stack-md text-center">
+<img alt="Your Portion Logo" class="w-16 h-16 rounded-xl object-cover mb-stack-sm shadow-[0px_10px_30px_rgba(0,0,0,0.04)]" src="https://lh3.googleusercontent.com/aida/AP1WRLuyJwtOvEIwfLgZbzOWNKsgf_4a2z8OWcl_i2dBGMd28G4DrWhvSSD0EVEp8Fm6mTlK8XKZ7D7L1JSkTXluHCyDvq2i1nCFSYrh9jo6KSeNBii5CSuFToIJZsAXeqDX2Z3nkFWOq8VlX6Src-plKGwhX6ZK4gnn83DVs6reXgkzVyp4UlaWgS8ijLh_ViRT71IMmdrf0aKh7VWbFBHymCG2T5FmsvsTkbO-zH57ZZsz5b2UyZmJV1umLEDO"/>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight mb-2">Create Your Account</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[280px]">Join a growing community of faith, stewardship, and meaningful opportunities.</p>
+</header>
+<!-- Form Section -->
+<form class="space-y-4">
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant sr-only" for="fullName">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">person</span>
+<input class="form-input w-full bg-surface-container-low border border-surface-variant rounded-xl py-3.5 pl-11 pr-4 text-on-surface placeholder:text-outline focus:outline-none focus:ring-0" id="fullName" placeholder="Full Name" type="text"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant sr-only" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">mail</span>
+<input class="form-input w-full bg-surface-container-low border border-surface-variant rounded-xl py-3.5 pl-11 pr-4 text-on-surface placeholder:text-outline focus:outline-none focus:ring-0" id="email" placeholder="Email Address" type="email"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant sr-only" for="phone">Phone Number (optional)</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">call</span>
+<input class="form-input w-full bg-surface-container-low border border-surface-variant rounded-xl py-3.5 pl-11 pr-4 text-on-surface placeholder:text-outline focus:outline-none focus:ring-0" id="phone" placeholder="Phone Number (optional)" type="tel"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant sr-only" for="password">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="form-input w-full bg-surface-container-low border border-surface-variant rounded-xl py-3.5 pl-11 pr-11 text-on-surface placeholder:text-outline focus:outline-none focus:ring-0" id="password" placeholder="Password" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface-variant sr-only" for="confirmPassword">Confirm Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">lock_reset</span>
+<input class="form-input w-full bg-surface-container-low border border-surface-variant rounded-xl py-3.5 pl-11 pr-11 text-on-surface placeholder:text-outline focus:outline-none focus:ring-0" id="confirmPassword" placeholder="Confirm Password" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-start mt-4 mb-6">
+<div class="flex items-center h-5">
+<input class="w-4 h-4 text-primary-container bg-surface border-outline rounded focus:ring-primary-container focus:ring-2" id="terms" type="checkbox"/>
+</div>
+<div class="ml-3 text-sm">
+<label class="font-body-md text-caption text-on-surface-variant" for="terms">
+                        I agree to the <a class="text-primary-container hover:underline font-medium" href="#">Terms of Service</a> and <a class="text-primary-container hover:underline font-medium" href="#">Privacy Policy</a>
+</label>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-4 rounded-xl min-h-[56px] shadow-[0px_10px_30px_rgba(0,0,0,0.04)] hover:bg-opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2" type="submit">
+                Create Account
+            </button>
+</form>
+<div class="mt-6 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Already have an account? <a class="text-primary-container font-medium hover:underline" href="#">Sign In</a>
+</p>
+</div>
+<div class="flex items-center my-stack-md">
+<div class="flex-grow border-t border-surface-variant"></div>
+<span class="flex-shrink-0 mx-4 font-caption text-caption text-outline">or continue with</span>
+<div class="flex-grow border-t border-surface-variant"></div>
+</div>
+<div class="space-y-3">
+<button class="w-full bg-surface text-on-surface font-label-md text-label-md py-3.5 rounded-xl border border-surface-variant flex items-center justify-center gap-3 hover:bg-surface-container-low active:scale-[0.98] transition-all">
+<svg class="w-5 h-5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path><path d="M1 1h22v22H1z" fill="none"></path></svg>
+                Continue with Google
+            </button>
+<button class="w-full bg-surface text-on-surface font-label-md text-label-md py-3.5 rounded-xl border border-surface-variant flex items-center justify-center gap-3 hover:bg-surface-container-low active:scale-[0.98] transition-all">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.365 7.114c-.655 0-1.464-.326-1.97-.674-.537-.369-1.02-1.077-1.02-1.874 0-.12.012-.25.034-.374.838.044 1.706.516 2.224 1.118.497.575.922 1.346.922 2.148 0 .11-.01.218-.024.326-.062-.008-.135-.012-.206-.012zM20 18.04c-.464.93-1.015 1.838-1.574 2.652-.633.918-1.286 1.83-2.296 1.83h-.03c-.41 0-.806-.118-1.186-.232-.486-.145-1.002-.3-1.554-.3-.523 0-1.02.148-1.492.29-.395.12-.806.242-1.238.242h-.03c-1.006 0-1.66-.912-2.296-1.83C7.15 19.014 5.3 15.65 5.3 12.183c0-2.316.892-4.148 2.373-5.26 1.05-.792 2.338-1.232 3.65-1.232h.02c1.076 0 1.956.326 2.766.674.455.196.885.38 1.25.38.35 0 .762-.178 1.196-.364.845-.362 1.782-.764 2.946-.764h.02c1.018 0 2.213.266 3.25 1.036-.086.062-1.968 1.18-1.968 3.514 0 2.63 2.158 3.553 2.224 3.583-.02.062-.358 1.242-1.027 2.29z"></path></svg>
+                Continue with Apple
+            </button>
+</div>
+<p class="mt-stack-lg font-caption text-caption text-outline text-center px-4">
+            Your account helps keep our community safe, trusted, and connected.
+        </p>
+</main>
+<script>
+        // Simple password toggle logic
+        document.querySelectorAll('button[type="button"]').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.previousElementSibling;
+                const icon = this.querySelector('.material-symbols-outlined');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.textContent = 'visibility_off';</script></body></html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Saved Properties - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "tertiary-fixed": "#d0e9cf",
+                            "secondary": "#57615c",
+                            "surface-container-low": "#f6f3f2",
+                            "on-primary-fixed": "#002114",
+                            "surface": "#fcf9f8",
+                            "tertiary-fixed-dim": "#b4cdb4",
+                            "outline-variant": "#c1c8c2",
+                            "background": "#fcf9f8",
+                            "surface-bright": "#fcf9f8",
+                            "tertiary": "#162b1a",
+                            "on-surface-variant": "#414844",
+                            "primary-container": "#1b4332",
+                            "secondary-container": "#d8e2dc",
+                            "on-error": "#ffffff",
+                            "surface-container-lowest": "#ffffff",
+                            "secondary-fixed-dim": "#bfc9c3",
+                            "on-secondary-fixed": "#151d1a",
+                            "on-primary": "#ffffff",
+                            "secondary-fixed": "#dbe5df",
+                            "error-container": "#ffdad6",
+                            "on-background": "#1c1b1b",
+                            "primary-fixed-dim": "#a5d0b9",
+                            "on-error-container": "#93000a",
+                            "inverse-on-surface": "#f3f0ef",
+                            "surface-container-high": "#ebe7e7",
+                            "surface-dim": "#dcd9d9",
+                            "on-primary-fixed-variant": "#274e3d",
+                            "surface-container-highest": "#e5e2e1",
+                            "on-secondary-container": "#5b6560",
+                            "on-tertiary-fixed-variant": "#364c39",
+                            "on-tertiary-fixed": "#0b2010",
+                            "inverse-primary": "#a5d0b9",
+                            "inverse-surface": "#313030",
+                            "on-secondary-fixed-variant": "#3f4945",
+                            "surface-variant": "#e5e2e1",
+                            "on-secondary": "#ffffff",
+                            "tertiary-container": "#2c412e",
+                            "outline": "#717973",
+                            "surface-tint": "#3f6653",
+                            "surface-container": "#f0edec",
+                            "primary": "#012d1d",
+                            "error": "#ba1a1a",
+                            "on-tertiary": "#ffffff",
+                            "primary-fixed": "#c1ecd4",
+                            "on-primary-container": "#86af99",
+                            "on-tertiary-container": "#95ad95",
+                            "on-surface": "#1c1b1b"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "gutter": "16px",
+                            "stack-md": "24px",
+                            "container-padding-mobile": "20px",
+                            "stack-sm": "8px",
+                            "container-padding-desktop": "40px",
+                            "unit": "8px",
+                            "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                            "headline-lg": ["Inter"],
+                            "body-md": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "caption": ["Inter"],
+                            "headline-lg-mobile": ["Inter"],
+                            "display": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                            "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                            "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                            "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                            "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                            "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                            "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col pb-24 antialiased">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl">
+<div class="flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop h-16 w-full max-w-[1200px] mx-auto">
+<button class="flex items-center justify-center text-on-surface-variant hover:opacity-70 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim">Saved Properties</h1>
+<div class="w-6 h-6"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 px-container-padding-mobile md:px-container-padding-desktop w-full max-w-[1200px] mx-auto">
+<!-- Search Bar -->
+<div class="mb-stack-md relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-4 pl-12 pr-4 font-body-md text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search saved properties..." type="text"/>
+</div>
+<!-- Saved Properties List -->
+<div class="space-y-stack-md">
+<!-- Property Card 1 -->
+<article class="bg-surface-container-lowest rounded-[20px] overflow-hidden border border-outline-variant/30 shadow-[0px_10px_30px_rgba(0,0,0,0.04)] flex flex-col md:flex-row transition-all hover:shadow-[0px_15px_40px_rgba(0,0,0,0.08)]">
+<div class="relative h-[240px] md:h-auto md:w-[320px] md:min-h-[240px] shrink-0">
+<img class="w-full h-full object-cover" data-alt="A serene, lush green farmland valley stretching into the distance under a bright, clear blue sky. The scene is shot with high-key, natural lighting, conveying a sense of peace and potential. The visual style aligns with a premium, modern light-mode aesthetic, utilizing deep organic greens and soft, diffused light to inspire trust and calm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx0S-iUnrz7eAsLflAX8XJ9socx9ZtrREvxjVABJD8e1afpR7XmiTuBHu8-rzFc3gA4p-vBtcDE4S6K7r8kexT16af4EK0In2uYXUgYcKpQUbNCfD7xQtJ2WbHvnXgj8hEqkZG3TeWCeynRbzzJwuiBPAQmq6NaarFLBC-6sGcMan6EW2qUvGYU_Ge950aLjKpO4v_ijjhuWMfiZxhFUeq1JHTpUiJH_rZyIapzwp0VYQsWsUuCGNJjFlR39PVlUrAGJLmRBPrnDfZ"/>
+<div class="absolute top-4 right-4 bg-surface/90 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-[#1B4332]"></span>
+<span class="font-caption text-caption text-on-surface font-medium">Farm Land</span>
+</div>
+</div>
+<div class="p-stack-md flex-grow flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Serene Valley Farm</h2>
+<p class="font-headline-md text-headline-md text-primary-container font-semibold">$120,000</p>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-md mb-4">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<span>Abuja, Nigeria</span>
+</div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional, high-quality portrait of a trustworthy individual in minimal, modern attire. The lighting is soft and flattering, set against a pristine white background to fit a premium, elegant UI. The mood is approachable, calm, and professional, utilizing deep greens and crisp whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWid8DbPf35aOCUoALyoGRPX8LE3g_BgUa3bX4kdenP4FTGDcNyCDW5DBinAjVC9BZoDJOMYFgorXXHpaSouSDp8YirJENWD5HokBAZ6CGAHvxBj7EqxdYj_7x-Gv5_5xtVh4r0sDCjDmCRoehWtfypZcUdJF_34qiBzZF_Smpk6VeQ-QQxef6nqu_LdETacy2lHlkUtP57sSiRTA23Gj68QiazB21hHsxg4fQkXY7zekZRnxdDvwjvpj_oGIAiaZOzkfaqP5a09Y8"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">David Ojo</p>
+<div class="flex items-center gap-1 text-primary-container">
+<span class="material-symbols-outlined text-[16px]" data-weight="fill">verified</span>
+<span class="font-caption text-caption">Trusted Member</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex-grow bg-primary-container text-on-primary font-label-md text-label-md py-3.5 rounded-xl hover:opacity-90 transition-opacity flex justify-center items-center">
+                            View Details
+                        </button>
+<button class="w-[52px] h-[52px] bg-error-container text-on-error-container rounded-xl flex justify-center items-center hover:bg-error/20 transition-colors">
+<span class="material-symbols-outlined" data-weight="fill">favorite</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Property Card 2 -->
+<article class="bg-surface-container-lowest rounded-[20px] overflow-hidden border border-outline-variant/30 shadow-[0px_10px_30px_rgba(0,0,0,0.04)] flex flex-col md:flex-row transition-all hover:shadow-[0px_15px_40px_rgba(0,0,0,0.08)]">
+<div class="relative h-[240px] md:h-auto md:w-[320px] md:min-h-[240px] shrink-0">
+<img class="w-full h-full object-cover" data-alt="An expansive, flat plot of fertile land bathed in the soft, warm light of early morning. The earth is rich and dark, contrasting beautifully with the vibrant green vegetation bordering the plot. The overall aesthetic is clean, minimal, and premium, utilizing a palette of earthy tones and deep greens to convey stability and growth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWKptJsTya6uouaUovKoqHoUqeiistnu-MCd7yLRGojvTb8P-v9HGXzp81BSq1RRVvHKBbOtvYDboD4wN8FZQ0fhsSghctZ_9v3x7I0qsbBxz56aVtmmRSTc5cpm1nQrZvEx_YRAQX_oBFYSJ8dYHGPSwmcSGswfMPzqQ_C9NaoaqU6dCQ9zavK0baSomRlm54QYQ-HqdZK6T7DHLIMWZR8DIUC8Tl7b5KHO-zVo-NQEromOXVZ8QHT72W5CHeR7h-QA2rXmcQvYXw"/>
+<div class="absolute top-4 right-4 bg-surface/90 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-[#1B4332]"></span>
+<span class="font-caption text-caption text-on-surface font-medium">Commercial Plot</span>
+</div>
+</div>
+<div class="p-stack-md flex-grow flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Ogun Gateway Estate</h2>
+<p class="font-headline-md text-headline-md text-primary-container font-semibold">$85,000</p>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-md mb-4">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<span>Ogun State, Nigeria</span>
+</div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden flex items-center justify-center text-primary-container font-headline-md">
+                                SO
+                            </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Sarah Okafor</p>
+<div class="flex items-center gap-1 text-primary-container">
+<span class="material-symbols-outlined text-[16px]" data-weight="fill">verified</span>
+<span class="font-caption text-caption">Trusted Member</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex-grow bg-primary-container text-on-primary font-label-md text-label-md py-3.5 rounded-xl hover:opacity-90 transition-opacity flex justify-center items-center">
+                            View Details
+                        </button>
+<button class="w-[52px] h-[52px] bg-error-container text-on-error-container rounded-xl flex justify-center items-center hover:bg-error/20 transition-colors">
+<span class="material-symbols-outlined" data-weight="fill">favorite</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Empty State (Hidden by default, shown for demonstration) -->
+<div class="hidden flex-col items-center justify-center py-stack-lg text-center mt-stack-lg">
+<div class="w-24 h-24 bg-surface-container-low rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[40px] text-outline">bookmark_border</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">No saved properties</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-8">You haven't saved any properties yet. Explore the marketplace to find your perfect portion.</p>
+<button class="bg-primary-container text-on-primary font-label-md text-label-md px-8 py-4 rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+                Browse Marketplace
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface/80 dark:bg-surface/80 backdrop-blur-xl z-50 shadow-[0px_-10px_30px_rgba(0,0,0,0.04)] md:hidden">
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl p-2 active:scale-90 duration-200">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="font-label-md text-[10px] mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-semibold hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl p-2 active:scale-90 duration-200">
+<span class="material-symbols-outlined text-[24px]" data-weight="fill">storefront</span>
+<span class="font-label-md text-[10px] mt-1">Marketplace</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl p-2 active:scale-90 duration-200">
+<span class="material-symbols-outlined text-[24px]">castle</span>
+<span class="font-label-md text-[10px] mt-1">Kingdom</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl p-2 active:scale-90 duration-200">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="font-label-md text-[10px] mt-1">Profile</span>
+</button>
+</nav>
+</body></html>

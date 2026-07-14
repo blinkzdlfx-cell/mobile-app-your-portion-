@@ -1,0 +1,82 @@
+DATABASE IMPLEMENTATION PLAN
+=============================
+(Excludes Admin — only Buyer & Seller roles)
+
+FILES CREATED:
+--------------
+1. supabase/migrations/00001_seller_buyer_schema.sql
+2. lib/models/user_profile.dart
+3. lib/models/property.dart
+4. lib/models/kingdom_project.dart
+5. lib/services/supabase_service.dart
+
+============================================
+DATABASE TABLES (Supabase PostgreSQL)
+============================================
+1. profiles         — Extends auth.users with role, contact info, trust status
+2. properties       — Seller listings with category, price, location, contact info
+3. saved_properties — Buyer favorites (user_id + property_id unique)
+4. kingdom_projects — Projects with goals, raised amount, status
+5. project_donations — Buyer donations to projects
+6. reviews          — Buyer ratings/comments on properties
+
+============================================
+RLS POLICIES
+============================================
+PROFILES:
+  - Anyone can view profiles
+  - Users can update own profile
+  - Auto-creates on signup via trigger
+
+PROPERTIES:
+  - Anyone can view approved properties
+  - Sellers can insert (role check)
+  - Sellers can update/delete own
+
+SAVED PROPERTIES:
+  - Users view own saves, insert/delete own
+
+KINGDOM PROJECTS:
+  - Anyone can view active/completed projects
+  - Sellers can create
+  - Creators can update/delete own
+
+DONATIONS:
+  - Anyone can view
+  - Buyers can donate
+
+REVIEWS:
+  - Anyone can view
+  - Buyers can insert/update own
+
+============================================
+ROLE LOGIC
+============================================
+- role TEXT: 'buyer', 'seller', or 'both'
+- is_seller_verified BOOLEAN (admin must approve before seller can list)
+- canSell = is_seller_verified && (role == 'seller' || role == 'both')
+- canBuy = always true (everyone can browse, save, donate, review)
+- Role selected during onboarding (choose_role_screen.dart)
+- Both roles can be selected simultaneously → stored as 'both'
+
+============================================
+SELLER FEATURES (UI Gating)
+============================================
+- Is always also a buyer (can browse, save, donate, review)
+- Can see "Create Property" FAB on marketplace (if verified)
+- Can see "Create Project" button on kingdom projects (if verified)
+- Own listings show edit/delete options
+- Own projects show edit/delete options
+- Profile shows "Seller" or "Buyer & Seller" badge
+
+============================================
+BUYER FEATURES (UI Gating)
+============================================
+- Can browse all approved properties
+- Can save/favorite properties
+- Can see seller's contact info (WhatsApp, phone, email)
+- Can donate to kingdom projects
+- Can leave reviews on properties
+- Can access learning library
+- Can request seller verification (future: triggers admin approval)
+- Profile shows "Buyer" badge

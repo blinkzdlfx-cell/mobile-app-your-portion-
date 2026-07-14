@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Portion - Daily Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f6f3f2",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e5e2e1",
+                        "tertiary-container": "#2c412e",
+                        "on-secondary-container": "#5b6560",
+                        "on-primary-container": "#86af99",
+                        "outline": "#717973",
+                        "tertiary-fixed": "#d0e9cf",
+                        "primary": "#012d1d",
+                        "on-tertiary-fixed": "#0b2010",
+                        "on-background": "#1c1b1b",
+                        "inverse-primary": "#a5d0b9",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-bright": "#fcf9f8",
+                        "secondary-fixed": "#dbe5df",
+                        "primary-container": "#1b4332",
+                        "on-primary-fixed": "#002114",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dcd9d9",
+                        "on-tertiary-container": "#95ad95",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "outline-variant": "#c1c8c2",
+                        "on-surface": "#1c1b1b",
+                        "on-secondary-fixed": "#151d1a",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#414844",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#c1ecd4",
+                        "surface-container": "#f0edec",
+                        "secondary-container": "#d8e2dc",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "surface": "#fcf9f8",
+                        "tertiary": "#162b1a",
+                        "surface-tint": "#3f6653",
+                        "background": "#fcf9f8",
+                        "secondary": "#57615c",
+                        "surface-container-high": "#ebe7e7",
+                        "surface-variant": "#e5e2e1",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "stack-md": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+            .pt-safe { padding-top: env(safe-area-inset-top); }
+        }
+        body {
+            @apply bg-background text-on-background font-body-md;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Hide scrollbar for clean aesthetic */
+        ::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col pt-safe pb-safe md:pb-0">
+<!-- TopAppBar: Sub-page / Task-Focused (Destination Rule applied -> hiding BottomNavBar/SideNav) -->
+<header class="sticky top-0 z-50 bg-surface dark:bg-surface text-primary dark:text-primary-fixed w-full max-w-7xl mx-auto flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16 shadow-[0px_10px_30px_rgba(0,0,0,0.02)] transition-all">
+<button aria-label="Go back" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary dark:text-primary-fixed tracking-tight">Today's Portion</h1>
+<div class="flex items-center gap-2">
+<button aria-label="Bookmark" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant transition-colors active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined text-[24px]" data-icon="bookmark_border">bookmark_border</span>
+</button>
+<button aria-label="Share" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant transition-colors active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined text-[24px]" data-icon="share">share</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-3xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-stack-md flex flex-col gap-stack-lg pb-32">
+<!-- 1. Sermon Info Card -->
+<section class="bg-surface-bright border border-outline-variant/30 rounded-xl p-6 shadow-[0px_10px_30px_rgba(0,0,0,0.02)] flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-caption text-caption text-primary-container uppercase tracking-widest font-semibold mb-1 block">Topic</span>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Walking by Faith</h2>
+</div>
+<div class="text-right">
+<span class="font-caption text-caption text-on-surface-variant block">Thursday</span>
+<span class="font-label-md text-label-md font-semibold text-primary">25 June</span>
+</div>
+</div>
+<hr class="border-t border-outline-variant/20 my-2"/>
+<div class="flex flex-col sm:flex-row justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant bg-surface-container-low p-2 rounded-full text-[20px]">person</span>
+<div>
+<span class="font-caption text-caption text-on-surface-variant block">Minister</span>
+<span class="font-label-md text-label-md text-on-surface">Pastor John Doe</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant bg-surface-container-low p-2 rounded-full text-[20px]">menu_book</span>
+<div>
+<span class="font-caption text-caption text-on-surface-variant block">Bible Text</span>
+<span class="font-label-md text-label-md text-on-surface">Hebrews 11:1</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Scripture Section -->
+<section class="bg-[#F8FAF9] rounded-xl p-8 md:p-10 border border-[#F2F2F2] shadow-[0px_10px_30px_rgba(0,0,0,0.03)] relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-container"></div>
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary">Scripture Reading</h3>
+<span class="font-label-md text-label-md text-on-surface-variant bg-surface px-3 py-1 rounded-full border border-outline-variant/30">Hebrews 11:1</span>
+</div>
+<blockquote class="font-body-lg text-body-lg text-on-surface leading-relaxed italic relative z-10">
+<span class="text-4xl text-primary-container/20 absolute -top-4 -left-2 leading-none font-serif">"</span>
+                Now faith is the substance of things hoped for, the evidence of things not seen.
+                <span class="text-4xl text-primary-container/20 absolute -bottom-4 right-0 leading-none font-serif">"</span>
+</blockquote>
+</section>
+<!-- 3. Sermon Notes -->
+<section class="flex flex-col gap-6 text-on-surface">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary border-b border-outline-variant/20 pb-2 inline-block">Sermon Notes</h3>
+<div class="prose prose-p:font-body-md prose-p:text-body-md prose-p:leading-loose prose-p:text-on-surface-variant prose-headings:text-primary max-w-none">
+<p>
+                    Faith is not merely a mental ascent to a set of propositions. It is a profound, active trust in the character and promises of God. When the writer of Hebrews describes faith as "substance" and "evidence," they are speaking of a concrete reality that anchors our souls even when our circumstances seem uncertain.
+                </p>
+<h4 class="font-headline-md text-[20px] font-semibold mt-8 mb-4 text-primary">The Nature of Substance</h4>
+<p>
+                    To have substance means there is weight to our hope. It is not wishful thinking. Just as a title deed proves ownership of a property you may not yet occupy, faith proves the reality of the spiritual inheritance God has prepared for us. We walk forward not based on what our physical eyes can confirm, but on what our spiritual eyes, illuminated by the Word, know to be true.
+                </p>
+<h4 class="font-headline-md text-[20px] font-semibold mt-8 mb-4 text-primary">Living It Out</h4>
+<p>
+                    Walking by faith requires a daily decision to align our perspective with God's truth rather than our immediate feelings. It challenges us to step into the unknown, trusting that the One who called us is faithful to sustain us.
+                </p>
+</div>
+</section>
+<!-- 4. Prayer Points -->
+<section class="flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary mb-2">Prayer Points</h3>
+<div class="flex flex-col gap-3">
+<div class="bg-surface-container-low rounded-xl p-5 flex items-start gap-4 border border-transparent hover:border-outline-variant/30 transition-colors">
+<span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-md text-label-md font-bold">1</span>
+<p class="font-body-md text-body-md text-on-surface pt-1">Pray for wisdom to navigate daily challenges with a heavenly perspective.</p>
+</div>
+<div class="bg-surface-container-low rounded-xl p-5 flex items-start gap-4 border border-transparent hover:border-outline-variant/30 transition-colors">
+<span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-md text-label-md font-bold">2</span>
+<p class="font-body-md text-body-md text-on-surface pt-1">Pray for spiritual growth, that your roots may grow deep into God's love.</p>
+</div>
+<div class="bg-surface-container-low rounded-xl p-5 flex items-start gap-4 border border-transparent hover:border-outline-variant/30 transition-colors">
+<span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-md text-label-md font-bold">3</span>
+<p class="font-body-md text-body-md text-on-surface pt-1">Pray for the strength and courage to obey God's Word, even when it is difficult.</p>
+</div>
+</div>
+</section>
+<!-- 5. Key Takeaways -->
+<section class="bg-surface border border-outline-variant/30 rounded-xl p-6 shadow-[0px_10px_30px_rgba(0,0,0,0.02)]">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary mb-6">Key Takeaways</h3>
+<ul class="flex flex-col gap-5">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container text-[24px] mt-0.5">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Faith provides concrete assurance for things we cannot yet see.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container text-[24px] mt-0.5">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Hope is grounded in the unchanging character of God.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container text-[24px] mt-0.5">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Walking by faith is an active, daily choice, not a passive state.</span>
+</li>
+</ul>
+</section>
+<!-- 6. Reflection Section -->
+<section class="flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary">Today's Reflection</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">How does today's portion apply to your life right now?</p>
+<div class="relative group">
+<textarea class="w-full min-h-[160px] bg-[#F5F5F5] border-transparent focus:border-primary-container focus:ring-0 rounded-xl p-5 font-body-md text-body-md text-on-surface resize-y transition-colors" placeholder="Write your thoughts here..."></textarea>
+</div>
+<div class="flex justify-end mt-2">
+<button class="h-12 px-6 rounded-xl bg-surface-container-low text-primary font-label-md text-label-md font-semibold hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                    Save Reflection
+                </button>
+</div>
+</section>
+</main>
+<!-- Bottom Actions (Sticky Footer) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-xl border-t border-outline-variant/20 pb-safe z-40">
+<div class="max-w-3xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
+<button class="w-full sm:w-auto h-14 px-8 rounded-xl bg-[#F8FAF9] text-on-surface font-label-md text-label-md font-semibold hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">ios_share</span>
+                Share Today's Portion
+            </button>
+<button class="w-full sm:w-auto h-14 px-8 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md font-semibold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-[0px_10px_20px_rgba(27,67,50,0.15)]">
+<span class="material-symbols-outlined text-[20px]">done_all</span>
+                Mark as Read
+            </button>
+</div>
+</div>
+</body></html>

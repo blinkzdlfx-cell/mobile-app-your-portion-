@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Kingdom Project - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#002114",
+                      "secondary-fixed": "#dbe5df",
+                      "inverse-primary": "#a5d0b9",
+                      "surface-container": "#f0edec",
+                      "surface-container-high": "#ebe7e7",
+                      "surface-bright": "#fcf9f8",
+                      "tertiary-container": "#2c412e",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#5b6560",
+                      "primary-fixed-dim": "#a5d0b9",
+                      "secondary-container": "#d8e2dc",
+                      "primary": "#012d1d",
+                      "on-secondary": "#ffffff",
+                      "background": "#fcf9f8",
+                      "surface-dim": "#dcd9d9",
+                      "secondary": "#57615c",
+                      "outline-variant": "#c1c8c2",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#1c1b1b",
+                      "surface-container-low": "#f6f3f2",
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#bfc9c3",
+                      "on-primary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "surface-tint": "#3f6653",
+                      "surface-variant": "#e5e2e1",
+                      "tertiary-fixed-dim": "#b4cdb4",
+                      "on-tertiary-fixed": "#0b2010",
+                      "inverse-on-surface": "#f3f0ef",
+                      "on-secondary-fixed": "#151d1a",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#e5e2e1",
+                      "on-primary-fixed-variant": "#274e3d",
+                      "tertiary": "#162b1a",
+                      "outline": "#717973",
+                      "surface": "#fcf9f8",
+                      "on-surface-variant": "#414844",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-fixed": "#d0e9cf",
+                      "on-secondary-fixed-variant": "#3f4945",
+                      "on-primary-container": "#86af99",
+                      "on-tertiary-fixed-variant": "#364c39",
+                      "primary-fixed": "#c1ecd4",
+                      "on-background": "#1c1b1b",
+                      "inverse-surface": "#313030",
+                      "on-tertiary-container": "#95ad95",
+                      "primary-container": "#1b4332"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "stack-md": "24px",
+                      "stack-lg": "48px",
+                      "container-padding-desktop": "40px",
+                      "stack-sm": "8px",
+                      "gutter": "16px",
+                      "container-padding-mobile": "20px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "display": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "caption": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "34px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        /* Custom styles for specific requirements that tailwind classes might not cover perfectly */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .ambient-shadow {
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04);
+        }
+        .smooth-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Hide scrollbar for horizontal scroll area */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Form input styling */
+        .premium-input {
+            background-color: #F5F5F5;
+            border: 1px solid transparent;
+            border-radius: 16px;
+            padding: 16px 20px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        .premium-input:focus {
+            background-color: #FFFFFF;
+            border-color: #1B4332;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(27, 67, 50, 0.1);
+        }
+        .premium-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #414844;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container pb-24">
+<!-- TopAppBar (Transactional - suppression of global nav context applies, but header needed) -->
+<header class="w-full top-0 sticky bg-background/90 backdrop-blur-md z-40">
+<div class="flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop py-4 max-w-7xl mx-auto">
+<button class="text-on-surface-variant hover:text-primary transition-colors active:scale-95 flex items-center justify-center p-2 -ml-2 rounded-full hover:bg-surface-variant/50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md md:font-headline-lg md:text-headline-lg font-semibold text-primary absolute left-1/2 -translate-x-1/2">
+                Create Kingdom Project
+            </h1>
+<!-- Empty div to balance flex spacing -->
+<div class="w-10"></div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-3xl mx-auto px-container-padding-mobile md:px-0 pt-stack-sm pb-stack-lg">
+<form class="space-y-stack-md md:space-y-stack-lg" onsubmit="event.preventDefault();">
+<!-- Cover Image Section -->
+<section aria-labelledby="cover-image-heading" class="space-y-4">
+<h2 class="sr-only" id="cover-image-heading">Project Cover Images</h2>
+<!-- Upload Area -->
+<div class="relative overflow-hidden rounded-[20px] bg-surface-container-low border border-dashed border-outline-variant hover:border-primary smooth-transition cursor-pointer group flex flex-col items-center justify-center py-12 md:py-16">
+<div class="w-16 h-16 rounded-full bg-surface-variant flex items-center justify-center mb-4 group-hover:bg-primary/10 smooth-transition">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 0;">add_photo_alternate</span>
+</div>
+<span class="font-label-md text-label-md text-primary font-medium">Upload a Cover Image</span>
+<span class="font-caption text-caption text-on-surface-variant mt-2">High resolution, minimal text recommended</span>
+<!-- Hidden file input would go here -->
+<input accept="image/*" class="hidden" type="file"/>
+</div>
+<!-- Uploaded Images Gallery (Horizontal Scroll) -->
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-2 snap-x">
+<!-- Example Uploaded Image (Using provided placeholder) -->
+<div class="flex-none w-32 h-32 md:w-40 md:h-40 rounded-[16px] overflow-hidden relative group snap-start">
+<div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLvEmocqQr27mk5hRrDH0AbzD_IXKK7aglz05X1AaEPqe-0OhKKiT9UJoavjS-acGaOwfqSS2fE5MkwIa8Q3pJIftidmJmsrKskXDG0HzlhnL3F5M-IO72ejMJzG-9pcKWhPIiXJi7Gi5ogGVC5XYz7uSTuZz9BKNBNoFGh3jqNppJiFiDlyPqmob8l52bhCyOzwjETmhNiR4L-NBzeTKh7LZsLhNVQnCnq9B79aGTgw07pBUb5FVawvSNdC')"></div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 smooth-transition flex items-center justify-center">
+<button aria-label="Remove image" class="bg-surface/90 text-error p-2 rounded-full hover:scale-110 smooth-transition" type="button">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">delete</span>
+</button>
+</div>
+</div>
+<!-- Empty slots to suggest multiple uploads -->
+<div class="flex-none w-32 h-32 md:w-40 md:h-40 rounded-[16px] border border-dashed border-outline-variant flex items-center justify-center text-outline snap-start bg-surface-container-low">
+<span class="material-symbols-outlined text-2xl opacity-50" style="font-variation-settings: 'FILL' 0;">image</span>
+</div>
+<div class="flex-none w-32 h-32 md:w-40 md:h-40 rounded-[16px] border border-dashed border-outline-variant flex items-center justify-center text-outline snap-start bg-surface-container-low">
+<span class="material-symbols-outlined text-2xl opacity-50" style="font-variation-settings: 'FILL' 0;">image</span>
+</div>
+</div>
+</section>
+<hr class="border-t border-surface-variant mx-auto max-w-[90%]"/>
+<!-- Project Information Section -->
+<section aria-labelledby="project-info-heading" class="bg-surface-bright rounded-[24px] p-6 md:p-8 ambient-shadow border border-surface-variant">
+<h2 class="font-headline-md text-headline-md mb-6 text-primary" id="project-info-heading">Project Details</h2>
+<div class="space-y-6">
+<!-- Title -->
+<div>
+<label class="premium-label font-label-md text-label-md" for="project-title">Project Title</label>
+<input class="premium-input font-body-md text-body-md" id="project-title" placeholder="e.g., Hope Center Community Kitchen" type="text"/>
+</div>
+<!-- Category & Location Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="premium-label font-label-md text-label-md" for="project-category">Category</label>
+<div class="relative">
+<select class="premium-input font-body-md text-body-md appearance-none cursor-pointer pr-10" id="project-category">
+<option disabled="" selected="" value="">Select a category</option>
+<option value="church_building">Church Building</option>
+<option value="evangelism">Evangelism</option>
+<option value="missions">Missions</option>
+<option value="orphan_care">Orphan Care</option>
+<option value="community_outreach">Community Outreach</option>
+<option value="education">Education</option>
+<option value="other">Other</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style="font-variation-settings: 'FILL' 0;">expand_more</span>
+</div>
+</div>
+<div>
+<label class="premium-label font-label-md text-label-md" for="project-location">Project Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">location_on</span>
+<input class="premium-input font-body-md text-body-md pl-12" id="project-location" placeholder="City, Country" type="text"/>
+</div>
+</div>
+</div>
+<!-- Short Summary -->
+<div>
+<label class="premium-label font-label-md text-label-md" for="project-summary">Short Summary</label>
+<textarea class="premium-input font-body-md text-body-md resize-none" id="project-summary" placeholder="Provide a 1-2 line overview of your mission." rows="2"></textarea>
+</div>
+<!-- Full Description -->
+<div>
+<label class="premium-label font-label-md text-label-md" for="project-description">Full Project Description</label>
+<textarea class="premium-input font-body-md text-body-md resize-y" id="project-description" placeholder="Describe the vision, needs, and impact of this Kingdom project in detail..." rows="6"></textarea>
+</div>
+</div>
+</section>
+<!-- Project Goals Section (Bento-style list) -->
+<section aria-labelledby="project-goals-heading" class="bg-[#F8FAF9] rounded-[24px] p-6 md:p-8 border border-surface-variant">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary" id="project-goals-heading">Key Objectives</h2>
+<p class="font-caption text-caption text-on-surface-variant mt-1">What specific outcomes are you aiming for?</p>
+</div>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1 bg-primary/5 px-4 py-2 rounded-full smooth-transition hover:bg-primary/10" type="button">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">add</span>
+                        Add Goal
+                    </button>
+</div>
+<div class="space-y-3" id="goals-list">
+<!-- Example Goal 1 -->
+<div class="group flex items-center gap-3 bg-surface-bright p-4 rounded-[16px] border border-outline-variant/30 hover:border-primary/30 smooth-transition">
+<span class="material-symbols-outlined text-primary/60 cursor-grab active:cursor-grabbing" style="font-variation-settings: 'FILL' 0;">drag_indicator</span>
+<input class="bg-transparent border-none focus:ring-0 w-full font-body-md text-body-md text-on-surface outline-none placeholder:text-on-surface-variant/50" placeholder="Enter goal description" type="text" value="Build a worship center"/>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error smooth-transition p-1" type="button">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</div>
+<!-- Example Goal 2 -->
+<div class="group flex items-center gap-3 bg-surface-bright p-4 rounded-[16px] border border-outline-variant/30 hover:border-primary/30 smooth-transition">
+<span class="material-symbols-outlined text-primary/60 cursor-grab active:cursor-grabbing" style="font-variation-settings: 'FILL' 0;">drag_indicator</span>
+<input class="bg-transparent border-none focus:ring-0 w-full font-body-md text-body-md text-on-surface outline-none placeholder:text-on-surface-variant/50" placeholder="Enter goal description" type="text" value="Support orphaned children"/>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error smooth-transition p-1" type="button">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</div>
+<!-- Empty Goal Input -->
+<div class="group flex items-center gap-3 bg-surface-bright p-4 rounded-[16px] border border-dashed border-outline-variant/50 hover:border-primary/30 smooth-transition">
+<span class="material-symbols-outlined text-primary/30" style="font-variation-settings: 'FILL' 0;">add_circle</span>
+<input class="bg-transparent border-none focus:ring-0 w-full font-body-md text-body-md text-on-surface outline-none placeholder:text-on-surface-variant/50" placeholder="Add another goal..." type="text"/>
+</div>
+</div>
+</section>
+<!-- Contact Information Section -->
+<section aria-labelledby="contact-info-heading" class="bg-surface-bright rounded-[24px] p-6 md:p-8 ambient-shadow border border-surface-variant">
+<h2 class="font-headline-md text-headline-md mb-6 text-primary" id="contact-info-heading">Contact Information</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="premium-label font-label-md text-label-md" for="contact-email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">mail</span>
+<input class="premium-input font-body-md text-body-md pl-12" id="contact-email" placeholder="Email" type="email" value="user@example.com"/>
+</div>
+</div>
+<div>
+<label class="premium-label font-label-md text-label-md" for="contact-phone">Phone Number</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">call</span>
+<input class="premium-input font-body-md text-body-md pl-12" id="contact-phone" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="premium-label font-label-md text-label-md" for="contact-whatsapp">WhatsApp Number (Optional)</label>
+<div class="relative w-full md:w-1/2 md:pr-3">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">chat</span>
+<input class="premium-input font-body-md text-body-md pl-12" id="contact-whatsapp" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Submit Section -->
+<section class="pt-8 pb-4 space-y-6 flex flex-col items-center">
+<button class="w-full md:w-auto md:min-w-[300px] bg-primary text-on-primary font-label-md text-label-md rounded-xl py-4 px-8 hover:opacity-90 active:scale-95 smooth-transition shadow-lg shadow-primary/20 flex items-center justify-center gap-2" type="submit">
+                    Submit for Review
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+<!-- Trust Card -->
+<div class="bg-surface-container-low border border-surface-variant rounded-[16px] p-4 flex items-start gap-3 max-w-md">
+<span class="material-symbols-outlined text-primary shrink-0" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<p class="font-caption text-caption text-on-surface-variant leading-relaxed">
+                        All Kingdom Projects are reviewed by the Your Portion team before they are published to ensure authenticity and community trust.
+                    </p>
+</div>
+</section>
+</form>
+</main>
+<!-- Suppressed Navigations: BottomNavBar and SideNav are hidden as this is a transactional/focused form flow -->
+<script>
+        // Simple script for basic interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auto-resize textareas
+            const textareas = document.querySelectorAll('textarea');
+            textareas.forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            });
+        });
+    </script>
+</body></html>

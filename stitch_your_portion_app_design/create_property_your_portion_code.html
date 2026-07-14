@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Property - Your Portion</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#313030",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-error": "#ffffff",
+                        "surface-container": "#f0edec",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5d0b9",
+                        "secondary": "#57615c",
+                        "surface": "#fcf9f8",
+                        "on-secondary-container": "#5b6560",
+                        "surface-dim": "#dcd9d9",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "outline-variant": "#c1c8c2",
+                        "surface-container-high": "#ebe7e7",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "on-background": "#1c1b1b",
+                        "inverse-on-surface": "#f3f0ef",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "primary": "#012d1d",
+                        "tertiary-fixed": "#d0e9cf",
+                        "on-primary-container": "#86af99",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "error": "#ba1a1a",
+                        "background": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "on-secondary-fixed": "#151d1a",
+                        "primary-container": "#1b4332",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#717973",
+                        "on-tertiary-container": "#95ad95",
+                        "primary-fixed": "#c1ecd4",
+                        "on-tertiary-fixed": "#0b2010",
+                        "surface-variant": "#e5e2e1",
+                        "on-surface": "#1c1b1b",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#3f6653",
+                        "on-surface-variant": "#414844",
+                        "on-primary-fixed": "#002114",
+                        "surface-container-low": "#f6f3f2",
+                        "secondary-container": "#d8e2dc",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#2c412e",
+                        "secondary-fixed": "#dbe5df",
+                        "tertiary": "#162b1a",
+                        "surface-bright": "#fcf9f8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "unit": "8px",
+                        "stack-sm": "8px",
+                        "container-padding-mobile": "20px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Custom input styling based on guidelines */
+        .premium-input {
+            @apply bg-surface-container text-on-surface font-body-md text-body-md rounded-lg px-4 py-4 border-0 focus:ring-[1.5px] focus:ring-primary-container outline-none transition-all w-full placeholder:text-outline/60;
+        }
+        .premium-label {
+            @apply font-label-md text-label-md text-on-surface-variant mb-2 block;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen relative pb-[100px]">
+<!-- Header (Task-Focused: Suppresses standard TopAppBar) -->
+<header class="px-container-padding-mobile py-4 flex items-center gap-4 sticky top-0 bg-surface/90 backdrop-blur-md z-40 border-b border-surface-container-highest/30">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors -ml-2 text-on-surface">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile text-on-surface tracking-tight">Create Property</h1>
+</header>
+<main class="max-w-3xl mx-auto px-container-padding-mobile pt-stack-md flex flex-col gap-stack-lg">
+<!-- Photo Upload Section -->
+<section class="flex flex-col gap-unit">
+<div class="border-2 border-dashed border-outline-variant bg-surface-container-lowest rounded-xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-surface-container-low transition-colors shadow-[0px_10px_30px_rgba(0,0,0,0.02)]">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">camera_alt</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Upload Property Photos</span>
+</div>
+<div class="flex overflow-x-auto gap-4 mt-2 no-scrollbar pb-2">
+<div class="w-[100px] h-[100px] shrink-0 rounded-lg bg-surface-container overflow-hidden relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A brightly lit, minimalist interior room shot emphasizing clean lines, pale wooden floors, and a serene light-mode aesthetic, suitable for a premium property listing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu6ZrMIAUoDF2IxsB9Yr_bE8yvhAfQ6MCDL7WR0i9aHAYmahljUKCAvgo-hpPaewqkShCD8ARsl8S_dpbVuHXtZn9y6v_4xe9y4TNN3dZ4vGAF3hzibfB3BOk5WaXa-f3dCQkhnKWFy20oREHLl3nijqnpTZJTuzaFqs8MiaVWczRgvyIng4bxyV_TyqPjzN3zCCXJN4lqm6Su5lQAmlePi2jqkkqO8C3AxNPzW0ju9l9oHk0kQpbOEkiF5wrx0kh5dBVK485Gsfwr"/>
+<button class="absolute top-1 right-1 w-6 h-6 bg-surface/90 rounded-full flex items-center justify-center text-on-surface hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+<div class="w-[100px] h-[100px] shrink-0 rounded-lg bg-surface-container overflow-hidden relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A lush, manicured green lawn extending towards a modern minimal house facade under clear daylight, evoking peacefulness and high-quality suburban living." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_-JmmOS-Y_fv2nH3_bNJbK6MMyMuRlaFT0xLubJ2hnfummPkWvJoaumeCsiLXETDSnKSFgPXYw5-13Bn0sz9WqIspTmfwf1G62al3-gmKBlni4KnADdvWorRgTfAHjKbwIBsauzUKyeMPRzU8jl6S-QYbYs5Bu48CQUmewBtkWl27uMFCJDVTLQ-wMgfWfntiWqhwer1zMe_R0_ec6DPqJJtDTW9P-X0MZ2_JownaYajE4MYFGA8Hf6N199Qb7ScjKcMeNN96_50C"/>
+<button class="absolute top-1 right-1 w-6 h-6 bg-surface/90 rounded-full flex items-center justify-center text-on-surface hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+<!-- Add more placeholder slot -->
+<div class="w-[100px] h-[100px] shrink-0 rounded-lg border border-dashed border-outline-variant flex items-center justify-center bg-surface-container-lowest cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-outline-variant">add</span>
+</div>
+</div>
+</section>
+<!-- Form Sections -->
+<section class="flex flex-col gap-stack-md">
+<!-- Property Details -->
+<div class="flex flex-col gap-stack-sm">
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface mb-2">Property Details</h2>
+<div>
+<label class="premium-label">Title</label>
+<input class="premium-input" placeholder="e.g. Serene Greenfield Estate" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-gutter">
+<div>
+<label class="premium-label">Category</label>
+<select class="premium-input appearance-none">
+<option>Farm Land</option>
+<option>Land</option>
+<option>House</option>
+<option>Apartment</option>
+<option>Room</option>
+</select>
+</div>
+<div>
+<label class="premium-label">Listing Type</label>
+<select class="premium-input appearance-none">
+<option>For Sale</option>
+<option>For Lease</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div>
+<label class="premium-label">Price</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 font-body-md text-on-surface-variant">$</span>
+<input class="premium-input pl-8" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div>
+<label class="premium-label">Land Size</label>
+<div class="relative">
+<input class="premium-input pr-16" placeholder="e.g. 500" type="text"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 font-body-md text-on-surface-variant">sqm</span>
+</div>
+</div>
+</div>
+<div>
+<label class="premium-label">Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">location_on</span>
+<input class="premium-input pl-12" placeholder="Search address or area" type="text"/>
+</div>
+</div>
+<div>
+<label class="premium-label">Description</label>
+<textarea class="premium-input min-h-[120px] resize-y" placeholder="Describe the key features, atmosphere, and surroundings..."></textarea>
+</div>
+</div>
+<!-- Property Features -->
+<div class="flex flex-col gap-stack-sm pt-4 border-t border-surface-container-highest/50">
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface mb-2">Features</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<label class="flex items-center gap-3 p-4 rounded-xl border border-surface-container-highest hover:bg-surface-container-low cursor-pointer transition-all bg-surface-container-lowest shadow-[0px_2px_10px_rgba(0,0,0,0.01)]">
+<input class="w-5 h-5 rounded border-outline-variant text-primary-container focus:ring-primary-container focus:ring-offset-0 bg-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">Road Access</span>
+</label>
+<label class="flex items-center gap-3 p-4 rounded-xl border border-surface-container-highest hover:bg-surface-container-low cursor-pointer transition-all bg-surface-container-lowest shadow-[0px_2px_10px_rgba(0,0,0,0.01)]">
+<input class="w-5 h-5 rounded border-outline-variant text-primary-container focus:ring-primary-container focus:ring-offset-0 bg-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">Electricity</span>
+</label>
+<label class="flex items-center gap-3 p-4 rounded-xl border border-surface-container-highest hover:bg-surface-container-low cursor-pointer transition-all bg-surface-container-lowest shadow-[0px_2px_10px_rgba(0,0,0,0.01)]">
+<input class="w-5 h-5 rounded border-outline-variant text-primary-container focus:ring-primary-container focus:ring-offset-0 bg-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">Water Supply</span>
+</label>
+<label class="flex items-center gap-3 p-4 rounded-xl border border-surface-container-highest hover:bg-surface-container-low cursor-pointer transition-all bg-surface-container-lowest shadow-[0px_2px_10px_rgba(0,0,0,0.01)]">
+<input class="w-5 h-5 rounded border-outline-variant text-primary-container focus:ring-primary-container focus:ring-offset-0 bg-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">Fenced</span>
+</label>
+<label class="flex items-center gap-3 p-4 rounded-xl border border-surface-container-highest hover:bg-surface-container-low cursor-pointer transition-all bg-surface-container-lowest shadow-[0px_2px_10px_rgba(0,0,0,0.01)]">
+<input class="w-5 h-5 rounded border-outline-variant text-primary-container focus:ring-primary-container focus:ring-offset-0 bg-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">Survey Available</span>
+</label>
+<label class="flex items-center gap-3 p-4 rounded-xl border border-surface-container-highest hover:bg-surface-container-low cursor-pointer transition-all bg-surface-container-lowest shadow-[0px_2px_10px_rgba(0,0,0,0.01)]">
+<input class="w-5 h-5 rounded border-outline-variant text-primary-container focus:ring-primary-container focus:ring-offset-0 bg-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">Registered Documents</span>
+</label>
+</div>
+</div>
+<!-- Contact Info -->
+<div class="flex flex-col gap-stack-sm pt-4 border-t border-surface-container-highest/50">
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface mb-2">Contact Info</h2>
+<div>
+<label class="premium-label">Phone Number</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">call</span>
+<input class="premium-input pl-12" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+<div>
+<label class="premium-label">WhatsApp Number</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">chat</span>
+<input class="premium-input pl-12" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Fixed Bottom Action -->
+<div class="fixed bottom-0 left-0 w-full p-container-padding-mobile bg-surface/80 backdrop-blur-xl border-t border-surface-container-highest/30 z-50">
+<button class="w-full min-h-[56px] rounded-xl bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center hover:bg-surface-tint active:scale-95 transition-all shadow-[0px_10px_30px_rgba(0,0,0,0.08)] max-w-3xl mx-auto">
+            Publish Property
+        </button>
+</div>
+</body></html>

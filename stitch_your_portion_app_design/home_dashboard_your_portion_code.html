@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Portion - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#95ad95",
+                        "outline-variant": "#c1c8c2",
+                        "on-surface": "#1c1b1b",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "on-primary-fixed": "#002114",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dcd9d9",
+                        "on-background": "#1c1b1b",
+                        "inverse-primary": "#a5d0b9",
+                        "on-secondary": "#ffffff",
+                        "outline": "#717973",
+                        "tertiary-fixed": "#d0e9cf",
+                        "primary": "#012d1d",
+                        "on-tertiary-fixed": "#0b2010",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-bright": "#fcf9f8",
+                        "secondary-fixed": "#dbe5df",
+                        "primary-container": "#1b4332",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-container-low": "#f6f3f2",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#2c412e",
+                        "on-secondary-container": "#5b6560",
+                        "on-primary-container": "#86af99",
+                        "surface-tint": "#3f6653",
+                        "background": "#fcf9f8",
+                        "surface": "#fcf9f8",
+                        "tertiary": "#162b1a",
+                        "surface-variant": "#e5e2e1",
+                        "on-error": "#ffffff",
+                        "secondary": "#57615c",
+                        "surface-container-high": "#ebe7e7",
+                        "primary-fixed": "#c1ecd4",
+                        "error": "#ba1a1a",
+                        "surface-container": "#f0edec",
+                        "secondary-container": "#d8e2dc",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#414844",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#151d1a",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1.25rem"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "stack-md": "24px",
+                        "container-padding-mobile": "20px",
+                        "container-padding-desktop": "40px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(252, 249, 248, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .ambient-shadow {
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04);
+        }
+        .bg-texture {
+            background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLtCnwdzZlfg-RR_ePHqk_yOZV5-bcSpDz3yeDh7kUyUOy_h0xkNVCYSPC38Lz98ZXzS6jxIZwCuQ7UFFNzpPTnqAqwmMYYYq-xRxlPz2yBi3WoILAGbpybdfQ5sEOLG9PXWSiKG9EDC8eG-KSXZk0rspn3ZY5HemiJKrqJp9pRnor9jM2y7gnqEjq6ISqAAfKBoSKRgMg-rl44ZCJX1QrwazV5S7lEYA2IK59gzL9_JC-9IqDtYPjlZyjnA');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen pb-24 bg-texture">
+<!-- Top App Bar (Web) / Header (Mobile) -->
+<header class="w-full top-0 sticky z-40 bg-surface/80 backdrop-blur-xl transition-all duration-300" id="top-header">
+<div class="flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop py-4 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<img alt="Your Portion Logo" class="w-10 h-10 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLuyJwtOvEIwfLgZbzOWNKsgf_4a2z8OWcl_i2dBGMd28G4DrWhvSSD0EVEp8Fm6mTlK8XKZ7D7L1JSkTXluHCyDvq2i1nCFSYrh9jo6KSeNBii5CSuFToIJZsAXeqDX2Z3nkFWOq8VlX6Src-plKGwhX6ZK4gnn83DVs6reXgkzVyp4UlaWgS8ijLh_ViRT71IMmdrf0aKh7VWbFBHymCG2T5FmsvsTkbO-zH57ZZsz5b2UyZmJV1umLEDO"/>
+<div>
+<h1 class="font-body-md text-secondary">Good Morning,</h1>
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Esther</h2>
+</div>
+</div>
+<button aria-label="Notifications" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop pt-6 flex flex-col gap-stack-lg">
+<!-- Search -->
+<section class="w-full">
+<div class="relative w-full max-w-3xl mx-auto group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container-low border-none rounded-2xl font-body-md text-on-surface placeholder:text-outline-variant focus:ring-1.5 focus:ring-primary transition-shadow" placeholder="Search sermons, properties, projects or library..." type="text"/>
+</div>
+</section>
+<!-- Today's Portion (Preview Card) -->
+<section class="w-full max-w-3xl mx-auto">
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 ambient-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="auto_awesome" data-weight="fill" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-md text-label-md text-primary-container uppercase tracking-wider">Today's Portion</span>
+</div>
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">The Wisdom of Stewardship</h3>
+<div class="flex items-center gap-4 text-secondary mb-4">
+<span class="font-body-md text-sm font-medium">Pastor David Mitchell</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-body-md text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">menu_book</span> Proverbs 3:9-10
+                    </span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 max-w-2xl">
+                    Discover how ancient principles of managing resources apply to modern wealth, real estate, and community building.
+                </p>
+<button class="h-14 px-6 bg-primary-container text-white font-label-md text-label-md rounded-xl hover:bg-tertiary-container transition-colors flex items-center gap-2 w-full md:w-auto justify-center">
+                    Read Today's Portion <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Marketplace Preview -->
+<section class="w-full max-w-5xl mx-auto">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Marketplace</h3>
+<p class="font-body-md text-secondary mt-1">Invest in kingdom-aligned properties.</p>
+</div>
+<a class="font-label-md text-primary-container hover:text-tertiary-container flex items-center gap-1 transition-colors group" href="#">
+                    Browse Marketplace <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Farm Land -->
+<a class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:border-primary-container/50 hover:bg-surface-container-low transition-all group h-32" href="#">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">agriculture</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Farm Land</span>
+</a>
+<!-- Land -->
+<a class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:border-primary-container/50 hover:bg-surface-container-low transition-all group h-32" href="#">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">landscape</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Land</span>
+</a>
+<!-- Houses -->
+<a class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:border-primary-container/50 hover:bg-surface-container-low transition-all group h-32" href="#">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">home</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Houses</span>
+</a>
+<!-- Apartments -->
+<a class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:border-primary-container/50 hover:bg-surface-container-low transition-all group h-32" href="#">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">apartment</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface text-center leading-tight">Apartments &amp; Rooms</span>
+</a>
+</div>
+</section>
+<!-- Kingdom Projects Preview -->
+<section class="w-full max-w-5xl mx-auto">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Kingdom Projects</h3>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 ambient-shadow hover:border-primary-container/30 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-headline-md text-lg font-semibold text-primary">Community Seed Initiative</h4>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-fixed/50 text-on-tertiary-fixed text-xs font-medium border border-tertiary-fixed-dim/30">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                        Active
+                    </span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-6 max-w-2xl">
+                    Empowering local farmers through sustainable agriculture practices and micro-grants to ensure food security within the community.
+                </p>
+<button class="h-12 px-6 bg-surface-container-high text-primary-container font-label-md text-label-md rounded-xl hover:bg-surface-container-highest transition-colors flex items-center gap-2">
+                    View Project <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</section>
+<!-- Navigation (BottomNavBar) -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl shadow-[0px_-10px_30px_rgba(0,0,0,0.04)] md:hidden">
+<div class="flex justify-around items-center px-4 pb-8 pt-3">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-2 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home" data-weight="fill" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Home</span>
+</a>
+<!-- Marketplace (Inactive) -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-2 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 hover:opacity-80 transition-opacity active:scale-90 duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="storefront">storefront</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Marketplace</span>
+</a>
+<!-- Kingdom (Inactive) -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-2 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 hover:opacity-80 transition-opacity active:scale-90 duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="castle">castle</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Kingdom</span>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-2 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 hover:opacity-80 transition-opacity active:scale-90 duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider">Profile</span>
+</a>
+</div>
+</nav>
+</main>
+<script>
+        // Subtle scroll effect for header
+        const header = document.getElementById('top-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-sm');
+                header.classList.replace('py-4', 'py-2');
+            } else {
+                header.classList.remove('shadow-sm');
+                header.classList.replace('py-2', 'py-4');
+            }
+        });
+    </script>
+</body></html>

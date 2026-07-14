@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Welcome to Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#fcf9f8",
+                        "error": "#ba1a1a",
+                        "outline": "#717973",
+                        "tertiary-fixed": "#d0e9cf",
+                        "on-tertiary-fixed": "#0b2010",
+                        "on-background": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-primary-fixed": "#002114",
+                        "primary-fixed": "#c1ecd4",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#012d1d",
+                        "on-surface": "#1c1b1b",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "secondary": "#57615c",
+                        "inverse-surface": "#313030",
+                        "primary-container": "#1b4332",
+                        "outline-variant": "#c1c8c2",
+                        "surface-tint": "#3f6653",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "tertiary-container": "#2c412e",
+                        "surface-dim": "#dcd9d9",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#fcf9f8",
+                        "surface-variant": "#e5e2e1",
+                        "surface-container-low": "#f6f3f2",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a5d0b9",
+                        "on-secondary-fixed": "#151d1a",
+                        "secondary-container": "#d8e2dc",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "on-primary-container": "#86af99",
+                        "surface-container-high": "#ebe7e7",
+                        "tertiary": "#162b1a",
+                        "surface-container": "#f0edec",
+                        "inverse-on-surface": "#f3f0ef",
+                        "secondary-fixed": "#dbe5df",
+                        "on-tertiary-container": "#95ad95",
+                        "background": "#fcf9f8",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#414844",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "on-secondary-container": "#5b6560",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "unit": "8px",
+                        "stack-lg": "48px",
+                        "container-padding-desktop": "40px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .bg-texture {
+            background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLtCnwdzZlfg-RR_ePHqk_yOZV5-bcSpDz3yeDh7kUyUOy_h0xkNVCYSPC38Lz98ZXzS6jxIZwCuQ7UFFNzpPTnqAqwmMYYYq-xRxlPz2yBi3WoILAGbpybdfQ5sEOLG9PXWSiKG9EDC8eG-KSXZk0rspn3ZY5HemiJKrqJp9pRnor9jM2y7gnqEjq6ISqAAfKBoSKRgMg-rl44ZCJX1QrwazV5S7lEYA2IK59gzL9_JC-9IqDtYPjlZyjnA');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface antialiased min-h-screen relative flex flex-col items-center justify-center font-body-md bg-texture">
+<!-- Main Container -->
+<main class="w-full max-w-[480px] h-[100dvh] flex flex-col px-container-padding-mobile py-8 relative z-10 mx-auto">
+<!-- Illustration Section -->
+<div class="flex-1 flex flex-col justify-center items-center w-full min-h-[40vh]">
+<img alt="Your Portion Welcome Illustration" class="w-full max-w-[280px] object-contain drop-shadow-sm opacity-90 transition-opacity duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA9ZLOB5AW7R6wRj1D33WmLWpTC_BXKfTmqeNFrp7_Qnd6jKpTtZhDTWQJNrmQTsoqg8ZaSzmgQfXYW0CGkg8zqtfPx25lDb7heM6bxs6ZQiiefF0D4StspitCo0DnYNn2NLWKrArKai_aLSh4x0oFwT8pRnjUEyC9Vg9tgaAWh0O4zzjP13nQEv60tfTxwjHqxsKq8mKJJAhIUOtg6pGzaarHw7OAVOcg2PXx1ckSDOUmfErMZ9Iijiopw5WKF7IuXfCbTjuxXWgw"/>
+</div>
+<!-- Content Section -->
+<div class="w-full flex flex-col gap-stack-lg animate-fade-in-up mt-8">
+<div class="text-center flex flex-col gap-stack-sm px-4">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">
+                    Welcome to Your Portion
+                </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[320px] mx-auto opacity-90 leading-relaxed">
+                    Your daily companion for faith, stewardship, meaningful opportunities, and Kingdom impact.
+                </p>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-4 w-full px-2">
+<button class="w-full min-h-[56px] bg-primary-container text-on-primary rounded-xl font-label-md text-label-md shadow-[0px_10px_30px_rgba(0,0,0,0.04)] hover:opacity-90 active:scale-[0.98] transition-all duration-200 flex items-center justify-center">
+                    Sign In
+                </button>
+<button class="w-full min-h-[56px] bg-surface border-2 border-outline-variant text-on-surface rounded-xl font-label-md text-label-md hover:border-primary-container active:scale-[0.98] transition-all duration-200 flex items-center justify-center">
+                    Create Account
+                </button>
+<button class="mt-2 text-on-surface-variant font-label-md text-label-md hover:text-primary-container transition-colors py-2 flex items-center justify-center group">
+                    Continue as Guest
+                    <span class="material-symbols-outlined ml-1 text-[18px] opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1 duration-200">arrow_forward</span>
+</button>
+</div>
+<!-- Footer -->
+<div class="mt-auto pt-8 text-center px-4">
+<p class="font-caption text-caption text-on-surface-variant/70 leading-relaxed">
+                    By continuing, you agree to our <br/>
+<a class="text-primary-container underline decoration-primary-container/30 hover:decoration-primary-container transition-colors" href="#">Terms of Service</a> and 
+                    <a class="text-primary-container underline decoration-primary-container/30 hover:decoration-primary-container transition-colors" href="#">Privacy Policy</a>.
+                </p>
+</div>
+</div>
+</main>
+<style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</body></html>

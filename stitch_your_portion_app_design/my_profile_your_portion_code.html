@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Profile - Devotion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fcf9f8",
+                        "surface-container": "#f0edec",
+                        "on-secondary-container": "#5b6560",
+                        "primary": "#012d1d",
+                        "tertiary-container": "#2c412e",
+                        "inverse-surface": "#313030",
+                        "on-primary-fixed": "#002114",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#d8e2dc",
+                        "on-tertiary-container": "#95ad95",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "on-surface-variant": "#414844",
+                        "surface-container-low": "#f6f3f2",
+                        "background": "#fcf9f8",
+                        "primary-fixed": "#c1ecd4",
+                        "surface-container-highest": "#e5e2e1",
+                        "secondary": "#57615c",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "tertiary-fixed": "#d0e9cf",
+                        "secondary-fixed": "#dbe5df",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#dcd9d9",
+                        "surface-tint": "#3f6653",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#a5d0b9",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "surface-container-high": "#ebe7e7",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#86af99",
+                        "inverse-on-surface": "#f3f0ef",
+                        "tertiary": "#162b1a",
+                        "surface-bright": "#fcf9f8",
+                        "on-secondary-fixed": "#151d1a",
+                        "on-surface": "#1c1b1b",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e5e2e1",
+                        "primary-container": "#1b4332",
+                        "outline": "#717973",
+                        "on-background": "#1c1b1b",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c1c8c2",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "on-tertiary-fixed": "#0b2010",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "container-padding-mobile": "20px",
+                        "stack-md": "24px",
+                        "container-padding-desktop": "40px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased md:bg-surface-container-low min-h-screen">
+<!-- Top Navigation (Mobile) -->
+<header class="md:hidden flex items-center justify-between px-container-mobile h-14 w-full backdrop-blur-xl bg-surface/80 dark:bg-surface/80 fixed top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="arrow_back">arrow_back</span>
+<span class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">My Profile</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-outline" data-icon="settings">settings</span>
+</header>
+<!-- Navigation Drawer (Desktop) -->
+<nav class="hidden md:flex flex-col h-full py-6 w-[280px] rounded-r-xl bg-surface dark:bg-surface-dim shadow-lg fixed left-0 top-0 z-40">
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-md text-headline-md">EA</div>
+<div>
+<div class="font-label-md text-label-md text-primary">Elijah Adebayo</div>
+<div class="font-caption text-caption text-on-surface-variant">Faithful Servant</div>
+</div>
+</div>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high px-4 py-3 mx-2 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-body-md text-body-md">Daily Portion</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high px-4 py-3 mx-2 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-body-md text-body-md">Prayer Journal</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high px-4 py-3 mx-2 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+<span class="font-body-md text-body-md">Giving History</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high px-4 py-3 mx-2 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-body-md text-body-md">Community</span>
+</a>
+<a class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-full px-4 py-3 mx-2 transition-colors duration-200 mt-auto" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md font-medium">Settings</span>
+</a>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-20 pb-24 md:pt-12 md:pl-[320px] md:pr-12 max-w-[1200px] mx-auto min-h-screen flex flex-col gap-stack-lg px-container-mobile md:px-0">
+<!-- Profile Card -->
+<section class="bg-surface rounded-[20px] p-6 shadow-[0px_10px_30px_rgba(0,0,0,0.04)] border border-surface-variant/50 flex flex-col items-center text-center relative overflow-hidden">
+<!-- Subtle background accent -->
+<div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary-container/5 to-transparent z-0"></div>
+<div class="w-24 h-24 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-display text-display text-3xl mb-4 z-10 shadow-sm border-4 border-surface">
+                EA
+            </div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-1 z-10">Elijah Adebayo</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 z-10">elijah@example.com</p>
+<div class="flex flex-wrap justify-center gap-2 z-10">
+<div class="inline-flex items-center gap-1 bg-surface-container text-primary font-label-md text-label-md px-3 py-1.5 rounded-full border border-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="verified" data-weight="fill">verified</span>
+                    Trusted Member
+                </div>
+<div class="inline-flex items-center gap-1 bg-surface-container-low text-on-surface-variant font-caption text-caption px-3 py-1.5 rounded-full border border-surface-variant/50">
+                    Buyer
+                </div>
+<div class="inline-flex items-center gap-1 bg-surface-container-low text-on-surface-variant font-caption text-caption px-3 py-1.5 rounded-full border border-surface-variant/50">
+                    Seller
+                </div>
+</div>
+</section>
+<!-- My Activity Grid -->
+<section class="flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-on-surface px-2">My Activity</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Card 1 -->
+<a class="group bg-surface rounded-[20px] p-5 shadow-[0px_10px_30px_rgba(0,0,0,0.02)] border border-surface-variant/30 flex items-center justify-between hover:shadow-[0px_15px_40px_rgba(0,0,0,0.06)] hover:border-primary/10 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</div>
+<span class="font-body-md text-body-md font-medium text-on-surface">My Properties</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<!-- Card 2 -->
+<a class="group bg-surface rounded-[20px] p-5 shadow-[0px_10px_30px_rgba(0,0,0,0.02)] border border-surface-variant/30 flex items-center justify-between hover:shadow-[0px_15px_40px_rgba(0,0,0,0.06)] hover:border-primary/10 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</div>
+<span class="font-body-md text-body-md font-medium text-on-surface">Saved Properties</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<!-- Card 3 -->
+<a class="group bg-surface rounded-[20px] p-5 shadow-[0px_10px_30px_rgba(0,0,0,0.02)] border border-surface-variant/30 flex items-center justify-between hover:shadow-[0px_15px_40px_rgba(0,0,0,0.06)] hover:border-primary/10 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined" data-icon="church">church</span>
+</div>
+<span class="font-body-md text-body-md font-medium text-on-surface">My Kingdom Projects</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<!-- Card 4 -->
+<a class="group bg-surface rounded-[20px] p-5 shadow-[0px_10px_30px_rgba(0,0,0,0.02)] border border-surface-variant/30 flex items-center justify-between hover:shadow-[0px_15px_40px_rgba(0,0,0,0.06)] hover:border-primary/10 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+</div>
+<span class="font-body-md text-body-md font-medium text-on-surface">Bookmarked Portions</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- Account Section (List) -->
+<section class="flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-on-surface px-2">Account</h2>
+<div class="bg-surface rounded-[20px] shadow-[0px_10px_30px_rgba(0,0,0,0.02)] border border-surface-variant/30 overflow-hidden">
+<a class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors border-b border-surface-variant/30 last:border-0 group" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="person">person</span>
+<span class="font-body-md text-body-md text-on-surface">Edit Profile</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/50 group-hover:text-primary/70" data-icon="chevron_right">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors border-b border-surface-variant/30 last:border-0 group" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="notifications">notifications</span>
+<span class="font-body-md text-body-md text-on-surface">Notifications</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/50 group-hover:text-primary/70" data-icon="chevron_right">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors border-b border-surface-variant/30 last:border-0 group" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="verified_user">verified_user</span>
+<span class="font-body-md text-body-md text-on-surface">Trusted Member Status</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/50 group-hover:text-primary/70" data-icon="chevron_right">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors border-b border-surface-variant/30 last:border-0 group" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="help">help</span>
+<span class="font-body-md text-body-md text-on-surface">Help &amp; Support</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/50 group-hover:text-primary/70" data-icon="chevron_right">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors border-b border-surface-variant/30 last:border-0 group" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="mail">mail</span>
+<span class="font-body-md text-body-md text-on-surface">Contact Us</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/50 group-hover:text-primary/70" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- Logout Action -->
+<section class="mt-4 pb-8">
+<button class="w-full min-h-[56px] rounded-xl border-2 border-error text-error font-label-md text-label-md font-medium flex items-center justify-center gap-2 hover:bg-error/5 transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Log Out
+            </button>
+</section>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-16 backdrop-blur-xl bg-surface/80 dark:bg-surface/80 shadow-[0px_-10px_30px_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed active:scale-90 transition-transform duration-150 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-md text-[10px] leading-tight">Today</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed active:scale-90 transition-transform duration-150 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="menu_book">menu_book</span>
+<span class="font-label-md text-[10px] leading-tight">Scripture</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed active:scale-90 transition-transform duration-150 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings_accessibility">settings_accessibility</span>
+<span class="font-label-md text-[10px] leading-tight">Prayer</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-semibold active:scale-90 transition-transform duration-150 w-16 relative" href="#">
+<!-- Active Indicator Pill -->
+<div class="absolute -top-2 w-8 h-1 bg-primary rounded-full"></div>
+<span class="material-symbols-outlined mb-1" data-icon="person" data-weight="fill">person</span>
+<span class="font-label-md text-[10px] leading-tight">Profile</span>
+</a>
+</nav>
+</body></html>

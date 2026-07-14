@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Your Portion - Splash Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#162b1a",
+                      "surface-bright": "#fcf9f8",
+                      "on-primary": "#ffffff",
+                      "on-surface": "#1c1b1b",
+                      "on-secondary-fixed": "#151d1a",
+                      "secondary-fixed-dim": "#bfc9c3",
+                      "primary-container": "#1b4332",
+                      "outline": "#717973",
+                      "surface-variant": "#e5e2e1",
+                      "on-background": "#1c1b1b",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-fixed": "#0b2010",
+                      "on-tertiary-fixed-variant": "#364c39",
+                      "surface-container-lowest": "#ffffff",
+                      "outline-variant": "#c1c8c2",
+                      "primary-fixed-dim": "#a5d0b9",
+                      "on-error": "#ffffff",
+                      "surface-tint": "#3f6653",
+                      "tertiary-fixed-dim": "#b4cdb4",
+                      "error": "#ba1a1a",
+                      "surface-container-high": "#ebe7e7",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#a5d0b9",
+                      "on-primary-container": "#86af99",
+                      "inverse-on-surface": "#f3f0ef",
+                      "primary-fixed": "#c1ecd4",
+                      "background": "#fcf9f8",
+                      "secondary": "#57615c",
+                      "surface-container-highest": "#e5e2e1",
+                      "surface-dim": "#dcd9d9",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed": "#dbe5df",
+                      "tertiary-fixed": "#d0e9cf",
+                      "on-secondary-fixed-variant": "#3f4945",
+                      "on-secondary-container": "#5b6560",
+                      "surface-container": "#f0edec",
+                      "surface": "#fcf9f8",
+                      "inverse-surface": "#313030",
+                      "tertiary-container": "#2c412e",
+                      "primary": "#012d1d",
+                      "on-tertiary-container": "#95ad95",
+                      "on-primary-fixed-variant": "#274e3d",
+                      "secondary-container": "#d8e2dc",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed": "#002114",
+                      "surface-container-low": "#f6f3f2",
+                      "on-surface-variant": "#414844"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-padding-desktop": "40px",
+                      "stack-md": "24px",
+                      "unit": "8px",
+                      "container-padding-mobile": "20px",
+                      "stack-sm": "8px",
+                      "stack-lg": "48px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "display": ["Inter"],
+                      "body-md": ["Inter"],
+                      "caption": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        
+        .pulse-ring {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #1b4332;
+            opacity: 0.1;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .pulse-ring::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #1b4332;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(0.8);
+                opacity: 0.1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.2;
+            }
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Fade in animation for elements */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-500 { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest min-h-screen flex flex-col items-center justify-center relative overflow-hidden font-body-md text-on-surface">
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-md mx-auto flex flex-col items-center justify-center px-container-padding-mobile z-10 relative">
+<!-- Logo Area -->
+<div class="flex flex-col items-center justify-center space-y-stack-md fade-in-up">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-surface-bright shadow-[0px_10px_30px_rgba(0,0,0,0.04)] flex items-center justify-center p-4">
+<img alt="Your Portion App Logo" class="w-full h-full object-contain mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa-5z9tdjtXWzu0dKVSZcrfc7mZUILJ_JT-5uZn4GB2hUly7VqOGR7y5LSuhBSqgSXXDmkSlSWWRDqOPPUc_5KWD384PACXfIML7z2cQYTEEDVX_ByzNgGWP9HRhfvTaNNQsqUkTUoxSqd5QzpNurtUw3dkyuUZsMbKYPfDTE64RKdVbstEPvvY1gm9YwbcUVV89jcFZTiP2GPLJncbb9os1b4tS_uFFzl6VOSEXSC_W-YHHDVD6XnYb9fQ5RQPo0AT5BdhgYJ6d6m"/>
+</div>
+<!-- Branding Text -->
+<div class="text-center space-y-stack-sm flex flex-col items-center fade-in-up delay-100">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface tracking-tight">
+                    Your Portion
+                </h1>
+<p class="font-body-md text-body-md text-on-surface-variant uppercase tracking-[0.1em] text-sm">
+                    Faith • Purpose • Stewardship
+                </p>
+</div>
+</div>
+</main>
+<!-- Bottom Loading Area -->
+<footer class="w-full pb-16 pt-8 flex flex-col items-center justify-center space-y-stack-sm z-10 fade-in-up delay-300 px-container-padding-mobile">
+<div class="pulse-ring w-12 h-12 mb-4"></div>
+<p class="font-caption text-caption text-outline fade-in-up delay-500 tracking-wide text-center">
+            Growing Faith, Building Communities.
+        </p>
+</footer>
+</body></html>

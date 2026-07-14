@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Help &amp; Support - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#95ad95",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "outline-variant": "#c1c8c2",
+                        "on-surface": "#1c1b1b",
+                        "on-primary-fixed": "#002114",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dcd9d9",
+                        "outline": "#717973",
+                        "tertiary-fixed": "#d0e9cf",
+                        "primary": "#012d1d",
+                        "on-tertiary-fixed": "#0b2010",
+                        "on-background": "#1c1b1b",
+                        "inverse-primary": "#a5d0b9",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-bright": "#fcf9f8",
+                        "secondary-fixed": "#dbe5df",
+                        "primary-container": "#1b4332",
+                        "surface-container-low": "#f6f3f2",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e5e2e1",
+                        "tertiary-container": "#2c412e",
+                        "on-secondary-container": "#5b6560",
+                        "on-primary-container": "#86af99",
+                        "surface": "#fcf9f8",
+                        "tertiary": "#162b1a",
+                        "surface-tint": "#3f6653",
+                        "background": "#fcf9f8",
+                        "secondary": "#57615c",
+                        "surface-container-high": "#ebe7e7",
+                        "surface-variant": "#e5e2e1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#c1ecd4",
+                        "surface-container": "#f0edec",
+                        "secondary-container": "#d8e2dc",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#414844",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#151d1a",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "48px",
+                        "container-padding-desktop": "40px",
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Smooth transitions for interactive elements */
+        .interactive-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                        background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .interactive-card:active {
+            transform: scale(0.98);
+            background-color: theme('colors.surface-container-low');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface antialiased font-body-md text-body-md flex flex-col min-h-screen">
+<!-- Top App Bar (Task-focused, suppressing global nav) -->
+<header class="flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16 w-full max-w-7xl mx-auto bg-surface-container-lowest sticky top-0 z-10">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant active:scale-95">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md text-on-surface tracking-tight absolute left-1/2 -translate-x-1/2">
+            Help &amp; Support
+        </h1>
+<div class="w-10 h-10"></div> <!-- Spacer to balance flex-between -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-md mx-auto px-container-padding-mobile pb-stack-lg flex flex-col gap-stack-md pt-stack-sm">
+<!-- Search Bar -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-transparent rounded-[16px] font-body-md text-body-md text-on-surface placeholder-outline focus:border-primary-container focus:ring-0 focus:bg-surface-container-lowest transition-all" placeholder="Search for help..." type="text"/>
+</div>
+<!-- Quick Help Section -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-md text-label-md text-on-surface-variant px-2 uppercase tracking-wider">Quick Help</h2>
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-[20px] shadow-[0px_10px_30px_rgba(0,0,0,0.02)] overflow-hidden">
+<button class="w-full flex items-center justify-between p-5 interactive-card border-b border-surface-container-highest last:border-b-0 group">
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary-container transition-colors">help</span>
+<span class="font-body-md text-body-md text-left">Frequently Asked Questions</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-5 interactive-card border-b border-surface-container-highest last:border-b-0 group">
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary-container transition-colors">storefront</span>
+<span class="font-body-md text-body-md text-left">How to Use the Marketplace</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-5 interactive-card border-b border-surface-container-highest last:border-b-0 group">
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary-container transition-colors">diversity_1</span>
+<span class="font-body-md text-body-md text-left">How to Create a Kingdom Project</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-5 interactive-card border-b border-surface-container-highest last:border-b-0 group">
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary-container transition-colors">verified_user</span>
+<span class="font-body-md text-body-md text-left">Trusted Member Guide</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Contact Support Section -->
+<section class="flex flex-col gap-stack-sm pt-4">
+<h2 class="font-label-md text-label-md text-on-surface-variant px-2 uppercase tracking-wider">Contact Support</h2>
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-[20px] shadow-[0px_10px_30px_rgba(0,0,0,0.02)] overflow-hidden">
+<button class="w-full flex items-center justify-between p-5 interactive-card border-b border-surface-container-highest last:border-b-0 group">
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary-container transition-colors">mail</span>
+<span class="font-body-md text-body-md text-left">Email Support</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-5 interactive-card border-b border-surface-container-highest last:border-b-0 group">
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary-container transition-colors">forum</span>
+<span class="font-body-md text-body-md text-left">WhatsApp Support</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-5 interactive-card border-b border-surface-container-highest last:border-b-0 group">
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary-container transition-colors">call</span>
+<span class="font-body-md text-body-md text-left">Call Support</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Send Feedback Section -->
+<section class="flex flex-col gap-stack-sm pt-4">
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-[20px] p-6 flex flex-col gap-4 text-center">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center mx-auto mb-2">
+<span class="material-symbols-outlined text-primary-container">lightbulb</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Help us improve Your Portion by sharing your ideas, suggestions, or reporting issues.
+                </p>
+<button class="w-full min-h-[56px] bg-primary-container text-on-primary font-label-md text-label-md rounded-xl flex items-center justify-center mt-2 hover:bg-tertiary-container active:scale-95 transition-all shadow-[0px_10px_30px_rgba(27,67,50,0.15)]">
+                    Send Feedback
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full max-w-md mx-auto px-container-padding-mobile pb-8 pt-4">
+<p class="font-caption text-caption text-center text-outline text-balance">
+            We're here to help you grow in faith, stewardship, and community.
+        </p>
+</footer>
+</body></html>

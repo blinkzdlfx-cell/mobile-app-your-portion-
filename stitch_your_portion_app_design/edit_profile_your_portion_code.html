@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Profile - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#ebe7e7",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "surface": "#fcf9f8",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "primary-fixed": "#c1ecd4",
+                        "on-tertiary-fixed": "#0b2010",
+                        "on-primary-fixed": "#002114",
+                        "surface-bright": "#fcf9f8",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dcd9d9",
+                        "on-surface": "#1c1b1b",
+                        "surface-variant": "#e5e2e1",
+                        "on-surface-variant": "#414844",
+                        "tertiary-fixed": "#d0e9cf",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#dbe5df",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#57615c",
+                        "surface-tint": "#3f6653",
+                        "inverse-on-surface": "#f3f0ef",
+                        "tertiary-container": "#2c412e",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "on-primary-container": "#86af99",
+                        "on-tertiary-container": "#95ad95",
+                        "primary": "#012d1d",
+                        "inverse-primary": "#a5d0b9",
+                        "outline-variant": "#c1c8c2",
+                        "secondary-container": "#d8e2dc",
+                        "outline": "#717973",
+                        "on-error": "#ffffff",
+                        "on-background": "#1c1b1b",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e5e2e1",
+                        "inverse-surface": "#313030",
+                        "primary-container": "#1b4332",
+                        "on-secondary-fixed": "#151d1a",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#5b6560",
+                        "tertiary": "#162b1a",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-container": "#f0edec",
+                        "on-primary": "#ffffff",
+                        "background": "#fcf9f8",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "stack-md": "24px",
+                        "container-padding-desktop": "40px",
+                        "unit": "8px",
+                        "stack-sm": "8px",
+                        "gutter": "16px",
+                        "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .input-transition {
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .input-transition:focus {
+            border-color: #1B4332;
+            box-shadow: 0 0 0 1px #1B4332;
+            outline: none;
+        }
+        .ambient-shadow {
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md pb-stack-lg antialiased">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl transition-all duration-300">
+<div class="flex items-center justify-between px-container-padding-mobile h-16 w-full max-w-7xl mx-auto">
+<button aria-label="Go back" class="text-primary hover:opacity-80 transition-opacity active:scale-95 flex items-center justify-center p-2 -ml-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-semibold text-primary">Edit Profile</h1>
+<div class="w-10"></div> <!-- Spacer for center alignment -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-container-padding-mobile max-w-lg mx-auto flex flex-col gap-stack-lg">
+<!-- Avatar Section -->
+<section class="flex flex-col items-center gap-stack-sm">
+<div class="w-24 h-24 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-headline-lg-mobile text-headline-lg-mobile font-semibold shadow-sm border border-surface-variant relative cursor-pointer active:scale-95 transition-transform group">
+                EA
+                <div class="absolute inset-0 bg-black/5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute -bottom-2 -right-2 bg-surface rounded-full p-1 shadow-sm border border-surface-variant text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</div>
+</div>
+</section>
+<!-- Personal Information Section -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Personal Information</h2>
+<div class="flex flex-col gap-gutter">
+<!-- Full Name Input -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-md text-label-md text-on-surface" for="fullName">Full Name</label>
+<input class="bg-surface-container-low border border-surface-variant rounded-[20px] px-4 py-4 text-on-surface font-body-md input-transition w-full" id="fullName" placeholder="Enter your full name" type="text" value="Elijah Adebayo"/>
+</div>
+<!-- Email Input -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email Address</label>
+<input class="bg-surface-container-low border border-surface-variant rounded-[20px] px-4 py-4 text-on-surface font-body-md input-transition w-full" id="email" placeholder="Enter your email" type="email" value="elijah@example.com"/>
+</div>
+<!-- Phone Input -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-md text-label-md text-on-surface" for="phone">Phone Number</label>
+<input class="bg-surface-container-low border border-surface-variant rounded-[20px] px-4 py-4 text-on-surface font-body-md input-transition w-full" id="phone" placeholder="Enter your phone number" type="tel" value="+1 (555) 000-0000"/>
+</div>
+<!-- Location Input -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-md text-label-md text-on-surface" for="location">Location</label>
+<div class="relative">
+<input class="bg-surface-container-low border border-surface-variant rounded-[20px] px-4 py-4 pl-12 text-on-surface font-body-md input-transition w-full" id="location" placeholder="City, State" type="text" value="Austin, TX"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" data-icon="location_on">location_on</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Account Role Section -->
+<section class="flex flex-col gap-stack-md">
+<div class="flex justify-between items-center">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">How do you use Your Portion?</h2>
+<span class="bg-primary-container text-on-primary-container font-caption text-caption px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified">verified</span>
+                    Buyer & Seller
+                </span>
+</div>
+<div class="grid grid-cols-2 gap-gutter">
+<!-- Buyer Card (Selected) -->
+<div class="bg-[#F8FAF9] border-[1.5px] border-primary-container rounded-[20px] p-4 flex flex-col items-center justify-center gap-2 ambient-shadow cursor-pointer active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-primary-container text-[32px]" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-label-md text-label-md text-primary-container">Buyer</span>
+<div class="absolute top-2 right-2 text-primary-container">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+<!-- Seller Card (Selected) -->
+<div class="bg-[#F8FAF9] border-[1.5px] border-primary-container rounded-[20px] p-4 flex flex-col items-center justify-center gap-2 ambient-shadow cursor-pointer active:scale-[0.98] transition-all relative">
+<span class="material-symbols-outlined text-primary-container text-[32px]" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md text-primary-container">Seller</span>
+<div class="absolute top-2 right-2 text-primary-container">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Trusted Member Section -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Trust & Verification</h2>
+<div class="bg-surface border border-surface-variant rounded-[20px] p-6 flex flex-col gap-4 ambient-shadow">
+<div class="flex items-start gap-4">
+<div class="bg-[#E6F4EA] text-[#137333] p-2 rounded-full flex-shrink-0 mt-1">
+<span class="material-symbols-outlined" data-icon="shield_person" data-weight="fill" style="font-variation-settings: 'FILL' 1;">shield_person</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[18px] font-semibold text-on-surface leading-tight mb-1">Trusted Member Verified</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Your identity has been securely verified, enhancing your trust within the community.</p>
+</div>
+</div>
+<button class="mt-2 w-full py-3 px-4 bg-secondary/10 hover:bg-secondary/20 text-on-surface font-label-md text-label-md rounded-xl transition-colors active:scale-[0.98]">
+                    View Trusted Member Status
+                </button>
+</div>
+</section>
+<!-- Action & Footer -->
+<section class="flex flex-col gap-stack-md mt-4">
+<button class="w-full min-h-[56px] bg-primary-container hover:bg-primary text-white font-label-md text-label-md rounded-xl shadow-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                Save Changes
+            </button>
+<p class="font-caption text-caption text-outline text-center px-4">
+                Your personal information is securely protected and only used to improve your experience within the Your Portion community.
+            </p>
+</section>
+</main>
+</body></html>

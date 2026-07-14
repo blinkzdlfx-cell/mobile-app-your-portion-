@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Portion - Choose Role</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#717973",
+                      "on-error": "#ffffff",
+                      "on-background": "#1c1b1b",
+                      "error": "#ba1a1a",
+                      "inverse-primary": "#a5d0b9",
+                      "outline-variant": "#c1c8c2",
+                      "secondary-container": "#d8e2dc",
+                      "on-secondary-container": "#5b6560",
+                      "tertiary": "#162b1a",
+                      "surface-container-low": "#f6f3f2",
+                      "surface-container": "#f0edec",
+                      "on-primary": "#ffffff",
+                      "background": "#fcf9f8",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#e5e2e1",
+                      "inverse-surface": "#313030",
+                      "primary-container": "#1b4332",
+                      "on-secondary-fixed": "#151d1a",
+                      "primary-fixed-dim": "#a5d0b9",
+                      "on-secondary": "#ffffff",
+                      "surface-dim": "#dcd9d9",
+                      "on-surface": "#1c1b1b",
+                      "surface-variant": "#e5e2e1",
+                      "on-surface-variant": "#414844",
+                      "tertiary-fixed": "#d0e9cf",
+                      "surface-container-high": "#ebe7e7",
+                      "on-secondary-fixed-variant": "#3f4945",
+                      "tertiary-fixed-dim": "#b4cdb4",
+                      "surface": "#fcf9f8",
+                      "secondary-fixed-dim": "#bfc9c3",
+                      "primary-fixed": "#c1ecd4",
+                      "on-tertiary-fixed": "#0b2010",
+                      "on-primary-fixed": "#002114",
+                      "surface-bright": "#fcf9f8",
+                      "error-container": "#ffdad6",
+                      "secondary": "#57615c",
+                      "surface-tint": "#3f6653",
+                      "inverse-on-surface": "#f3f0ef",
+                      "tertiary-container": "#2c412e",
+                      "on-tertiary-fixed-variant": "#364c39",
+                      "on-primary-container": "#86af99",
+                      "on-tertiary-container": "#95ad95",
+                      "primary": "#012d1d",
+                      "on-primary-fixed-variant": "#274e3d",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#dbe5df",
+                      "surface-container-lowest": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "2xl": "1.25rem"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "container-padding-desktop": "40px",
+                      "container-padding-mobile": "20px",
+                      "unit": "8px",
+                      "stack-sm": "8px",
+                      "gutter": "16px",
+                      "stack-lg": "48px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "display": [
+                              "Inter"
+                      ],
+                      "caption": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "34px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .role-card {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .role-card.selected {
+            border-color: #1b4332;
+            background-color: #f8faf9;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04);
+        }
+        
+        .role-card.selected .icon-container {
+            color: #1b4332;
+            background-color: #e8f0ec;
+        }
+        
+        .role-card.selected .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .check-icon {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .buyer-seller-badge {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .buyer-seller-badge.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Top Navigation (Onboarding Context - Hidden Bottom Nav) -->
+<header class="absolute top-0 left-0 w-full z-10 bg-surface dark:bg-surface flex justify-between items-center px-container-padding-mobile py-4">
+<button class="flex items-center text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">arrow_back</span>
+</button>
+<div class="font-display text-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+            Your Portion
+        </div>
+<button class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity font-label-md text-label-md">
+            Skip
+        </button>
+</header>
+<main class="w-full max-w-md px-container-padding-mobile pt-24 pb-8 flex flex-col flex-grow z-10">
+<!-- Header Section -->
+<div class="mb-stack-lg text-center mt-8">
+<h1 class="font-headline-md text-headline-md text-on-background mb-unit text-center">How will you use Your Portion?</h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-center max-w-xs mx-auto">Choose the option that best describes you. You can change this later at any time.</p>
+</div>
+<!-- Role Selection Cards -->
+<div class="flex flex-col gap-gutter flex-grow">
+<!-- Buyer Card -->
+<label class="role-card cursor-pointer group relative border border-outline-variant rounded-2xl p-6 bg-surface-container-lowest" onclick="toggleSelection('buyer')">
+<input class="hidden" id="buyer-checkbox" type="checkbox"/>
+<div class="flex items-start">
+<div class="icon-container flex-shrink-0 w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors duration-200">
+<span class="material-symbols-outlined">search</span>
+</div>
+<div class="ml-4 flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-background mb-1">Buyer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Browse farmland, land, houses, apartments, rooms, and Kingdom projects.</p>
+</div>
+<div class="check-icon absolute top-6 right-6 text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</label>
+<!-- Seller Card -->
+<label class="role-card cursor-pointer group relative border border-outline-variant rounded-2xl p-6 bg-surface-container-lowest" onclick="toggleSelection('seller')">
+<input class="hidden" id="seller-checkbox" type="checkbox"/>
+<div class="flex items-start">
+<div class="icon-container flex-shrink-0 w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors duration-200">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div class="ml-4 flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-background mb-1">Seller</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">List properties for sale or lease and manage your listings with ease.</p>
+</div>
+<div class="check-icon absolute top-6 right-6 text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</label>
+<!-- Combined Badge Placeholder -->
+<div class="buyer-seller-badge flex justify-center mt-4 hidden" id="combined-badge">
+<div class="bg-primary-container text-on-primary font-label-md text-label-md py-2 px-4 rounded-full flex items-center shadow-sm">
+<span class="material-symbols-outlined mr-2 text-sm">handshake</span>
+                    Buyer &amp; Seller
+                </div>
+</div>
+</div>
+<!-- Action Bottom Area -->
+<div class="mt-auto pt-8">
+<button class="w-full h-[56px] bg-outline-variant text-on-surface-variant font-label-md text-label-md rounded-[12px] flex items-center justify-center transition-colors duration-300 cursor-not-allowed" disabled="" id="continue-btn">
+                Continue
+            </button>
+<p class="font-caption text-caption text-outline text-center mt-4">You can update your role anytime from your profile settings.</p>
+</div>
+</main>
+<script>
+        function toggleSelection(role) {
+            const card = event.currentTarget;
+            const checkbox = document.getElementById(`${role}-checkbox`);
+            
+            // Toggle Visual Selection
+            card.classList.toggle('selected');
+            
+            checkSelections();
+        }
+
+        function checkSelections() {
+            const buyerSelected = document.getElementById('buyer-checkbox').checked;
+            const sellerSelected = document.getElementById('seller-checkbox').checked;
+            const badge = document.getElementById('combined-badge');
+            const continueBtn = document.getElementById('continue-btn');
+
+            // Handle Combined Badge
+            if (buyerSelected && sellerSelected) {
+                badge.classList.remove('hidden');
+                // Small delay to allow display block to apply before animation
+                setTimeout(() => badge.classList.add('visible'), 10);
+            } else {
+                badge.classList.remove('visible');
+                setTimeout(() => badge.classList.add('hidden'), 300);
+            }
+
+            // Handle Continue Button State
+            if (buyerSelected || sellerSelected) {
+                continueBtn.classList.remove('bg-outline-variant', 'text-on-surface-variant', 'cursor-not-allowed');
+                continueBtn.classList.add('bg-primary-container', 'text-on-primary', 'hover:opacity-90', 'cursor-pointer');
+                continueBtn.removeAttribute('disabled');
+            } else {
+                continueBtn.classList.add('bg-outline-variant', 'text-on-surface-variant', 'cursor-not-allowed');
+                continueBtn.classList.remove('bg-primary-container', 'text-on-primary', 'hover:opacity-90', 'cursor-pointer');
+                continueBtn.setAttribute('disabled', 'true');
+            }
+        }
+    </script>
+</body></html>

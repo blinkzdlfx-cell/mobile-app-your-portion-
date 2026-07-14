@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Portion - Kingdom Projects</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#3f6653",
+                        "on-secondary-fixed": "#151d1a",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#fcf9f8",
+                        "tertiary": "#162b1a",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-primary-container": "#86af99",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e5e2e1",
+                        "surface-container-low": "#f6f3f2",
+                        "background": "#fcf9f8",
+                        "on-background": "#1c1b1b",
+                        "secondary-container": "#d8e2dc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dcd9d9",
+                        "on-secondary-container": "#5b6560",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "inverse-primary": "#a5d0b9",
+                        "primary-container": "#1b4332",
+                        "primary": "#012d1d",
+                        "outline-variant": "#c1c8c2",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#002114",
+                        "inverse-on-surface": "#f3f0ef",
+                        "secondary": "#57615c",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "outline": "#717973",
+                        "on-surface-variant": "#414844",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "secondary-fixed": "#dbe5df",
+                        "surface-container": "#f0edec",
+                        "on-tertiary-container": "#95ad95",
+                        "inverse-surface": "#313030",
+                        "tertiary-fixed": "#d0e9cf",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#ebe7e7",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "primary-fixed": "#c1ecd4",
+                        "tertiary-container": "#2c412e",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "on-tertiary-fixed": "#0b2010",
+                        "surface-bright": "#fcf9f8",
+                        "on-surface": "#1c1b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "48px",
+                        "gutter": "16px",
+                        "stack-md": "24px",
+                        "container-padding-desktop": "40px",
+                        "unit": "8px",
+                        "stack-sm": "8px",
+                        "container-padding-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Smooth progress bar animation */
+        .progress-bar-fill {
+            transition: width 1s ease-in-out;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface pb-[90px] min-h-screen flex flex-col md:hidden">
+<!-- TopAppBar -->
+<header class="bg-surface text-primary font-headline-md text-headline-md-mobile docked full-width top-0 bg-surface flat no shadows flex justify-between items-center px-container-padding-mobile h-16 w-full max-w-7xl mx-auto sticky z-40">
+<button aria-label="Menu" class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform p-2 -ml-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile text-primary tracking-tight font-bold">Your Portion</h1>
+<button aria-label="Notifications" class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform p-2 -mr-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</header>
+<main class="flex-grow flex flex-col gap-stack-md px-container-padding-mobile pt-4 pb-stack-lg">
+<!-- Search Section -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant z-10 pointer-events-none">search</span>
+<input aria-label="Search Kingdom projects" class="w-full bg-[#F5F5F5] border-none focus:ring-0 focus:border-[1.5px] focus:border-primary-container rounded-xl pl-12 pr-4 py-3 font-body-md text-body-md text-on-surface placeholder-on-surface-variant transition-colors outline-none shadow-sm" placeholder="Search Kingdom projects..." type="text"/>
+</div>
+<!-- Categories (Horizontal Chips) -->
+<div class="flex overflow-x-auto gap-unit hide-scrollbar -mx-container-padding-mobile px-container-padding-mobile pb-2 snap-x snap-mandatory">
+<button class="snap-start shrink-0 bg-primary-container text-on-primary-container font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap active:scale-95 transition-transform">Church Building</button>
+<button class="snap-start shrink-0 bg-surface-container-low border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap active:scale-95 transition-transform">Evangelism</button>
+<button class="snap-start shrink-0 bg-surface-container-low border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap active:scale-95 transition-transform">Missions</button>
+<button class="snap-start shrink-0 bg-surface-container-low border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap active:scale-95 transition-transform">Orphan Care</button>
+<button class="snap-start shrink-0 bg-surface-container-low border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap active:scale-95 transition-transform">Community Outreach</button>
+<button class="snap-start shrink-0 bg-surface-container-low border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap active:scale-95 transition-transform">Education</button>
+</div>
+<!-- Section Title -->
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface mt-stack-sm">Featured Projects</h2>
+<!-- Featured Projects List -->
+<div class="flex flex-col gap-stack-md">
+<!-- Project Card 1 -->
+<article class="bg-[#F8FAF9] border border-[#F2F2F2] rounded-2xl overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.04)] flex flex-col">
+<div class="relative h-48 w-full bg-surface-variant overflow-hidden">
+<img alt="Grace Community Church Construction" class="w-full h-full object-cover" data-alt="A serene, high-quality photograph showing the foundation of a modern, minimalist church building under construction in a bright, sunlit open field. The architectural style implies peaceful sanctuary. The lighting is soft morning light, creating a bright, optimistic light-mode aesthetic. Deep greens of the surrounding nature contrast with pristine white structural elements. The mood is hopeful and community-focused." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByvm-HsEC2eKUlYgT2RzbdTuhMcKQQiWK1lAcxHnLDQB4RH6nZ80ChsPYUQ3uOSuKSK_2t4XkWj0QC08BN2wakAuEKn2cPBGAxJdeZSER16xKPziPrkW8PVJMolc2AH81JvKIGdN5zRYT8WqwLrsm4NbboJYlhR5ArcQ1sUC0Q-hOiWHEPpj6isYK52hSXaVFhHFNlrMvmmYCgtMr7LGPSenHs2CSL_LCfJ_PFwlq4PyOhLQD--mwwbwj7ecK1aHhXKQ_rAWGP82w3"/>
+<div class="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm text-primary font-caption text-caption px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+                        Active
+                    </div>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-primary-container font-label-md text-label-md tracking-wider uppercase text-xs">Church Building</span>
+<span class="text-on-surface-variant font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">location_on</span>
+                                Nairobi, Kenya
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-2 leading-tight">Grace Community Sanctuary</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Funding the construction of a new sanctuary space designed to serve over 500 local families in peace and devotion.</p>
+</div>
+<!-- Progress Indicator -->
+<div class="flex flex-col gap-2 mt-2">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface">Funding Progress</span>
+<span class="font-label-md text-label-md text-primary-container font-semibold">65%</span>
+</div>
+<div class="w-full h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="progress-bar-fill h-full bg-primary-container rounded-full" style="width: 65%;"></div>
+</div>
+</div>
+<button class="w-full mt-4 bg-primary-container hover:bg-primary-fixed-variant text-on-primary font-label-md text-label-md h-14 rounded-xl flex items-center justify-center transition-colors active:scale-95 shadow-sm">
+                        View Project
+                    </button>
+</div>
+</article>
+<!-- Project Card 2 -->
+<article class="bg-[#F8FAF9] border border-[#F2F2F2] rounded-2xl overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.04)] flex flex-col">
+<div class="relative h-48 w-full bg-surface-variant overflow-hidden">
+<img alt="Hope Academy Library Project" class="w-full h-full object-cover" data-alt="A premium, documentary-style photograph of children reading books in a clean, brightly lit, minimalist classroom setting. The atmosphere is serene and focused, representing education and hope. Soft, high-key lighting creates a tranquil, light-mode aesthetic. A palette of soft sage greens, whites, and natural wood tones dominates the scene. The mood is calm, trustworthy, and uplifting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrCAE82CE_0zyQwZ2Gi7fPigTbPou-tKqJonYWSR75QdmAmxh7q5CptJVJaIy5CdG4PRaGzCJnOvKS91Q5xgvSViD17XI7y9JXklrGlg6rgzHA621yv31ni-DFpDoASgj7kSt6m3h8SLn5HuS5Ly6-d_n6JRI1CJDVjbRMcXjLMtQl916ucHngt6xFuQaac89jYwPb1t_CBlQeJVg3vTLCUlFqbv9o9GYUYT17cxCErCWevTdmfUT1_Kn0GzjcxNqSAaX3SwvtzNxg"/>
+<div class="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm text-primary font-caption text-caption px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                        Ongoing
+                    </div>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-primary-container font-label-md text-label-md tracking-wider uppercase text-xs">Education</span>
+<span class="text-on-surface-variant font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">location_on</span>
+                                Manila, Philippines
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-2 leading-tight">Hope Academy Library</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Providing essential reading materials and a quiet, peaceful study environment for primary school students.</p>
+</div>
+<!-- Progress Indicator -->
+<div class="flex flex-col gap-2 mt-2">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface">Resource Collection</span>
+<span class="font-label-md text-label-md text-primary-container font-semibold">42%</span>
+</div>
+<div class="w-full h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="progress-bar-fill h-full bg-primary-container rounded-full" style="width: 42%;"></div>
+</div>
+</div>
+<button class="w-full mt-4 bg-primary-container hover:bg-primary-fixed-variant text-on-primary font-label-md text-label-md h-14 rounded-xl flex items-center justify-center transition-colors active:scale-95 shadow-sm">
+                        View Project
+                    </button>
+</div>
+</article>
+</div>
+<!-- Submit Section -->
+<div class="mt-stack-lg mb-4 flex flex-col items-center text-center px-4">
+<button class="w-full bg-transparent border border-outline text-on-surface font-label-md text-label-md h-14 rounded-xl flex items-center justify-center transition-colors hover:bg-surface-variant active:scale-95 shadow-sm mb-4">
+                Submit a Kingdom Project
+            </button>
+<p class="font-caption text-caption text-on-surface-variant max-w-[280px]">
+                All submitted projects are reviewed by the Your Portion team before they are published to ensure alignment with our covenant.
+            </p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface/80 backdrop-blur-xl text-primary font-label-md text-label-md font-headline-md text-headline-md text-primary docked full-width bottom-0 rounded-t-xl border-t border-outline-variant/30 shadow-[0px_-10px_30px_rgba(0,0,0,0.04)] fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-4 py-2 hover:bg-secondary-container/50 transition-colors active:scale-95 transition-transform rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">auto_stories</span>
+<span class="text-[10px] font-medium tracking-wide">Devotional</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-4 py-2 hover:bg-secondary-container/50 transition-colors active:scale-95 transition-transform rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">storefront</span>
+<span class="text-[10px] font-medium tracking-wide">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-2 hover:bg-secondary-container/50 transition-colors active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1 text-on-primary" style="font-variation-settings: 'FILL' 1;">diversity_1</span>
+<span class="text-[10px] font-medium tracking-wide text-on-primary">Projects</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container px-4 py-2 hover:bg-secondary-container/50 transition-colors active:scale-95 transition-transform rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="text-[10px] font-medium tracking-wide">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple animation trigger for progress bars on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBars = document.querySelectorAll('.progress-bar-fill');
+            progressBars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 100);
+            });
+        });
+    </script>
+</body></html>

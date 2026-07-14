@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Account - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#fcf9f8",
+                        "surface-tint": "#3f6653",
+                        "primary-container": "#1b4332",
+                        "tertiary-fixed": "#d0e9cf",
+                        "on-primary-container": "#86af99",
+                        "surface-container-high": "#ebe7e7",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e5e2e1",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "surface-container-highest": "#e5e2e1",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "primary": "#012d1d",
+                        "tertiary": "#162b1a",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "outline-variant": "#c1c8c2",
+                        "surface-bright": "#fcf9f8",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#151d1a",
+                        "secondary-container": "#d8e2dc",
+                        "on-tertiary-container": "#95ad95",
+                        "outline": "#717973",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#a5d0b9",
+                        "secondary-fixed": "#dbe5df",
+                        "on-secondary-container": "#5b6560",
+                        "inverse-surface": "#313030",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f3f0ef",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "tertiary-container": "#2c412e",
+                        "secondary": "#57615c",
+                        "surface": "#fcf9f8",
+                        "primary-fixed": "#c1ecd4",
+                        "surface-container-low": "#f6f3f2",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#414844",
+                        "on-background": "#1c1b1b",
+                        "surface-dim": "#dcd9d9",
+                        "on-primary-fixed": "#002114",
+                        "on-surface": "#1c1b1b",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "on-tertiary-fixed": "#0b2010",
+                        "surface-container": "#f0edec",
+                        "on-secondary-fixed-variant": "#3f4945"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "container-padding-mobile": "20px",
+                        "stack-lg": "48px",
+                        "gutter": "16px",
+                        "stack-md": "24px",
+                        "unit": "8px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "caption": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        /* Custom Input Styles */
+        .form-input {
+            width: 100%;
+            background-color: #F5F5F5;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            color: #1c1b1b;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #1b4332;
+            background-color: #ffffff;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04);
+        }
+        .form-input::placeholder {
+            color: #717973;
+        }
+        
+        .ambient-shadow {
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-background relative overflow-x-hidden antialiased">
+<!-- Texture Background -->
+<div class="fixed inset-0 z-0 pointer-events-none opacity-30" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLtCnwdzZlfg-RR_ePHqk_yOZV5-bcSpDz3yeDh7kUyUOy_h0xkNVCYSPC38Lz98ZXzS6jxIZwCuQ7UFFNzpPTnqAqwmMYYYq-xRxlPz2yBi3WoILAGbpybdfQ5sEOLG9PXWSiKG9EDC8eG-KSXZk0rspn3ZY5HemiJKrqJp9pRnor9jM2y7gnqEjq6ISqAAfKBoSKRgMg-rl44ZCJX1QrwazV5S7lEYA2IK59gzL9_JC-9IqDtYPjlZyjnA'); background-size: cover; background-position: center; mix-blend-mode: multiply;"></div>
+<!-- Main Content Container -->
+<main class="relative z-10 flex-1 flex flex-col px-container-padding-mobile md:px-container-padding-desktop w-full max-w-[600px] mx-auto min-h-screen py-10 justify-center">
+<!-- Top Header & Logo -->
+<div class="flex flex-col items-center mb-stack-md">
+<img alt="Your Portion Logo" class="w-16 h-16 rounded-xl mb-4 ambient-shadow" src="https://lh3.googleusercontent.com/aida/AP1WRLuyJwtOvEIwfLgZbzOWNKsgf_4a2z8OWcl_i2dBGMd28G4DrWhvSSD0EVEp8Fm6mTlK8XKZ7D7L1JSkTXluHCyDvq2i1nCFSYrh9jo6KSeNBii5CSuFToIJZsAXeqDX2Z3nkFWOq8VlX6Src-plKGwhX6ZK4gnn83DVs6reXgkzVyp4UlaWgS8ijLh_ViRT71IMmdrf0aKh7VWbFBHymCG2T5FmsvsTkbO-zH57ZZsz5b2UyZmJV1umLEDO"/>
+<h1 class="font-display text-headline-md font-bold text-primary">Your Portion</h1>
+</div>
+<!-- Section Title -->
+<div class="text-center mb-stack-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-background mb-stack-sm">Join the Community</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mx-auto">Start your journey of faith, stewardship, and Kingdom impact today.</p>
+</div>
+<!-- Registration Form -->
+<form action="#" class="flex flex-col gap-stack-md w-full" method="POST">
+<!-- Full Name -->
+<div class="relative">
+<input class="form-input" id="fullName" name="fullName" placeholder="Full Name" required="" type="text"/>
+</div>
+<!-- Email Address -->
+<div class="relative">
+<input class="form-input" id="email" name="email" placeholder="Email Address" required="" type="email"/>
+</div>
+<!-- Password -->
+<div class="relative group">
+<input class="form-input pr-12" id="password" name="password" placeholder="Password" required="" type="password"/>
+<button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-outline hover:text-primary transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined">visibility_off</span>
+</button>
+</div>
+<!-- Confirm Password -->
+<div class="relative group">
+<input class="form-input pr-12" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required="" type="password"/>
+<button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-outline hover:text-primary transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined">visibility_off</span>
+</button>
+</div>
+<!-- Terms Agreement -->
+<div class="flex items-start mt-2">
+<div class="flex items-center h-5">
+<input class="w-5 h-5 rounded bg-surface-container-high border-transparent text-primary-container focus:ring-primary-container focus:ring-offset-background" id="terms" name="terms" required="" type="checkbox"/>
+</div>
+<div class="ml-3 text-sm">
+<label class="font-body-md text-body-md text-on-surface-variant" for="terms">
+                        I agree to the <a class="text-primary-container font-medium hover:underline" href="#">Terms of Service</a> and <a class="text-primary-container font-medium hover:underline" href="#">Privacy Policy</a>.
+                    </label>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full min-h-[56px] bg-primary-container text-on-primary rounded-xl font-label-md text-label-md tracking-wider uppercase flex items-center justify-center hover:opacity-90 transition-opacity mt-4 ambient-shadow focus:outline-none focus:ring-2 focus:ring-primary-container focus:ring-offset-2 focus:ring-offset-background" type="submit">
+                Create Account
+            </button>
+</form>
+<!-- Social Sign Up Divider -->
+<div class="relative flex items-center py-stack-md w-full">
+<div class="flex-grow border-t border-surface-container-high"></div>
+<span class="flex-shrink-0 mx-4 font-caption text-caption text-outline uppercase tracking-wider">or sign up with</span>
+<div class="flex-grow border-t border-surface-container-high"></div>
+</div>
+<!-- Social Buttons -->
+<div class="flex flex-col gap-4 w-full">
+<button class="w-full min-h-[56px] bg-surface-bright border border-surface-container-highest text-on-background rounded-xl font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-lowest transition-colors focus:outline-none focus:ring-2 focus:ring-primary-container focus:ring-offset-1" type="button">
+<span class="material-symbols-outlined mr-3 text-on-surface-variant">account_circle</span>
+                Continue with Google
+            </button>
+<button class="w-full min-h-[56px] bg-surface-bright border border-surface-container-highest text-on-background rounded-xl font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-lowest transition-colors focus:outline-none focus:ring-2 focus:ring-primary-container focus:ring-offset-1" type="button">
+<span class="material-symbols-outlined mr-3 text-on-surface-variant">apps</span>
+                Continue with Apple
+            </button>
+</div>
+<!-- Footer Note -->
+<div class="mt-stack-lg text-center pb-8">
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">
+                Already have an account? <a class="text-primary-container font-semibold hover:underline" href="#">Sign In</a>
+</p>
+<div class="flex items-center justify-center text-outline gap-2 opacity-70">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="font-caption text-caption">Secure and encrypted registration.</span>
+</div>
+</div>
+</main>
+</body></html>

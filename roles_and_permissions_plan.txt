@@ -1,0 +1,33 @@
+ROLES & PERMISSIONS PLAN - Your Portion App
+
+============================================
+ADMIN
+============================================
+- Full CRUD on all properties and projects
+- Approve/reject seller listings
+- Approve/reject kingdom projects
+- Manage user roles (promote to trusted member, seller)
+- View all transactions and activity
+- Moderate reviews/ratings
+- Platform settings & content management
+
+============================================
+SELLER
+============================================
+- Create, edit, delete own property listings
+- View own listings' analytics (views, saves)
+- Respond to buyer inquiries on own listings
+- Create kingdom projects
+- List up to X properties (limit)
+- View buyer interest metrics
+
+============================================
+BUYER
+============================================
+- Browse all properties and projects
+- Save/favorite properties
+- Contact seller via their listed social media / contact (WhatsApp, phone, email)
+- View property details and location
+- Rate and review properties (after engagement)
+- Submit kingdom project donations
+- Access learning library content

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Learning Library - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#ebe7e7",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-dim": "#dcd9d9",
+                        "secondary-fixed": "#dbe5df",
+                        "on-background": "#1c1b1b",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#a5d0b9",
+                        "inverse-surface": "#313030",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-secondary-container": "#5b6560",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "on-tertiary-fixed": "#0b2010",
+                        "outline": "#717973",
+                        "tertiary-container": "#2c412e",
+                        "surface-tint": "#3f6653",
+                        "surface-container": "#f0edec",
+                        "primary": "#012d1d",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "surface-variant": "#e5e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#95ad95",
+                        "on-surface": "#1c1b1b",
+                        "primary-fixed": "#c1ecd4",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#86af99",
+                        "surface": "#fcf9f8",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "surface-container-low": "#f6f3f2",
+                        "on-primary-fixed": "#002114",
+                        "tertiary-fixed": "#d0e9cf",
+                        "secondary": "#57615c",
+                        "tertiary": "#162b1a",
+                        "on-surface-variant": "#414844",
+                        "surface-bright": "#fcf9f8",
+                        "primary-container": "#1b4332",
+                        "outline-variant": "#c1c8c2",
+                        "background": "#fcf9f8",
+                        "secondary-container": "#d8e2dc",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "on-secondary-fixed": "#151d1a",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-md": "24px",
+                        "container-padding-mobile": "20px",
+                        "stack-sm": "8px",
+                        "container-padding-desktop": "40px",
+                        "unit": "8px",
+                        "stack-lg": "48px",
+                        "safe": "env(safe-area-inset-bottom)"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter", "sans-serif"],
+                        "caption": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    },
+                    "boxShadow": {
+                        "ambient": "0px 10px 30px rgba(0, 0, 0, 0.04)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #fcf9f8; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .filled-icon { font-variation-settings: 'FILL' 1; }
+        .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.06); }
+        .glass-nav { background: rgba(252, 249, 248, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased pb-24 selection:bg-primary-container selection:text-white">
+<!-- TopAppBar -->
+<header class="w-full top-0 bg-surface dark:bg-surface sticky z-40 transition-all duration-300" id="top-bar">
+<div class="flex items-center justify-between px-container-padding-mobile py-4 w-full max-w-7xl mx-auto">
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 flex items-center justify-center p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-semibold text-primary dark:text-primary-fixed-dim text-center absolute left-1/2 -translate-x-1/2">
+                Library
+            </h1>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 flex items-center justify-center p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop mt-4">
+<!-- Search Bar -->
+<section class="mb-stack-lg">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant group-focus-within:text-primary-container transition-colors">search</span>
+</div>
+<input class="w-full bg-surface-container-low border-none rounded-2xl py-4 pl-12 pr-4 font-body-md text-body-md text-on-surface placeholder:text-outline-variant focus:ring-1.5 focus:ring-primary-container transition-shadow shadow-sm" placeholder="Search articles, guides or topics..." type="text"/>
+</div>
+</section>
+<!-- Categories Bento Grid -->
+<section class="mb-stack-lg">
+<div class="flex items-center justify-between mb-stack-md">
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface">Categories</h2>
+<a class="font-label-md text-label-md text-primary-container hover:underline" href="#">View All</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Category 1 -->
+<a class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex flex-col justify-between aspect-square card-hover group shadow-ambient" href="#">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined">potted_plant</span>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg font-medium text-on-surface mb-1">Agriculture</h3>
+<p class="font-caption text-caption text-on-surface-variant line-clamp-2">Master the art of biblical farming.</p>
+</div>
+</a>
+<!-- Category 2 -->
+<a class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex flex-col justify-between aspect-square card-hover group shadow-ambient" href="#">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined">home</span>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg font-medium text-on-surface mb-1">Real Estate</h3>
+<p class="font-caption text-caption text-on-surface-variant line-clamp-2">Building foundations for the kingdom.</p>
+</div>
+</a>
+<!-- Category 3 -->
+<a class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex flex-col justify-between aspect-square card-hover group shadow-ambient" href="#">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined">favorite</span>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg font-medium text-on-surface mb-1">Christian Living</h3>
+<p class="font-caption text-caption text-on-surface-variant line-clamp-2">Daily walks in faith and grace.</p>
+</div>
+</a>
+<!-- Category 4 -->
+<a class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex flex-col justify-between aspect-square card-hover group shadow-ambient" href="#">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg font-medium text-on-surface mb-1">Stewardship</h3>
+<p class="font-caption text-caption text-on-surface-variant line-clamp-2">Managing resources with wisdom.</p>
+</div>
+</a>
+</div>
+</section>
+<!-- Featured Articles -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface mb-stack-md">Featured Articles</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Article 1 -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden card-hover shadow-ambient flex flex-col">
+<div class="h-48 w-full bg-surface-container-low relative">
+<img class="w-full h-full object-cover" data-alt="A serene, minimalist illustration of old ancient coins resting on an open book, soft natural lighting, warm and muted color palette featuring deep greens and soft creams, conveying a sense of wisdom and financial stewardship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjIaRoykCQCA64idJfHqmso1Td9RDe13s9TbkuW4nbx0Xm3JZedoDJnxJluD0PABNXF9Q6hdn4w96DqMyO8RohGzfWxRWGTEzMziekCLqNv5NZTgQB_EER3GO03_alHECzcI-rRiSagfafjtcOAxT_idEMHGp62zsfs3nBfTbeveJwsK0rGO8kODIY6rVHHh7SVc1XIs_jk5fKyETx-95y9sJiiywR2T2TJw4bD9oq0OZ_bXTakiPJrKl3xLa8MEVOiDIeznCY-DCN"/>
+<div class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 rounded-full border border-outline-variant/20">
+<span class="font-caption text-caption font-medium text-primary-container uppercase tracking-wider">Stewardship</span>
+</div>
+</div>
+<div class="p-6 flex-grow flex flex-col">
+<div class="flex items-center text-outline font-caption text-caption mb-3 gap-2">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>5 min read</span>
+</div>
+<h3 class="font-headline-md text-[20px] leading-tight font-semibold text-on-surface mb-2">The Parable of the Talents</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 flex-grow">Understanding the responsibility of multiplying what you have been given.</p>
+<a class="mt-4 font-label-md text-label-md text-primary-container flex items-center gap-1 hover:gap-2 transition-all" href="#">
+                            Read Article <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Article 2 -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden card-hover shadow-ambient flex flex-col">
+<div class="h-48 w-full bg-surface-container-low relative">
+<img class="w-full h-full object-cover" data-alt="A macro photograph of young green sprouts emerging from dark, rich soil. Soft morning sunlight filtering from the top left, creating a peaceful, hopeful mood. The style is highly detailed, emphasizing natural textures and growth, with a premium minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQtQGumtvyNaETFT-gsuw7sb6IsRWvxm2VLVrwtPZwBlJ9lP08QcpXwfKFhBimalqnqa_xQSW5BLFf2-3k2__qNW-zLpdQW1ZMGDbJ5Mi9PGXpuy9lex4DFyBbYRl3vEGVSa-ZZbk2JMdmuOsarDU0Ju7WGsTPeoY58wMWr21TmUPgUaCKh-7FAD7bLfSH9gBIPVSSDJEqdQvEfLVJKGHhGXJbC_P5T9N-p17jVOdxG_5NTQbEvMqGFLez_J6vFCmkC_b053_XPpnH"/>
+<div class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 rounded-full border border-outline-variant/20">
+<span class="font-caption text-caption font-medium text-primary-container uppercase tracking-wider">Agriculture</span>
+</div>
+</div>
+<div class="p-6 flex-grow flex flex-col">
+<div class="flex items-center text-outline font-caption text-caption mb-3 gap-2">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>8 min read</span>
+</div>
+<h3 class="font-headline-md text-[20px] leading-tight font-semibold text-on-surface mb-2">Sustainable Farming Basics</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 flex-grow">A guide to eco-friendly agriculture based on biblical principles.</p>
+<a class="mt-4 font-label-md text-label-md text-primary-container flex items-center gap-1 hover:gap-2 transition-all" href="#">
+                            Read Article <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+</section>
+<!-- Recently Added List -->
+<section class="mb-stack-lg pb-8">
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface mb-stack-md">Recently Added</h2>
+<div class="flex flex-col gap-4">
+<!-- List Item 1 -->
+<a class="group bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors shadow-sm" href="#">
+<div class="w-16 h-16 rounded-xl bg-surface-container flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Minimalist abstract architectural rendering showing geometric building forms in soft off-white and subtle sage greens. Clean lines, generous negative space, gentle lighting evoking trust and solid foundations." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_Lc5ED35ngRj8gAg-HGTaflXGHEp8ug1cTl0kYidF2axtufaIu3G4VbPq5rZ1H1zKPD7FybPFQTo6uKfK7m20dZ-NifA1X0VcBjhUpbqeqk3PVojXfBUivtIetT8ldPxTD0yOGmiedPrvBNLWsRaTsM-BuNH0plA1ovqQeU9rVGYOqnxqAHCtyH1gHK-8V9k4xHXXMuvQFnX6DSG_yHsjtxwRyafkt5rcLLq73J7Y9jFSeqzgaQnS1ALfMUiabxvRFSyFyejqlzcu"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-caption text-[10px] font-medium text-primary-container uppercase tracking-wider bg-primary-fixed/30 px-2 py-0.5 rounded-sm">Real Estate</span>
+<span class="text-outline font-caption text-[10px]">• 10 min read</span>
+</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface truncate">Kingdom Investing</h3>
+<p class="font-caption text-caption text-on-surface-variant truncate">Aligning your property investments with your values.</p>
+</div>
+<div class="flex-shrink-0 text-outline-variant group-hover:text-primary-container transition-colors pr-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</a>
+<!-- List Item 2 -->
+<a class="group bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors shadow-sm" href="#">
+<div class="w-16 h-16 rounded-xl bg-surface-container flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A tranquil scene of a dirt path winding through a misty, ancient olive grove at dawn. Soft, diffused lighting creating a meditative, peaceful atmosphere. Premium, cinematic photography style with deep green shadows and warm highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdvDxKwlfMYkl5Fzd-9rh512ThP5LWFwIVLYiyaD5k2jpktimXJU_5UTFL-zo0vv9F0YbTJfv3YM9DpomR_WAaFd_hXOl8DV0-sQscqXFAv6i6B1unUrWMqCzI0hbSKr7xYomyKMiJOyVhCbTHGynvI8rTrG-pKELlV40HwepLyLKo1BFNsy4__oqyHP9mfNj6da9Rsv0mRCMGsfkAON9GiXu5onStkXMTJO2CEdeG9N7l1f8ANdi5vEQKY0caIxzZCZRezE9v0pgs"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-caption text-[10px] font-medium text-primary-container uppercase tracking-wider bg-primary-fixed/30 px-2 py-0.5 rounded-sm">Christian Living</span>
+<span class="text-outline font-caption text-[10px]">• 4 min read</span>
+</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface truncate">Walking in Wisdom</h3>
+<p class="font-caption text-caption text-on-surface-variant truncate">Practical steps for discernment in the modern world.</p>
+</div>
+<div class="flex-shrink-0 text-outline-variant group-hover:text-primary-container transition-colors pr-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</a>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl border-t border-outline-variant/30 dark:border-outline/20 md:hidden">
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim active:scale-90 transition-all duration-200 w-16">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-md text-[10px] tracking-wide">Home</span>
+</button>
+<!-- Library is Active -->
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold active:scale-90 transition-all duration-200 w-16">
+<div class="bg-primary-container/10 px-4 py-1 rounded-full mb-1">
+<span class="material-symbols-outlined filled-icon text-primary-container">menu_book</span>
+</div>
+<span class="font-label-md text-[10px] tracking-wide text-primary-container">Library</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim active:scale-90 transition-all duration-200 w-16">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-label-md text-[10px] tracking-wide">Community</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim active:scale-90 transition-all duration-200 w-16">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-md text-[10px] tracking-wide">Profile</span>
+</button>
+</nav>
+<script>
+        // Optional: Add subtle shadow to top bar on scroll
+        window.addEventListener('scroll', () => {
+            const topBar = document.getElementById('top-bar');
+            if (window.scrollY > 10) {
+                topBar.classList.add('shadow-sm', 'bg-surface/90', 'backdrop-blur-md');
+                topBar.classList.remove('bg-surface');
+            } else {
+                topBar.classList.remove('shadow-sm', 'bg-surface/90', 'backdrop-blur-md');
+                topBar.classList.add('bg-surface');
+            }
+        });
+    </script>
+</body></html>

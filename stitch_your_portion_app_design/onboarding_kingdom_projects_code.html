@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Serve Through Kingdom Projects</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fcf9f8",
+                        "tertiary-fixed-dim": "#b4cdb4",
+                        "surface-tint": "#3f6653",
+                        "secondary-container": "#d8e2dc",
+                        "on-secondary-fixed": "#151d1a",
+                        "surface-dim": "#dcd9d9",
+                        "on-tertiary-container": "#95ad95",
+                        "surface-container-low": "#f6f3f2",
+                        "on-primary-container": "#86af99",
+                        "inverse-primary": "#a5d0b9",
+                        "tertiary-fixed": "#d0e9cf",
+                        "primary": "#012d1d",
+                        "on-tertiary-fixed-variant": "#364c39",
+                        "primary-container": "#1b4332",
+                        "on-secondary-container": "#5b6560",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#414844",
+                        "on-surface": "#1c1b1b",
+                        "surface-bright": "#fcf9f8",
+                        "primary-fixed": "#c1ecd4",
+                        "outline-variant": "#c1c8c2",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#162b1a",
+                        "outline": "#717973",
+                        "background": "#fcf9f8",
+                        "surface-container-high": "#ebe7e7",
+                        "surface-container": "#f0edec",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1c1b1b",
+                        "inverse-surface": "#313030",
+                        "on-secondary-fixed-variant": "#3f4945",
+                        "on-primary-fixed": "#002114",
+                        "secondary-fixed": "#dbe5df",
+                        "inverse-on-surface": "#f3f0ef",
+                        "tertiary-container": "#2c412e",
+                        "surface-variant": "#e5e2e1",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e5e2e1",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "on-tertiary-fixed": "#0b2010",
+                        "secondary-fixed-dim": "#bfc9c3",
+                        "secondary": "#57615c",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "40px",
+                        "stack-sm": "8px",
+                        "unit": "8px",
+                        "stack-md": "24px",
+                        "container-padding-mobile": "20px",
+                        "stack-lg": "48px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col items-center justify-center relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLtCnwdzZlfg-RR_ePHqk_yOZV5-bcSpDz3yeDh7kUyUOy_h0xkNVCYSPC38Lz98ZXzS6jxIZwCuQ7UFFNzpPTnqAqwmMYYYq-xRxlPz2yBi3WoILAGbpybdfQ5sEOLG9PXWSiKG9EDC8eG-KSXZk0rspn3ZY5HemiJKrqJp9pRnor9jM2y7gnqEjq6ISqAAfKBoSKRgMg-rl44ZCJX1QrwazV5S7lEYA2IK59gzL9_JC-9IqDtYPjlZyjnA'); background-size: cover; background-position: center;">
+<!-- Top Nav (Skip) -->
+<header class="absolute top-0 w-full flex justify-end p-container-padding-mobile md:px-container-padding-desktop z-10">
+<button class="font-label-md text-label-md text-primary hover:opacity-80 transition-opacity">Skip</button>
+</header>
+<main class="w-full max-w-md px-container-padding-mobile flex flex-col items-center z-10 text-center">
+<!-- Hero Illustration -->
+<div class="mb-stack-lg w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+<img alt="Illustration of people building God's kingdom together, with a focus on community and growth." class="w-full h-full object-contain mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtTL_Y4AKKOSvDkmMj8nIX7Q_bwHF41L1XgrIEvUhJbWsIq2GfWQXG8gUCcZjzcQrxmWglYMlyhsTxOY2bmzyfbWA6Iu2reWShEr5dOQ2J9D2SrM0ChVs9EOgIuv5u2FtRniCVAGeyfBC1Uyz0fEA22Mo0vssPi6Yo1Ju-iB0xOu0DXWqXwFGvxFXK08qUPsBdzVtpm6emgp-aIM0c_Lk5vjRXykbXdY63wOQSnTmfg-X3CkzNENQUDvAnSWV4hbESTpvkRUUuAcoX"/>
+</div>
+<!-- Text Content -->
+<div class="flex flex-col items-center space-y-stack-sm mb-stack-lg">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary tracking-tight">Serve Through Kingdom Projects</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[320px]">
+                Join meaningful Kingdom initiatives, support community projects, and become part of a growing faith-centered network.
+            </p>
+</div>
+<!-- Page Indicators -->
+<div class="flex space-x-2 mb-stack-lg">
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-6 h-2 rounded-full bg-primary-container transition-all duration-300"></div>
+</div>
+</main>
+<!-- Bottom Action -->
+<footer class="absolute bottom-0 w-full max-w-md px-container-padding-mobile pb-container-padding-mobile z-10">
+<button class="w-full h-14 bg-primary-container text-on-primary font-label-md text-label-md rounded-xl hover:opacity-90 transition-opacity shadow-[0px_10px_30px_rgba(0,0,0,0.04)] flex items-center justify-center">
+            Get Started
+        </button>
+</footer>
+</body></html>

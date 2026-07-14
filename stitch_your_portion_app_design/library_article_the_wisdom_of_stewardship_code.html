@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>The Parable of the Talents - Your Portion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#dcd9d9",
+                      "tertiary-container": "#2c412e",
+                      "surface": "#fcf9f8",
+                      "secondary-fixed-dim": "#bfc9c3",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed-dim": "#a5d0b9",
+                      "inverse-primary": "#a5d0b9",
+                      "surface-container-low": "#f6f3f2",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#e5e2e1",
+                      "surface-container": "#f0edec",
+                      "tertiary": "#162b1a",
+                      "inverse-on-surface": "#f3f0ef",
+                      "on-secondary-fixed": "#151d1a",
+                      "surface-container-high": "#ebe7e7",
+                      "secondary-container": "#d8e2dc",
+                      "on-primary-fixed-variant": "#274e3d",
+                      "on-primary-container": "#86af99",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-fixed-variant": "#364c39",
+                      "on-secondary-container": "#5b6560",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#414844",
+                      "on-error": "#ffffff",
+                      "secondary-fixed": "#dbe5df",
+                      "on-tertiary-container": "#95ad95",
+                      "background": "#fcf9f8",
+                      "on-tertiary-fixed": "#0b2010",
+                      "on-background": "#1c1b1b",
+                      "surface-container-highest": "#e5e2e1",
+                      "on-secondary-fixed-variant": "#3f4945",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#fcf9f8",
+                      "tertiary-fixed": "#d0e9cf",
+                      "outline": "#717973",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed": "#c1ecd4",
+                      "on-surface": "#1c1b1b",
+                      "on-primary": "#ffffff",
+                      "primary": "#012d1d",
+                      "on-primary-fixed": "#002114",
+                      "primary-container": "#1b4332",
+                      "inverse-surface": "#313030",
+                      "surface-tint": "#3f6653",
+                      "outline-variant": "#c1c8c2",
+                      "tertiary-fixed-dim": "#b4cdb4",
+                      "secondary": "#57615c"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "unit": "8px",
+                      "stack-lg": "48px",
+                      "container-padding-desktop": "40px",
+                      "gutter": "16px",
+                      "container-padding-mobile": "20px",
+                      "stack-sm": "8px",
+                      "safe": "env(safe-area-inset-bottom)"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "display": ["Inter"],
+                      "caption": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .prose p {
+            margin-bottom: 1.5rem;
+        }
+        .prose ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            list-style-type: disc;
+        }
+        .prose li {
+            margin-bottom: 0.5rem;
+            color: theme('colors.on-surface-variant');
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen pb-24 font-body-md text-body-md">
+<!-- TopAppBar from JSON -->
+<header class="sticky top-0 w-full z-40 bg-surface dark:bg-surface border-b border-surface-container-high transition-transform duration-300 transform translate-y-0" id="top-bar">
+<div class="flex items-center justify-between px-container-padding-mobile py-4 w-full max-w-7xl mx-auto h-[64px]">
+<button aria-label="Go back" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 flex items-center justify-center p-2 -ml-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-semibold text-primary dark:text-primary-fixed-dim truncate px-4 flex-1 text-center">
+                The Parable of the Talents
+            </h1>
+<div class="flex items-center gap-2">
+<button aria-label="Bookmark" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+<button aria-label="Share" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 flex items-center justify-center p-2 -mr-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">share</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-3xl mx-auto px-container-padding-mobile pt-stack-md pb-stack-lg md:px-container-padding-desktop">
+<!-- Article Header Info -->
+<div class="mb-stack-lg flex flex-col items-center text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-primary-container text-on-primary font-label-md text-label-md mb-4 shadow-[0px_4px_12px_rgba(27,67,50,0.1)]">
+                Stewardship
+            </span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-4 leading-tight">
+                The Wisdom of Stewardship
+            </h2>
+<div class="flex flex-wrap items-center justify-center gap-x-2 text-on-surface-variant font-caption text-caption uppercase tracking-wider">
+<span>5 min read</span>
+<span>•</span>
+<span>June 25, 2024</span>
+<span>•</span>
+<span>By Pastor David Mitchell</span>
+</div>
+</div>
+<!-- Article Body -->
+<article class="prose max-w-none text-on-surface-variant font-body-lg text-body-lg leading-[1.8]">
+<h3 class="font-headline-md text-headline-md text-on-surface mt-stack-md mb-4 font-semibold">Understanding True Ownership</h3>
+<p>
+                Stewardship begins with the recognition that we are managers, not owners, of the resources entrusted to us. This biblical principle applies to our time, talents, and treasure. When we view everything we possess as a temporary assignment from a higher authority, it transforms our approach from accumulation to cultivation.
+            </p>
+<p>
+                In the context of the talents, the master didn't hand out equal portions. He distributed according to each servant's ability. The expectation wasn't identical returns, but identical faithfulness in multiplying what was specifically given.
+            </p>
+<h4 class="font-headline-md text-headline-md text-on-surface mt-stack-md mb-4 font-semibold text-lg">Core Principles of Kingdom Management</h4>
+<ul class="mb-stack-md">
+<li><strong class="text-on-surface font-medium">Responsibility to multiply:</strong> Maintaining the status quo (burying the talent) is considered a failure of stewardship. Growth is expected.</li>
+<li><strong class="text-on-surface font-medium">Faithfulness in small things:</strong> The reward for managing small portions well is being entrusted with larger responsibilities.</li>
+<li><strong class="text-on-surface font-medium">Accounting for what was given:</strong> There is a definitive moment of reckoning where we must demonstrate what we have done with our portion.</li>
+</ul>
+</article>
+<!-- Key Takeaways Card (Bento/Glass style) -->
+<div class="mt-stack-lg mb-stack-lg bg-surface-container-low rounded-xl p-6 md:p-8 border border-surface-variant shadow-[0px_10px_30px_rgba(0,0,0,0.02)] relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-6xl" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<h4 class="font-label-md text-label-md text-primary uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">insights</span>
+                Key Takeaways
+            </h4>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="mt-1 w-2 h-2 rounded-full bg-primary-container shrink-0"></div>
+<p class="font-body-md text-body-md text-on-surface-variant">Stewardship is an active responsibility, not passive ownership.</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-2 h-2 rounded-full bg-primary-container shrink-0"></div>
+<p class="font-body-md text-body-md text-on-surface-variant">Multiplication requires the courage to take calculated, faithful risks.</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-2 h-2 rounded-full bg-primary-container shrink-0"></div>
+<p class="font-body-md text-body-md text-on-surface-variant">We are accountable for the growth of our specific, unique portion.</p>
+</li>
+</ul>
+</div>
+<div class="w-full h-px bg-surface-variant my-stack-lg opacity-50"></div>
+<!-- Related Articles Section -->
+<section class="mb-stack-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 font-semibold">Related Reading</h3>
+<div class="flex flex-col gap-4">
+<!-- Related Card 1 -->
+<a class="group block bg-surface rounded-xl p-4 border border-surface-variant hover:border-outline-variant hover:shadow-[0px_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300" href="#">
+<div class="flex justify-between items-start gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-caption text-caption text-primary bg-primary/5 px-2 py-0.5 rounded-full">Real Estate</span>
+<span class="font-caption text-caption text-on-surface-variant">• 10 min read</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors text-base font-semibold">Kingdom Investing</h4>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 group-hover:bg-primary-container group-hover:text-on-primary transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Related Card 2 -->
+<a class="group block bg-surface rounded-xl p-4 border border-surface-variant hover:border-outline-variant hover:shadow-[0px_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300" href="#">
+<div class="flex justify-between items-start gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-caption text-caption text-primary bg-primary/5 px-2 py-0.5 rounded-full">Agriculture</span>
+<span class="font-caption text-caption text-on-surface-variant">• 8 min read</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors text-base font-semibold">Biblical Agriculture</h4>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 group-hover:bg-primary-container group-hover:text-on-primary transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Related Card 3 -->
+<a class="group block bg-surface rounded-xl p-4 border border-surface-variant hover:border-outline-variant hover:shadow-[0px_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300" href="#">
+<div class="flex justify-between items-start gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-caption text-caption text-primary bg-primary/5 px-2 py-0.5 rounded-full">Christian Living</span>
+<span class="font-caption text-caption text-on-surface-variant">• 4 min read</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors text-base font-semibold">Walking in Wisdom</h4>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 group-hover:bg-primary-container group-hover:text-on-primary transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</a>
+</div>
+</section>
+</main>
+<!-- BottomNavBar from JSON (Library is active based on context of reading an article/book) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl border-t border-outline-variant/30 dark:border-outline/20 shadow-sm flex justify-around items-center px-4 py-3 pb-safe font-label-md text-label-md" id="bottom-nav">
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim active:scale-90 transition-all duration-200 w-16 gap-1">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="text-[10px] font-medium tracking-wide">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold hover:text-primary dark:hover:text-primary-fixed-dim active:scale-90 transition-all duration-200 w-16 gap-1">
+<div class="bg-primary/10 rounded-full px-4 py-1 flex items-center justify-center mb-0.5">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+<span class="text-[10px] font-bold tracking-wide">Library</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim active:scale-90 transition-all duration-200 w-16 gap-1">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 0;">group</span>
+<span class="text-[10px] font-medium tracking-wide">Community</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim active:scale-90 transition-all duration-200 w-16 gap-1">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="text-[10px] font-medium tracking-wide">Profile</span>
+</button>
+</nav>
+<script>
+        // Simple scroll handler to hide/show top nav for immersion
+        let lastScrollY = window.scrollY;
+        const topBar = document.getElementById('top-bar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                // Scrolling down
+                topBar.classList.add('-translate-y-full');
+            } else {
+                // Scrolling up
+                topBar.classList.remove('-translate-y-full');
+            }
+            lastScrollY = window.scrollY;
+        }, { passive: true });
+    </script>
+</body></html>

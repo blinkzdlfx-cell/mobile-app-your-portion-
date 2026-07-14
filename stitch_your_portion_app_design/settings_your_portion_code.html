@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings - Devotion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#1c1b1b",
+                    "on-secondary-container": "#5b6560",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#2c412e",
+                    "primary": "#012d1d",
+                    "on-secondary-fixed": "#151d1a",
+                    "secondary": "#57615c",
+                    "surface-container-highest": "#e5e2e1",
+                    "outline": "#717973",
+                    "surface-container": "#f0edec",
+                    "on-primary-fixed": "#002114",
+                    "surface-dim": "#dcd9d9",
+                    "surface": "#fcf9f8",
+                    "on-primary-fixed-variant": "#274e3d",
+                    "surface-container-high": "#ebe7e7",
+                    "secondary-fixed-dim": "#bfc9c3",
+                    "primary-fixed-dim": "#a5d0b9",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#b4cdb4",
+                    "surface-tint": "#3f6653",
+                    "primary-fixed": "#c1ecd4",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e5e2e1",
+                    "on-surface-variant": "#414844",
+                    "on-secondary-fixed-variant": "#3f4945",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#162b1a",
+                    "surface-bright": "#fcf9f8",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c1c8c2",
+                    "secondary-container": "#d8e2dc",
+                    "inverse-on-surface": "#f3f0ef",
+                    "background": "#fcf9f8",
+                    "on-tertiary-fixed": "#0b2010",
+                    "inverse-surface": "#313030",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#95ad95",
+                    "on-tertiary-fixed-variant": "#364c39",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-background": "#1c1b1b",
+                    "surface-container-low": "#f6f3f2",
+                    "on-primary-container": "#86af99",
+                    "inverse-primary": "#a5d0b9",
+                    "secondary-fixed": "#dbe5df",
+                    "primary-container": "#1b4332",
+                    "tertiary-fixed": "#d0e9cf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "20px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-padding-mobile": "20px",
+                    "container-padding-desktop": "40px",
+                    "gutter": "16px",
+                    "stack-sm": "8px",
+                    "stack-md": "24px",
+                    "stack-lg": "48px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "caption": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen font-body-md antialiased pb-24 md:pb-0">
+<!-- Mobile Header (Suppressed top nav as it's a subpage with back button) -->
+<header class="sticky top-0 w-full z-50 backdrop-blur-xl bg-surface/90 flex items-center h-16 px-container-mobile md:px-container-desktop">
+<button aria-label="Go back" class="w-10 h-10 flex items-center justify-center -ml-2 rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface" data-icon="arrow_back_ios_new">arrow_back_ios_new</span>
+</button>
+<h1 class="flex-1 text-center font-headline-md text-headline-md mr-8">Settings</h1>
+</header>
+<!-- Main Content -->
+<main class="max-w-2xl mx-auto px-container-mobile md:px-container-desktop pt-stack-sm pb-stack-lg space-y-stack-md">
+<!-- Account Section -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant mb-2 pl-4 uppercase tracking-widest">Account</h2>
+<div class="bg-surface-container-lowest rounded-2xl border border-surface-variant overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.04)]">
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center mr-4 text-primary-container group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Edit Profile</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="h-px bg-surface-variant ml-18 mr-4"></div>
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center mr-4 text-primary-container group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Trusted Member Status</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="h-px bg-surface-variant ml-18 mr-4"></div>
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center mr-4 text-primary-container group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Change Password</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- Preferences Section -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant mb-2 pl-4 uppercase tracking-widest">Preferences</h2>
+<div class="bg-surface-container-lowest rounded-2xl border border-surface-variant overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.04)]">
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Notifications</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="h-px bg-surface-variant ml-18 mr-4"></div>
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Buyer &amp; Seller Role</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="h-px bg-surface-variant ml-18 mr-4"></div>
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Language</span>
+<span class="font-caption text-caption text-on-surface-variant mr-2">English</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- Support Section -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant mb-2 pl-4 uppercase tracking-widest">Support</h2>
+<div class="bg-surface-container-lowest rounded-2xl border border-surface-variant overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.04)]">
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Help Center</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="h-px bg-surface-variant ml-18 mr-4"></div>
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Contact Us</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="h-px bg-surface-variant ml-18 mr-4"></div>
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Send Feedback</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- About Section -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant mb-2 pl-4 uppercase tracking-widest">About</h2>
+<div class="bg-surface-container-lowest rounded-2xl border border-surface-variant overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.04)] relative">
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">About Your Portion</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="h-px bg-surface-variant ml-18 mr-4"></div>
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="shield">shield</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Privacy Policy</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="h-px bg-surface-variant ml-18 mr-4"></div>
+<a class="flex items-center p-4 hover:bg-surface-container-low transition-colors group pb-10" href="#">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mr-4 text-secondary group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<span class="flex-1 font-body-md text-body-md">Terms &amp; Conditions</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-outline transition-colors" data-icon="chevron_right">chevron_right</span>
+</a>
+<div class="absolute bottom-3 left-0 w-full text-center">
+<span class="font-caption text-caption text-outline">Version 1.0.0</span>
+</div>
+</div>
+</section>
+<!-- Logout Button -->
+<section class="pt-4">
+<button class="w-full min-h-[56px] rounded-xl border-2 border-error text-error font-body-lg text-body-lg flex items-center justify-center hover:bg-error/5 active:scale-95 transition-all duration-200">
+                Log Out
+            </button>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) - Generated from JSON. Settings is not a main tab, so no item is active, but rendering for context as requested by prompt "Bottom navigation (not selected) for context." -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-16 backdrop-blur-xl bg-surface/80 dark:bg-surface/80 shadow-[0px_-10px_30px_rgba(0,0,0,0.04)]">
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed active:scale-90 transition-transform duration-150 w-16 h-full gap-1">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-caption text-[10px] tracking-wide">Today</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed active:scale-90 transition-transform duration-150 w-16 h-full gap-1">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-caption text-[10px] tracking-wide">Scripture</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed active:scale-90 transition-transform duration-150 w-16 h-full gap-1">
+<span class="material-symbols-outlined" data-icon="settings_accessibility">settings_accessibility</span>
+<span class="font-caption text-[10px] tracking-wide">Prayer</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed active:scale-90 transition-transform duration-150 w-16 h-full gap-1">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-caption text-[10px] tracking-wide">Steward</span>
+</button>
+</nav>
+</body></html>
