@@ -107,6 +107,50 @@ MaterialApp
               └── _NavItem (Profile)
 ```
 
+## Admin Dashboard (Separate Web App)
+```
+admin-dashboard/
+├── index.html          # SPA — Dashboard, Verification, Properties, Projects tabs
+├── styles.css          # Full admin UI styling (login, cards, modals, toasts)
+├── scripts/
+│   ├── api.js          # API client — calls localhost:3000/api/admin/*
+│   └── app.js          # SPA logic — auth, navigation, data loading, CRUD actions
+└── server/
+    ├── index.js        # Express server (port 3000) — serves static files + API
+    ├── setup.js        # Interactive .env generator (Supabase URL + service key + admin password)
+    ├── package.json
+    └── .env.example
+```
+
+**Server setup:**
+```sh
+cd admin-dashboard/server
+npm install
+npm run setup   # prompts for Supabase URL, service role key, admin password
+npm start       # → http://localhost:3000
+```
+
+**How it works:**
+1. Express serves the static HTML/CSS/JS at `/`
+2. All `/api/admin/*` endpoints use the Supabase **service role key** (bypasses RLS)
+3. Admin authenticates via JWT (username/password from `.env`)
+4. API mirrors the `SupabaseService` admin methods from the Flutter app
+
+**API endpoints:**
+| Endpoint | Purpose |
+|----------|---------|
+| `POST /api/admin/auth/login` | Authenticate admin |
+| `GET /api/admin/dashboard` | Pending counts (seller, trusted, properties, projects) |
+| `GET /api/admin/verification/requests` | List verification requests |
+| `POST /api/admin/verification/approve` | Approve a request |
+| `POST /api/admin/verification/reject` | Reject with reason |
+| `GET /api/admin/properties/pending` | List pending properties |
+| `POST /api/admin/properties/approve` | Approve a property |
+| `POST /api/admin/properties/reject` | Reject with reason |
+| `GET /api/admin/projects/pending` | List pending projects |
+| `POST /api/admin/projects/approve` | Approve a project |
+| `POST /api/admin/projects/reject` | Reject with reason |
+
 ## Database ER (Logical)
 ```
 auth.users

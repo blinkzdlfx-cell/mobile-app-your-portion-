@@ -80,8 +80,7 @@ function setupNavigation() {
     
     // Logout button
     document.getElementById('logoutBtn')?.addEventListener('click', function() {
-        logout();
-        showLoginScreen();
+        showLogoutModal();
     });
 }
 
@@ -351,17 +350,46 @@ function hideRejectionModal() {
     document.getElementById('rejectionReason').value = '';
 }
 
+function showLogoutModal() {
+    const modal = document.getElementById('actionModal');
+    const title = document.getElementById('modalTitle');
+    const message = document.getElementById('modalMessage');
+    const rejectForm = document.getElementById('rejectForm');
+
+    title.textContent = 'Logout';
+    message.textContent = 'Are you sure you want to logout?';
+    rejectForm.style.display = 'none';
+
+    modal.classList.add('active');
+
+    const confirmBtn = document.getElementById('modalConfirmBtn');
+    confirmBtn.onclick = function() {
+        logout();
+        hideLogoutModal();
+        showLoginScreen();
+    };
+}
+
+function hideLogoutModal() {
+    const modal = document.getElementById('actionModal');
+    modal.classList.remove('active');
+}
+
 // Setup modal event listeners
 document.addEventListener('DOMContentLoaded', function() {
     const modalCancelBtn = document.getElementById('modalCancelBtn');
     if (modalCancelBtn) {
-        modalCancelBtn.addEventListener('click', hideRejectionModal);
+        modalCancelBtn.addEventListener('click', function() {
+            hideRejectionModal();
+            hideLogoutModal();
+        });
     }
     
     // Hide modal when clicking outside
     document.getElementById('actionModal')?.addEventListener('click', function(e) {
         if (e.target === this) {
             hideRejectionModal();
+            hideLogoutModal();
         }
     });
 });

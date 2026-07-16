@@ -1,19 +1,24 @@
-# your_portion
+# Your Portion — Faith-Centered Marketplace
 
 > **AI assistants**: Before making changes, read all files in `docs/` for project context (PRD, tech stack, implementation, progress, rules, architecture).
 
-A new Flutter project.
+Flutter mobile app (Android/iOS/macOS) with a standalone web admin dashboard.
 
-## Getting Started
+## Quick Start (Flutter App)
 
-This project is a starting point for a Flutter application.
+```sh
+flutter pub get
+cp assets/.env.example assets/.env   # fill in Supabase credentials
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Quick Start (Admin Dashboard)
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```sh
+cd admin-dashboard/server
+npm install
+npm run setup    # enter Supabase URL, service role key, admin password
+npm start        # → http://localhost:3000
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The admin dashboard is a separate web app — not a Flutter screen. See `docs/ARCHITECTURE.md` for full details.

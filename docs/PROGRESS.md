@@ -105,6 +105,18 @@
 
 ---
 
+## Admin Dashboard (Standalone Web App)
+- ✅ `admin-dashboard/index.html` — SPA with 4 tabs
+- ✅ `admin-dashboard/styles.css` — Login, cards, modals, toasts styling
+- ✅ `admin-dashboard/scripts/api.js` — API client
+- ✅ `admin-dashboard/scripts/app.js` — SPA logic
+- ✅ `admin-dashboard/server/index.js` — Express server (port 3000)
+- ✅ `admin-dashboard/server/setup.js` — Interactive .env generator
+- ✅ Server starts gracefully without Supabase configured
+- ✅ Login page renders with proper styling
+- ✅ All 11 API endpoints implemented (login, dashboard, verification CRUD, property CRUD, project CRUD)
+- ✅ Logout confirmation dialog
+
 ## Database & Infrastructure
 - ✅ Migration: `00001_seller_buyer_schema.sql` (6 tables, RLS, trigger)
 - ✅ Migration: `00002_bookmarked_portions.sql`
@@ -133,12 +145,11 @@
 ## High-Priority Next Steps
 1. **Execute all Supabase Migrations** — Run SQL in Supabase dashboard (6 migration files)
 2. **Property Images** — Add image upload and display capabilities
-3. **Wire CreateProperty submission** — Connect form controllers to `SupabaseService.createProperty()`
-4. **Project Donations** — Implement donation flow
-5. **Review System** — Implement review creation and display
-6. **Daily Portion** — Fetch real data from `daily_portions` table
-7. **Notifications** — Replace mock data with real notifications
-8. **Search Results** — Implement cross-entity search
+3. **Project Donations** — Implement donation flow
+4. **Review System** — Implement review creation and display
+5. **Daily Portion** — Fetch real data from `daily_portions` table
+6. **Notifications** — Replace mock data with real notifications
+7. **Search Results** — Implement cross-entity search
 
 ---
 

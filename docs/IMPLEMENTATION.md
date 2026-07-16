@@ -118,6 +118,31 @@ Navigation uses `pushNamed` / `pushReplacementNamed`. No `Navigator 2.0` or `go_
 - `approveProject(String projectId)` → void
 - `rejectProject(String projectId, String reason)` → void
 
+## Admin Dashboard Server
+
+The admin dashboard is a **separate web app** (not a Flutter screen) at `admin-dashboard/`. It consists of:
+
+### Frontend (`admin-dashboard/`)
+- **`index.html`** — SPA with 4 tabs (Dashboard, Verification, Properties, Projects)
+- **`styles.css`** — Full styling including login page, cards, modals, toasts
+- **`scripts/api.js`** — API client, all functions exposed globally (no module system)
+- **`scripts/app.js`** — SPA logic: auth check, navigation, data loading, CRUD, rejection modal
+
+### Backend (`admin-dashboard/server/`)
+- **`index.js`** — Express server on port 3000, serves static files + REST API
+- **`setup.js`** — Interactive CLI to generate `.env` with Supabase + admin credentials
+- Uses `@supabase/supabase-js` with **service role key** (bypasses RLS)
+- JWT-based admin auth with bcrypt password verification
+- Graceful startup — serves login page even without Supabase configured
+
+### Setup
+```sh
+cd admin-dashboard/server
+npm install
+npm run setup   # or manually create .env from .env.example
+npm start       # → http://localhost:3000
+```
+
 ### Role Helpers
 - `canSell()` → `bool`
 - `isAdmin()` → `bool`
