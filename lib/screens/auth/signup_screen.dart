@@ -22,6 +22,7 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _agreeToTerms = false;
   bool _isLoading = false;
 
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +55,6 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // Sign up with Supabase
       final response = await Supabase.instance.client.auth.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text,
@@ -67,23 +67,30 @@ class _SignupScreenState extends State<SignupScreen> {
 
       if (mounted) {
         if (response.user != null) {
-          // Account created successfully
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Account created successfully! Please check your email to verify.'),
+              content: Text('Account created! Please check your email and verify your address before signing in.'),
               backgroundColor: AppTheme.primaryContainer,
             ),
           );
-          // Navigate to login
-          Navigator.pop(context);
+          Navigator.pushReplacementNamed(context, '/choose-role');
         }
       }
     } catch (error) {
       setState(() => _isLoading = false);
       if (mounted) {
+        final errMsg = error.toString();
+        String userMsg;
+        if (errMsg.contains('email_address')) {
+          userMsg = 'This email is already registered. Try signing in instead.';
+        } else if (errMsg.contains('weak_password') || errMsg.contains('password')) {
+          userMsg = 'Password is too weak. Use at least 8 characters with letters and numbers.';
+        } else {
+          userMsg = 'Signup failed. Please check your details and try again.';
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Signup failed: ${error.toString()}'),
+            content: Text(userMsg),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -98,7 +105,9 @@ class _SignupScreenState extends State<SignupScreen> {
         OAuthProvider.google,
         redirectTo: kIsWeb ? null : 'io.supabase.flutter://callback',
       );
-      if (mounted) Navigator.pushReplacementNamed(context, '/home');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/choose-role');
+      }
     } catch (error) {
       setState(() => _isLoading = false);
       if (mounted) {
@@ -119,7 +128,9 @@ class _SignupScreenState extends State<SignupScreen> {
         OAuthProvider.apple,
         redirectTo: kIsWeb ? null : 'io.supabase.flutter://callback',
       );
-      if (mounted) Navigator.pushReplacementNamed(context, '/home');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/choose-role');
+      }
     } catch (error) {
       setState(() => _isLoading = false);
       if (mounted) {

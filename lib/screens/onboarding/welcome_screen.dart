@@ -16,7 +16,7 @@ class WelcomeScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 64),
                 // Illustration
-                Container(
+                SizedBox(
                   width: 200,
                   height: 200,
                   child: Icon(

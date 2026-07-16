@@ -341,69 +341,34 @@ class _HomeScreenState extends State<HomeScreen>
                         boxShadow: [AppTheme.ambientShadow],
                       ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Community Seed Initiative',
-                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: AppTheme.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.tertiaryFixed.withValues(alpha: 0.5),
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: AppTheme.tertiaryFixedDim.withValues(alpha: 0.3)),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 6,
-                                      height: 6,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: AppTheme.primaryContainer,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Text(
-                                      'Active',
-                                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                        color: AppTheme.onTertiaryFixed,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Empowering local farmers through sustainable agriculture practices and micro-grants to ensure food security within the community.',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppTheme.onSurfaceVariant,
+                          Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryContainer.withValues(alpha: 0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.construction_rounded,
+                              size: 28,
+                              color: AppTheme.primaryContainer,
                             ),
                           ),
                           const SizedBox(height: 16),
-                          OutlinedButton.icon(
-                            onPressed: () => Navigator.pushNamed(context, '/kingdom-projects'),
-                            icon: const Icon(Icons.open_in_new, size: 16),
-                            label: const Text('View Project'),
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: AppTheme.primaryContainer,
-                              minimumSize: const Size(160, 48),
-                              side: const BorderSide(color: AppTheme.surfaceContainerHigh),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                          Text(
+                            'Coming Soon',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              color: AppTheme.onSurface,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'We\'re preparing a way for you to support faith-driven initiatives. Stay tuned!',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppTheme.onSurfaceVariant,
                             ),
                           ),
                         ],

@@ -44,8 +44,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
-  bool _isBuyer = true;
-  bool _isSeller = true;
+  final bool _isBuyer = true;
+  final bool _isSeller = true;
   bool _isSaving = false;
   String _avatarInitials = '?';
   Color _avatarColor = AppTheme.primaryContainer;

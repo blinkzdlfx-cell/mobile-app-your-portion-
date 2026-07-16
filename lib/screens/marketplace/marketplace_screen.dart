@@ -15,8 +15,6 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   final _supabaseService = SupabaseService();
   String _activeFilter = 'All Listings';
   bool _initialized = false;
-  bool _canSell = false;
-  bool _isLoadingRole = true;
   bool _isLoadingProperties = false;
   bool _isLoadingSaved = false;
 
@@ -72,15 +70,9 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
       if (args is String && args.isNotEmpty) {
         _activeFilter = args;
       }
-      _loadRole();
       _loadProperties();
       _loadSavedPropertyIds();
     }
-  }
-
-  Future<void> _loadRole() async {
-    final canSell = await _supabaseService.canSell();
-    if (mounted) setState(() { _canSell = canSell; _isLoadingRole = false; });
   }
 
   Future<void> _loadProperties() async {
@@ -88,8 +80,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
     try {
       final properties = await _supabaseService.getProperties();
       if (mounted) setState(() { _allProperties = properties; });
-    } catch (e) {
-      print('Error loading properties: $e');
+    } catch (_) {
     } finally {
       if (mounted) setState(() { _isLoadingProperties = false; });
     }
@@ -100,45 +91,10 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
     try {
       final savedIds = await _supabaseService.getSavedPropertyIds();
       if (mounted) setState(() { _savedPropertyIds = savedIds.toSet(); });
-    } catch (e) {
-      print('Error loading saved property ids: $e');
+    } catch (_) {
     } finally {
       if (mounted) setState(() { _isLoadingSaved = false; });
     }
-  }
-
-  @override
-  void dispose() {
-    _locationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_initialized) {
-      _initialized = true;
-      final args = ModalRoute.of(context)?.settings.arguments;
-      if (args is String && args.isNotEmpty) {
-        _activeFilter = args;
-      }
-      _loadRole();
-    }
-  }
-
-  Future<void> _loadRole() async {
-    final canSell = await _supabaseService.canSell();
-    if (mounted) setState(() { _canSell = canSell; _isLoadingRole = false; });
-  }
-
-  void _showVerificationNeeded() {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) => const _SellerVerificationNeededSheet(),
-    );
   }
 
   void _showFilterSheet() {
@@ -414,23 +370,11 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
           ],
         ),
       ),
-      floatingActionButton: _isLoadingRole
-          ? null
-          : (_canSell
-              ? FloatingActionButton(
-                  onPressed: () => Navigator.pushNamed(context, '/create-property'),
-                  backgroundColor: AppTheme.primaryContainer,
-                  child: const Icon(Icons.add, color: AppTheme.onPrimary, size: 28),
-                )
-              : FloatingActionButton.extended(
-                  onPressed: () => Navigator.pushNamed(context, '/seller-verification'),
-                  backgroundColor: AppTheme.surfaceContainerHigh,
-                  icon: const Icon(Icons.lock_outline, color: AppTheme.onSurfaceVariant, size: 20),
-                  label: Text(
-                    'Become a Seller',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppTheme.onSurfaceVariant),
-                  ),
-                )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, '/create-property'),
+        backgroundColor: AppTheme.primaryContainer,
+        child: const Icon(Icons.add, color: AppTheme.onPrimary, size: 28),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavBar(
         currentIndex: 1,
@@ -483,47 +427,6 @@ class _FilterChip extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _SellerVerificationNeededSheet extends StatelessWidget {
-  const _SellerVerificationNeededSheet();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 56, height: 56,
-            decoration: BoxDecoration(
-              color: AppTheme.secondaryContainer.withValues(alpha: 0.3),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(Icons.verified_user_outlined, color: AppTheme.primaryContainer, size: 28),
-          ),
-          const SizedBox(height: 16),
-          Text('Seller Verification Required',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppTheme.onSurface, fontWeight: FontWeight.w600, fontSize: 20)),
-          const SizedBox(height: 8),
-          Text('You need to be verified as a seller to list properties. Contact an admin or apply in your profile settings.',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.onSurfaceVariant),
-            textAlign: TextAlign.center),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () { Navigator.pushNamed(context, '/profile'); },
-              child: const Text('Go to Profile'),
-            ),
-          ),
-          const SizedBox(height: 8),
-        ],
       ),
     );
   }

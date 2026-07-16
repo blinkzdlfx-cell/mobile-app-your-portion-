@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portion - Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="header-content">
+                <h1>Your Portion Admin</h1>
+                <nav>
+                    <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+                    <button class="nav-btn" data-section="verification">Verification</button>
+                    <button class="nav-btn" data-section="properties">Properties</button>
+                    <button class="nav-btn" data-section="projects">Projects</button>
+                    <button class="nav-btn logout-btn" id="logoutBtn">Logout</button>
+                </nav>
+            </div>
+        </header>
+        
+        <main>
+            <section id="dashboard" class="page active">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card" onclick="navigateToSection('verification')">
+                        <h3>Seller Requests</h3>
+                        <p class="stat-number" id="pendingSellerRequests">0</p>
+                    </div>
+                    <div class="stat-card" onclick="navigateToSection('verification')">
+                        <h3>Trusted Member Requests</h3>
+                        <p class="stat-number" id="pendingTrustedRequests">0</p>
+                    </div>
+                    <div class="stat-card" onclick="navigateToSection('properties')">
+                        <h3>Property Approvals</h3>
+                        <p class="stat-number" id="pendingProperties">0</p>
+                    </div>
+                    <div class="stat-card" onclick="navigateToSection('projects')">
+                        <h3>Project Approvals</h3>
+                        <p class="stat-number" id="pendingProjects">0</p>
+                    </div>
+                </div>
+                
+                <h2>Recent Actions</h2>
+                <div class="actions-list" id="recentActions">
+                    <!-- Recent admin actions will be populated here -->
+                    <div class="empty-state">
+                        <p>No recent actions to display</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="verification" class="page">
+                <div class="page-header">
+                    <h2>Seller & Trusted Member Verification Requests</h2>
+                    <div class="filter-bar">
+                        <select id="verificationTypeFilter">
+                            <option value="">All Types</option>
+                            <option value="seller">Seller Requests</option>
+                            <option value="trusted_member">Trusted Member Requests</option>
+                        </select>
+                        <select id="verificationStatusFilter">
+                            <option value="">All Statuses</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="requests-list" id="requestsList">
+                    <!-- Verification requests will be populated here -->
+                    <div class="empty-state">
+                        <p>No verification requests to display</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="properties" class="page">
+                <h2>Property Approvals</h2>
+                
+                <div class="properties-list" id="propertiesList">
+                    <!-- Property approvals will be populated here -->
+                    <div class="empty-state">
+                        <p>No pending properties to approve</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="projects" class="page">
+                <h2>Project Approvals</h2>
+                
+                <div class="projects-list" id="projectsList">
+                    <!-- Project approvals will be populated here -->
+                    <div class="empty-state">
+                        <p>No pending projects to approve</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Modal for approval/rejection reason -->
+        <div id="actionModal" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitle">Approve/Reject Request</h3>
+                <p id="modalMessage">Are you sure you want to proceed?</p>
+                
+                <div id="rejectForm" style="display: none;">
+                    <label for="rejectionReason">Reason for rejection:</label>
+                    <textarea id="rejectionReason" rows="4" placeholder="Please provide a reason..."></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button id="modalCancelBtn" class="btn-secondary">Cancel</button>
+                    <button id="modalConfirmBtn" class="btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Toast notification container -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+    
+    <script src="scripts/api.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

@@ -24,9 +24,12 @@ main()
 ## Navigation Map
 ```
 SplashScreen
-  → OnboardingScreen (3-page carousel, "Skip" → Login)
+  → WelcomeScreen
   → LoginScreen ↔ SignupScreen ↔ ForgotPasswordScreen
-  → ChooseRoleScreen → HomeScreen
+  → ChooseRoleScreen
+      ├── No session (unconfirmed email) → "Verify Your Email" → /login
+      └── Has session → Buyer → /home
+                      → Seller → /document-upload → /home
   → (BecomeTrustedMemberScreen)
 
 HomeScreen (bottom nav: 0=Daily)
@@ -34,13 +37,14 @@ HomeScreen (bottom nav: 0=Daily)
   ├── /marketplace (bottom nav: 1=Market)
   │     ├── /search-results
   │     ├── /saved-properties
-  │     └── /create-property (seller only)
-  ├── /kingdom-projects (bottom nav: 2=Kingdom)
-  │     └── /create-kingdom-project (seller only)
+  │     └── /create-property (checks canSell; shows verification prompt if not verified)
+  ├── /kingdom-projects (bottom nav: 2=Kingdom) — Coming Soon
   └── /profile (bottom nav: 3=Profile)
         ├── /edit-profile
         ├── /settings
         ├── /saved-properties
+        ├── /my-properties (sellers only)
+        ├── /bookmarked-portions
         └── /help-support
 ```
 
@@ -48,12 +52,29 @@ HomeScreen (bottom nav: 0=Daily)
 ```
 User → Signup (/signup)
   → Supabase.auth.signUp(email, password, data)
-  → Profiles created via trigger handle_new_user()
-  → Navigate to /login
-  → Supabase.auth.signInWithPassword(email, password)
-  → If first login → ChooseRoleScreen
-  → Role saved to auth.user_metadata + profiles table
-  → Navigate to /home
+  → Profile created via trigger handle_new_user()
+  → Navigate to /choose-role
+  → No session (email not confirmed)
+      → "Verify Your Email" screen → /login
+  → Has session
+      → Pick role (Buyer/Seller)
+      → Role saved to auth.user_metadata + profiles.update()
+      → Buyer → /home
+      → Seller → /document-upload
+          → Upload ID type + gov ID file + face image
+          → Submit for admin review
+          → Skip (verify later from profile)
+          → /home
+
+User → Seller Verification (from /profile)
+  → /document-upload
+  → Upload ID type + gov ID + face image
+  → Admin approves → is_seller_verified = true
+
+User → Create Property (/create-property)
+  → Check canSell()
+  → Not verified → "Verification Required" prompt → /profile
+  → Verified → property listing form
 ```
 
 ## Role Decision Tree

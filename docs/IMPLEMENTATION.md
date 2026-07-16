@@ -12,20 +12,31 @@ All routes defined in `main.dart:83-116` as named routes in `MaterialApp.routes`
 Navigation uses `pushNamed` / `pushReplacementNamed`. No `Navigator 2.0` or `go_router`.
 
 ## Authentication Flow
-1. `SplashScreen` → checks session → `OnboardingScreen` (new user) or `HomeScreen` (existing)
-2. Onboarding (3-page PageView) → `LoginScreen` or `SignupScreen`
+1. `SplashScreen` → `WelcomeScreen` (no session check — always shows branding animation)
+2. Welcome screen → `LoginScreen` or `SignupScreen`
 3. Login/Signup via `Supabase.instance.client.auth.signInWithPassword()` / `signUp()`
 4. Google/Apple via `signInWithOAuth(OAuthProvider.google/apple)`
-5. On first login → `ChooseRoleScreen` → saves role to `auth.updateUser(data: {'role': ...})` + `profiles.upsert({...})` → navigates to `/home`
-6. Forgot password via `resetPasswordForEmail()` (not yet implemented in code)
+5. On first login/signup → `ChooseRoleScreen`
+   - If no session (unconfirmed email) → shows "Verify Your Email" screen with "Go to Sign In" button
+   - If session exists → shows Buyer/Seller role selection
+   - Role saved to `auth.updateUser(data: {'role': ...})` + `profiles.update({...}).filter('id', 'eq', user.id)`
+   - Buyer → navigates to `/home`
+   - Seller → navigates to `/document-upload`
+6. `DocumentUploadScreen` — seller uploads government ID (NIN/Voter Card/Passport) + face image → admin verifies
+7. Forgot password via `resetPasswordForEmail()` (not yet implemented in code)
 
 ## Role Gating Pattern
 - `SupabaseService.canSell()` fetches profile and returns `isSellerVerified && (role == 'seller' || role == 'both')`
 - Called in `didChangeDependencies` with `_initialized` flag to avoid double-fetch
-- Marketplace FAB: shows "Create Property" if `canSell`, otherwise "Become a Seller" CTA that opens verification bottom sheet
-- Kingdom Projects: button to create project shown only if `canSell`
+- Marketplace **FAB**: always shows **+** icon (no role check). Everyone can browse.
+- `CreatePropertyScreen`: checks `canSell()` on entry:
+  - If not verified → shows "Verification Required" prompt with "Go to Profile to Verify" button
+  - If verified → shows property listing form
+- Kingdom Projects: replaced with "Coming Soon" placeholder screen
 
-## Database Schema (`supabase/migrations/00001_seller_buyer_schema.sql`)
+## Database Schema (6 migration files)
+
+### `00001_seller_buyer_schema.sql` — Core schema
 **6 tables + 1 function + 1 trigger**:
 1. `profiles` — Extends `auth.users` with role, contact, trust flags
 2. `properties` — Seller listings (category, price, location, bedrooms, contact info, status)
@@ -33,11 +44,16 @@ Navigation uses `pushNamed` / `pushReplacementNamed`. No `Navigator 2.0` or `go_
 4. `kingdom_projects` — Projects with goal/raised amounts, status, contact info
 5. `project_donations` — Donor contributions to projects
 6. `reviews` — Ratings (1-5) and comments on properties
-
 **Trigger**: `handle_new_user()` auto-creates profile on auth signup
 
+### `00002_bookmarked_portions.sql` — Daily portion bookmarks
+### `00003_verification_requests.sql` — Seller + trusted member verification requests
+### `00004_add_id_document_url.sql` — Storage bucket for verification documents
+### `00005_add_id_type_and_face_image.sql` — `id_type` + `face_image_url` columns
+### `00006_add_profiles_insert_policy.sql` — Profiles INSERT policy (safety net)
+
 ## RLS Policies
-- Profiles: anyone can SELECT, users UPDATE own
+- Profiles: anyone SELECT, users INSERT own, users UPDATE own
 - Properties: anyone SELECT approved or own; sellers INSERT (must be verified); sellers UPDATE/DELETE own
 - Saved Properties: users manage own
 - Kingdom Projects: anyone SELECT active/completed or own; sellers INSERT (verified); creators UPDATE/DELETE own
@@ -49,6 +65,8 @@ Navigation uses `pushNamed` / `pushReplacementNamed`. No `Navigator 2.0` or `go_
 - **Private widgets**: `_CategoryCard`, `_FilterChip`, `_PropertyCard`, `_RoleCard`, `_NavItem` defined as private classes within screen files
 - **Filter system**: Horizontal `ListView` of `_FilterChip` widgets + bottom sheet with `DropdownButtonFormField`s and `RangeSlider`s
 - **Search**: Collapsible `AnimatedContainer` on home screen, expands to full `TextField` with `onSubmitted` → `/search-results`
+- **Seller verification**: ID type chips (NIN/Voter Card/Passport) + gov ID file upload + face image upload
+- **Profile card**: Gradient header with initials, compact badges row, role-based item visibility
 - **Theme**: All colors/text styles from `AppTheme` constants, never hardcoded
 - **Disposal**: All `TextEditingController`s, `FocusNode`s, `AnimationController`s disposed in `dispose()`
 
@@ -74,5 +92,32 @@ Navigation uses `pushNamed` / `pushReplacementNamed`. No `Navigator 2.0` or `go_
 - `getMyProjects()` → `List<KingdomProject>`
 - `createProject(KingdomProject)` → void
 
+### Bookmarked Portions
+- `getBookmarkedPortions()` → `List<Map<String, dynamic>>`
+- `isPortionBookmarked(String portionId)` → `bool`
+- `bookmarkPortion(String portionId)` → void
+- `removeBookmarkedPortion(String portionId)` → void
+
+### Verification Requests
+- `submitVerificationRequest({requestType, fullName, phone, reason, idDocumentUrl, idType, faceImageUrl})` → void
+- `getPendingRequest(String requestType)` → `Map<String, dynamic>?`
+
+### Files / Storage
+- `uploadFile(String bucket, String path, String filePath)` → `String?` (generic)
+- `uploadVerificationDocument(String filePath)` → `String?`
+- `uploadFaceImage(String filePath)` → `String?`
+
+### Admin Methods
+- `getPendingVerificationRequests()` → `List<Map<String, dynamic>>`
+- `getPendingProperties()` → `List<Map<String, dynamic>>`
+- `getPendingProjects()` → `List<Map<String, dynamic>>`
+- `approveVerificationRequest(String requestId, String userId, String requestType)` → void
+- `rejectVerificationRequest(String requestId, String reason)` → void
+- `approveProperty(String propertyId)` → void
+- `rejectProperty(String propertyId, String reason)` → void
+- `approveProject(String projectId)` → void
+- `rejectProject(String projectId, String reason)` → void
+
 ### Role Helpers
 - `canSell()` → `bool`
+- `isAdmin()` → `bool`

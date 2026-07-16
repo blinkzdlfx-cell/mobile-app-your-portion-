@@ -48,6 +48,9 @@ dependencies:
   flutter_dotenv: ^5.1.0
   supabase: ^2.13.4
 
+  # File picking for document upload
+  file_picker: ^8.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

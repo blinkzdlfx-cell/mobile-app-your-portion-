@@ -18,13 +18,10 @@ import 'screens/auth/forgot_password_screen.dart';
 import 'screens/splash/splash_screen.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/onboarding/choose_role_screen.dart';
+import 'screens/onboarding/document_upload_screen.dart';
 import 'screens/onboarding/become_trusted_member_screen.dart';
 import 'screens/onboarding/seller_verification_screen.dart';
 import 'screens/onboarding/welcome_screen.dart';
-import 'screens/admin/admin_dashboard.dart';
-import 'screens/admin/admin_requests_screen.dart';
-import 'screens/admin/admin_properties_screen.dart';
-import 'screens/admin/admin_projects_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/home/daily_portion_screen.dart';
 import 'screens/home/notifications_screen.dart';
@@ -104,13 +101,9 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => const SplashScreen(),
         '/onboarding': (context) => const OnboardingScreen(),
         '/choose-role': (context) => const ChooseRoleScreen(),
+        '/document-upload': (context) => const DocumentUploadScreen(),
         '/become-trusted-member': (context) => const BecomeTrustedMemberScreen(),
         '/seller-verification': (context) => const SellerVerificationScreen(),
-        // Admin
-        '/admin': (context) => const AdminDashboard(),
-        '/admin-requests': (context) => const AdminRequestsScreen(),
-        '/admin-properties': (context) => const AdminPropertiesScreen(),
-        '/admin-projects': (context) => const AdminProjectsScreen(),
         // Home
         '/home': (context) => const HomeScreen(),
         '/daily-portion': (context) => const DailyPortionScreen(),

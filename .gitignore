@@ -35,6 +35,9 @@ migrate_working_dir/
 
 # Environment variables
 
+# Scratch files
+error.txt
+
 # Symbolication related
 app.*.symbols
 

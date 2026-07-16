@@ -74,7 +74,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
                       : ListView.separated(
                           padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
                           itemCount: _properties.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: 12),
+                          separatorBuilder: (_, _) => const SizedBox(height: 12),
                           itemBuilder: (context, i) {
                             final p = _properties[i];
                             return Container(

@@ -35,13 +35,15 @@ class _LoginScreenState extends State<LoginScreen> {
         OAuthProvider.google,
         redirectTo: kIsWeb ? null : 'io.supabase.flutter://callback',
       );
-      if (mounted) Navigator.pushReplacementNamed(context, '/home');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/choose-role');
+      }
     } catch (error) {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Google sign-in failed: ${error.toString()}'),
+          const SnackBar(
+            content: Text('Google sign-in failed. Please try again.'),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -56,13 +58,15 @@ class _LoginScreenState extends State<LoginScreen> {
         OAuthProvider.apple,
         redirectTo: kIsWeb ? null : 'io.supabase.flutter://callback',
       );
-      if (mounted) Navigator.pushReplacementNamed(context, '/home');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/choose-role');
+      }
     } catch (error) {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Apple sign-in failed: ${error.toString()}'),
+          const SnackBar(
+            content: Text('Apple sign-in failed. Please try again.'),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -93,22 +97,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted) {
         if (response.user != null) {
-          // Login successful
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Login successful!'),
-              backgroundColor: AppTheme.primaryContainer,
-            ),
-          );
-          Navigator.pushReplacementNamed(context, '/home');
+          final role = response.user!.userMetadata?['role'] as String?;
+          final hasRole = role != null && role.isNotEmpty;
+          if (!hasRole) {
+            Navigator.pushReplacementNamed(context, '/choose-role');
+          } else {
+            Navigator.pushReplacementNamed(context, '/home');
+          }
         }
       }
     } catch (error) {
       setState(() => _isLoading = false);
       if (mounted) {
+        final errMsg = error.toString();
+        String userMsg;
+        if (errMsg.contains('Invalid login credentials')) {
+          userMsg = 'Wrong email or password. Please check and try again.';
+        } else if (errMsg.contains('Email not confirmed')) {
+          userMsg = 'Please verify your email address first. Check your inbox.';
+        } else if (errMsg.contains('rate_limit')) {
+          userMsg = 'Too many attempts. Please wait a moment and try again.';
+        } else {
+          userMsg = 'Sign in failed. Please check your connection and try again.';
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Login failed: ${error.toString()}'),
+            content: Text(userMsg),
             backgroundColor: AppTheme.error,
           ),
         );

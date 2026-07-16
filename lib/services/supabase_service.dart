@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/property.dart';
@@ -159,16 +160,23 @@ class SupabaseService {
     String? fullName,
     String? phone,
     String? reason,
+    String? idDocumentUrl,
+    String? idType,
+    String? faceImageUrl,
   }) async {
     final user = _client.auth.currentUser;
     if (user == null) return;
-    await _client.from('verification_requests').insert({
+    final data = <String, dynamic>{
       'user_id': user.id,
       'request_type': requestType,
-      'full_name': fullName,
-      'phone': phone,
-      'reason': reason,
-    });
+    };
+    if (fullName != null) data['full_name'] = fullName;
+    if (phone != null) data['phone'] = phone;
+    if (reason != null) data['reason'] = reason;
+    if (idDocumentUrl != null) data['id_document_url'] = idDocumentUrl;
+    if (idType != null) data['id_type'] = idType;
+    if (faceImageUrl != null) data['face_image_url'] = faceImageUrl;
+    await _client.from('verification_requests').insert(data);
   }
 
   Future<Map<String, dynamic>?> getPendingRequest(String requestType) async {
@@ -179,6 +187,35 @@ class SupabaseService {
         .where((r) => r['user_id'] == user.id && r['request_type'] == requestType && r['status'] == 'pending')
         .toList();
     return list.isNotEmpty ? list.first : null;
+  }
+
+  Future<String?> uploadFile(String bucket, String path, String filePath) async {
+    final user = _client.auth.currentUser;
+    if (user == null) return null;
+    final ext = filePath.split('.').last;
+    final fileName = '$path/${DateTime.now().millisecondsSinceEpoch}.$ext';
+    try {
+      await _client.storage.from(bucket).upload(
+        fileName,
+        File(filePath),
+        fileOptions: const FileOptions(contentType: 'image/jpeg'),
+      );
+      return _client.storage.from(bucket).getPublicUrl(fileName);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<String?> uploadVerificationDocument(String filePath) async {
+    return uploadFile('verification_documents', '${_client.auth.currentUser?.id}/documents', filePath);
+  }
+
+  Future<String?> uploadFaceImage(String filePath) async {
+    return uploadFile('verification_documents', '${_client.auth.currentUser?.id}/face', filePath);
+  }
+
+  Future<String?> uploadPropertyImage(String filePath) async {
+    return uploadFile('property_images', '${_client.auth.currentUser?.id}', filePath);
   }
 
   // ======== ADMIN METHODS ========

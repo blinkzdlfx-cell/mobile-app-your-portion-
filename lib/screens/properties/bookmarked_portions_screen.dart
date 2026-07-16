@@ -73,7 +73,7 @@ class _BookmarkedPortionsScreenState extends State<BookmarkedPortionsScreen> {
                       : ListView.separated(
                           padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
                           itemCount: _portions.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: 12),
+                          separatorBuilder: (_, _) => const SizedBox(height: 12),
                           itemBuilder: (context, i) {
                             final p = _portions[i];
                             return Container(
