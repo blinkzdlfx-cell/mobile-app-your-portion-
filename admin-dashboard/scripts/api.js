@@ -31,68 +31,68 @@ async function apiCall(endpoint, options = {}) {
 }
 
 // Admin API functions
-export async function getDashboardStats() {
+async function getDashboardStats() {
     return await apiCall('/dashboard');
 }
 
-export async function getVerificationRequests(filter = {}) {
+async function getVerificationRequests(filter = {}) {
     const queryParams = new URLSearchParams(filter).toString();
     return await apiCall(`/verification/requests?${queryParams}`);
 }
 
-export async function approveVerificationRequest(requestId, userId, requestType) {
+async function approveVerificationRequest(requestId, userId, requestType) {
     return await apiCall('/verification/approve', {
         method: 'POST',
         body: { requestId, userId, requestType },
     });
 }
 
-export async function rejectVerificationRequest(requestId, reason) {
+async function rejectVerificationRequest(requestId, reason) {
     return await apiCall('/verification/reject', {
         method: 'POST',
         body: { requestId, reason },
     });
 }
 
-export async function getPendingProperties(filter = {}) {
+async function getPendingProperties(filter = {}) {
     const queryParams = new URLSearchParams(filter).toString();
     return await apiCall(`/properties/pending?${queryParams}`);
 }
 
-export async function approveProperty(propertyId) {
+async function approveProperty(propertyId) {
     return await apiCall('/properties/approve', {
         method: 'POST',
         body: { propertyId },
     });
 }
 
-export async function rejectProperty(propertyId, reason) {
+async function rejectProperty(propertyId, reason) {
     return await apiCall('/properties/reject', {
         method: 'POST',
         body: { propertyId, reason },
     });
 }
 
-export async function getPendingProjects(filter = {}) {
+async function getPendingProjects(filter = {}) {
     const queryParams = new URLSearchParams(filter).toString();
     return await apiCall(`/projects/pending?${queryParams}`);
 }
 
-export async function approveProject(projectId) {
+async function approveProject(projectId) {
     return await apiCall('/projects/approve', {
         method: 'POST',
         body: { projectId },
     });
 }
 
-export async function rejectProject(projectId, reason) {
+async function rejectProject(projectId, reason) {
     return await apiCall('/projects/reject', {
         method: 'POST',
         body: { projectId, reason },
     });
 }
 
-export async function login(username, password) {
+async function login(username, password) {
     const response = await apiCall('/auth/login', {
         method: 'POST',
         body: { username, password },
@@ -106,16 +106,16 @@ export async function login(username, password) {
     return response;
 }
 
-export function logout() {
+function logout() {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminUser');
 }
 
-export function isAuthenticated() {
+function isAuthenticated() {
     return !!localStorage.getItem('adminToken');
 }
 
-export function getCurrentUser() {
+function getCurrentUser() {
     const userStr = localStorage.getItem('adminUser');
     return userStr ? JSON.parse(userStr) : null;
 }

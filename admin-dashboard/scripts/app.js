@@ -1,6 +1,4 @@
 // Main admin dashboard application
-import { getDashboardStats, getVerificationRequests, approveVerificationRequest, rejectVerificationRequest, getPendingProperties, approveProperty, rejectProperty, getPendingProjects, approveProject, rejectProject, login, logout, isAuthenticated } from './api.js';
-
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize app
     initApp();
@@ -53,7 +51,7 @@ function handleLogin(e) {
     login(username, password)
         .then((response) => {
             console.log('Login successful:', response);
-            initApp();
+            location.reload();
         })
         .catch((error) => {
             console.error('Login failed:', error);
@@ -193,14 +191,11 @@ async function loadVerificationRequests() {
                 ${request.status === 'pending' ? `
                     <div class="action-buttons">
                         <button class="btn-primary" onclick="approveVerificationRequest('${request.id}', '${request.user_id}', '${request.request_type}')">Approve</button>
-                        <button class="btn-secondary" onclick="rejectVerificationRequest('${request.id}')">Reject</button>
+                        <button class="btn-secondary" onclick="showRejectionModal('${request.id}', 'verification')">Reject</button>
                     </div>
                 ` : ''}
             </div>
         `).join('');
-        
-        // Setup event listeners for action buttons
-        setupRequestActionListeners();
     } catch (error) {
         console.error('Failed to load verification requests:', error);
         document.getElementById('requestsList').innerHTML = `
@@ -237,13 +232,10 @@ async function loadProperties() {
                 
                 <div class="action-buttons">
                     <button class="btn-primary" onclick="approveProperty('${property.id}')">Approve</button>
-                    <button class="btn-secondary" onclick="rejectProperty('${property.id}')">Reject</button>
+                    <button class="btn-secondary" onclick="showRejectionModal('${property.id}', 'property')">Reject</button>
                 </div>
             </div>
         `).join('');
-        
-        // Setup event listeners for action buttons
-        setupPropertyActionListeners();
     } catch (error) {
         console.error('Failed to load properties:', error);
         document.getElementById('propertiesList').innerHTML = `
@@ -281,13 +273,10 @@ async function loadProjects() {
                 
                 <div class="action-buttons">
                     <button class="btn-primary" onclick="approveProject('${project.id}')">Approve</button>
-                    <button class="btn-secondary" onclick="rejectProject('${project.id}')">Reject</button>
+                    <button class="btn-secondary" onclick="showRejectionModal('${project.id}', 'project')">Reject</button>
                 </div>
             </div>
         `).join('');
-        
-        // Setup event listeners for action buttons
-        setupProjectActionListeners();
     } catch (error) {
         console.error('Failed to load projects:', error);
         document.getElementById('projectsList').innerHTML = `
@@ -315,99 +304,6 @@ function showToast(message, type = 'info') {
     }, 3000);
 }
 
-// Setup verification request action listeners
-function setupRequestActionListeners() {
-    document.querySelectorAll('.request-card').forEach(card => {
-        const approveBtn = card.querySelector('.btn-primary');
-        const rejectBtn = card.querySelector('.btn-secondary');
-        
-        if (approveBtn) {
-            approveBtn.addEventListener('click', async function() {
-                const requestHeader = card.querySelector('.request-header');
-                const requestId = this.getAttribute('data-id');
-                const requestType = this.getAttribute('data-type');
-                const userId = this.getAttribute('data-user-id');
-                
-                try {
-                    await approveVerificationRequest(requestId, userId, requestType);
-                    showToast('Verification request approved successfully', 'success');
-                    // Reload the list
-                    loadVerificationRequests();
-                } catch (error) {
-                    showToast('Failed to approve verification request', 'error');
-                }
-            });
-        }
-        
-        if (rejectBtn) {
-            rejectBtn.addEventListener('click', async function() {
-                const requestId = this.getAttribute('data-id');
-                showRejectionModal(requestId);
-            });
-        }
-    });
-}
-
-// Setup property action listeners
-function setupPropertyActionListeners() {
-    document.querySelectorAll('.property-card').forEach(card => {
-        const approveBtn = card.querySelector('.btn-primary');
-        const rejectBtn = card.querySelector('.btn-secondary');
-        
-        if (approveBtn) {
-            approveBtn.addEventListener('click', async function() {
-                const propertyId = this.getAttribute('data-id');
-                
-                try {
-                    await approveProperty(propertyId);
-                    showToast('Property approved successfully', 'success');
-                    // Reload the list
-                    loadProperties();
-                } catch (error) {
-                    showToast('Failed to approve property', 'error');
-                }
-            });
-        }
-        
-        if (rejectBtn) {
-            rejectBtn.addEventListener('click', async function() {
-                const propertyId = this.getAttribute('data-id');
-                showRejectionModal(propertyId, 'property');
-            });
-        }
-    });
-}
-
-// Setup project action listeners
-function setupProjectActionListeners() {
-    document.querySelectorAll('.project-card').forEach(card => {
-        const approveBtn = card.querySelector('.btn-primary');
-        const rejectBtn = card.querySelector('.btn-secondary');
-        
-        if (approveBtn) {
-            approveBtn.addEventListener('click', async function() {
-                const projectId = this.getAttribute('data-id');
-                
-                try {
-                    await approveProject(projectId);
-                    showToast('Project approved successfully', 'success');
-                    // Reload the list
-                    loadProjects();
-                } catch (error) {
-                    showToast('Failed to approve project', 'error');
-                }
-            });
-        }
-        
-        if (rejectBtn) {
-            rejectBtn.addEventListener('click', async function() {
-                const projectId = this.getAttribute('data-id');
-                showRejectionModal(projectId, 'project');
-            });
-        }
-    });
-}
-
 // Global rejection modal functions
 let currentRejectionId = null;
 let currentRejectionType = null;
@@ -429,17 +325,21 @@ function showRejectionModal(id, type) {
     
     // Setup confirm button
     const confirmBtn = document.getElementById('modalConfirmBtn');
-    confirmBtn.onclick = function() {
+    confirmBtn.onclick = async function() {
         const reason = document.getElementById('rejectionReason').value;
-        if (currentRejectionType === 'verification') {
-            rejectVerificationRequest(currentRejectionId, reason);
-        } else if (currentRejectionType === 'property') {
-            rejectProperty(currentRejectionId, reason);
-        } else if (currentRejectionType === 'project') {
-            rejectProject(currentRejectionId, reason);
+        try {
+            if (currentRejectionType === 'verification') {
+                await rejectVerificationRequest(currentRejectionId, reason);
+            } else if (currentRejectionType === 'property') {
+                await rejectProperty(currentRejectionId, reason);
+            } else if (currentRejectionType === 'project') {
+                await rejectProject(currentRejectionId, reason);
+            }
+            showToast('Rejected successfully', 'success');
+            hideRejectionModal();
+        } catch (error) {
+            showToast('Failed to reject', 'error');
         }
-        
-        hideRejectionModal();
     };
 }
 
