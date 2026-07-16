@@ -154,7 +154,7 @@ app.post('/api/admin/verification/approve', authMiddleware, requireSupabase, asy
 
     const { error: requestError } = await getSupabase()
       .from('verification_requests')
-      .update({ status: 'approved', reviewed_by: req.admin.username })
+      .update({ status: 'approved' })
       .eq('id', requestId);
 
     if (requestError) throw requestError;
@@ -176,7 +176,7 @@ app.post('/api/admin/verification/reject', authMiddleware, requireSupabase, asyn
 
     const { error } = await getSupabase()
       .from('verification_requests')
-      .update({ status: 'rejected', admin_note: reason || null, reviewed_by: req.admin.username })
+      .update({ status: 'rejected', admin_note: reason || null })
       .eq('id', requestId);
 
     if (error) throw error;
