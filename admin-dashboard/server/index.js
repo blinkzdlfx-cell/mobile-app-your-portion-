@@ -9,12 +9,28 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+let supabase = null;
 
-const JWT_SECRET = process.env.JWT_SECRET;
+function getSupabase() {
+  if (!supabase) {
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return null;
+    }
+    supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+  }
+  return supabase;
+}
+
+function requireSupabase(req, res, next) {
+  if (!getSupabase()) {
+    return res.status(500).json({
+      message: 'Supabase not configured. Create a .env file with SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.',
+    });
+  }
+  next();
+}
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-dev-secret-do-not-use-in-production';
 
 app.use(cors());
 app.use(express.json());
@@ -65,13 +81,14 @@ app.post('/api/admin/auth/login', async (req, res) => {
   }
 });
 
-app.get('/api/admin/dashboard', authMiddleware, async (req, res) => {
+app.get('/api/admin/dashboard', authMiddleware, requireSupabase, async (req, res) => {
   try {
+    const sb = getSupabase();
     const [sellerReq, trustedReq, properties, projects] = await Promise.all([
-      supabase.from('verification_requests').select('id', { count: 'exact', head: true }).eq('request_type', 'seller').eq('status', 'pending'),
-      supabase.from('verification_requests').select('id', { count: 'exact', head: true }).eq('request_type', 'trusted_member').eq('status', 'pending'),
-      supabase.from('properties').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-      supabase.from('kingdom_projects').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+      sb.from('verification_requests').select('id', { count: 'exact', head: true }).eq('request_type', 'seller').eq('status', 'pending'),
+      sb.from('verification_requests').select('id', { count: 'exact', head: true }).eq('request_type', 'trusted_member').eq('status', 'pending'),
+      sb.from('properties').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+      sb.from('kingdom_projects').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     ]);
 
     res.json({
@@ -86,9 +103,9 @@ app.get('/api/admin/dashboard', authMiddleware, async (req, res) => {
   }
 });
 
-app.get('/api/admin/verification/requests', authMiddleware, async (req, res) => {
+app.get('/api/admin/verification/requests', authMiddleware, requireSupabase, async (req, res) => {
   try {
-    let query = supabase
+    let query = getSupabase()
       .from('verification_requests')
       .select('*')
       .order('created_at', { ascending: false });
@@ -110,7 +127,7 @@ app.get('/api/admin/verification/requests', authMiddleware, async (req, res) => 
   }
 });
 
-app.post('/api/admin/verification/approve', authMiddleware, async (req, res) => {
+app.post('/api/admin/verification/approve', authMiddleware, requireSupabase, async (req, res) => {
   try {
     const { requestId, userId, requestType } = req.body;
 
@@ -128,14 +145,14 @@ app.post('/api/admin/verification/approve', authMiddleware, async (req, res) => 
       return res.status(400).json({ message: 'Invalid request type' });
     }
 
-    const { error: profileError } = await supabase
+    const { error: profileError } = await getSupabase()
       .from('profiles')
       .update(updates)
       .eq('id', userId);
 
     if (profileError) throw profileError;
 
-    const { error: requestError } = await supabase
+    const { error: requestError } = await getSupabase()
       .from('verification_requests')
       .update({ status: 'approved', reviewed_by: req.admin.username })
       .eq('id', requestId);
@@ -149,7 +166,7 @@ app.post('/api/admin/verification/approve', authMiddleware, async (req, res) => 
   }
 });
 
-app.post('/api/admin/verification/reject', authMiddleware, async (req, res) => {
+app.post('/api/admin/verification/reject', authMiddleware, requireSupabase, async (req, res) => {
   try {
     const { requestId, reason } = req.body;
 
@@ -157,7 +174,7 @@ app.post('/api/admin/verification/reject', authMiddleware, async (req, res) => {
       return res.status(400).json({ message: 'requestId is required' });
     }
 
-    const { error } = await supabase
+    const { error } = await getSupabase()
       .from('verification_requests')
       .update({ status: 'rejected', admin_note: reason || null, reviewed_by: req.admin.username })
       .eq('id', requestId);
@@ -171,9 +188,9 @@ app.post('/api/admin/verification/reject', authMiddleware, async (req, res) => {
   }
 });
 
-app.get('/api/admin/properties/pending', authMiddleware, async (req, res) => {
+app.get('/api/admin/properties/pending', authMiddleware, requireSupabase, async (req, res) => {
   try {
-    let query = supabase
+    let query = getSupabase()
       .from('properties')
       .select('*')
       .order('created_at', { ascending: false });
@@ -194,7 +211,7 @@ app.get('/api/admin/properties/pending', authMiddleware, async (req, res) => {
   }
 });
 
-app.post('/api/admin/properties/approve', authMiddleware, async (req, res) => {
+app.post('/api/admin/properties/approve', authMiddleware, requireSupabase, async (req, res) => {
   try {
     const { propertyId } = req.body;
 
@@ -202,7 +219,7 @@ app.post('/api/admin/properties/approve', authMiddleware, async (req, res) => {
       return res.status(400).json({ message: 'propertyId is required' });
     }
 
-    const { error } = await supabase
+    const { error } = await getSupabase()
       .from('properties')
       .update({ status: 'approved', is_verified: true })
       .eq('id', propertyId);
@@ -216,7 +233,7 @@ app.post('/api/admin/properties/approve', authMiddleware, async (req, res) => {
   }
 });
 
-app.post('/api/admin/properties/reject', authMiddleware, async (req, res) => {
+app.post('/api/admin/properties/reject', authMiddleware, requireSupabase, async (req, res) => {
   try {
     const { propertyId, reason } = req.body;
 
@@ -224,7 +241,7 @@ app.post('/api/admin/properties/reject', authMiddleware, async (req, res) => {
       return res.status(400).json({ message: 'propertyId is required' });
     }
 
-    const { error } = await supabase
+    const { error } = await getSupabase()
       .from('properties')
       .update({ status: 'rejected', rejection_reason: reason || null })
       .eq('id', propertyId);
@@ -238,9 +255,9 @@ app.post('/api/admin/properties/reject', authMiddleware, async (req, res) => {
   }
 });
 
-app.get('/api/admin/projects/pending', authMiddleware, async (req, res) => {
+app.get('/api/admin/projects/pending', authMiddleware, requireSupabase, async (req, res) => {
   try {
-    let query = supabase
+    let query = getSupabase()
       .from('kingdom_projects')
       .select('*')
       .order('created_at', { ascending: false });
@@ -261,7 +278,7 @@ app.get('/api/admin/projects/pending', authMiddleware, async (req, res) => {
   }
 });
 
-app.post('/api/admin/projects/approve', authMiddleware, async (req, res) => {
+app.post('/api/admin/projects/approve', authMiddleware, requireSupabase, async (req, res) => {
   try {
     const { projectId } = req.body;
 
@@ -269,7 +286,7 @@ app.post('/api/admin/projects/approve', authMiddleware, async (req, res) => {
       return res.status(400).json({ message: 'projectId is required' });
     }
 
-    const { error } = await supabase
+    const { error } = await getSupabase()
       .from('kingdom_projects')
       .update({ status: 'active' })
       .eq('id', projectId);
@@ -283,7 +300,7 @@ app.post('/api/admin/projects/approve', authMiddleware, async (req, res) => {
   }
 });
 
-app.post('/api/admin/projects/reject', authMiddleware, async (req, res) => {
+app.post('/api/admin/projects/reject', authMiddleware, requireSupabase, async (req, res) => {
   try {
     const { projectId, reason } = req.body;
 
@@ -291,7 +308,7 @@ app.post('/api/admin/projects/reject', authMiddleware, async (req, res) => {
       return res.status(400).json({ message: 'projectId is required' });
     }
 
-    const { error } = await supabase
+    const { error } = await getSupabase()
       .from('kingdom_projects')
       .update({ status: 'rejected', rejection_reason: reason || null })
       .eq('id', projectId);
