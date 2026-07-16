@@ -38,6 +38,10 @@ migrate_working_dir/
 # Scratch files
 error.txt
 
+# Admin server
+admin-dashboard/server/node_modules/
+admin-dashboard/server/.env
+
 # Symbolication related
 app.*.symbols
 

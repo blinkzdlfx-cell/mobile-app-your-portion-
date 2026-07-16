@@ -9,9 +9,10 @@ async function apiCall(endpoint, options = {}) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('adminToken') || ''}`, // For token auth
+            'Authorization': `Bearer ${localStorage.getItem('adminToken') || ''}`,
         },
         ...options,
+        body: options.body ? JSON.stringify(options.body) : undefined,
     };
     
     try {
