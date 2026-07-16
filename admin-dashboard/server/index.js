@@ -32,6 +32,7 @@ function requireSupabase(req, res, next) {
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-dev-secret-do-not-use-in-production';
 
+app.set('trust proxy', 1);
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..')));
@@ -322,6 +323,10 @@ app.post('/api/admin/projects/reject', authMiddleware, requireSupabase, async (r
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Admin dashboard server running on http://localhost:${PORT}`);
+app.get('/api/admin/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Admin dashboard server running on port ${PORT}`);
 });

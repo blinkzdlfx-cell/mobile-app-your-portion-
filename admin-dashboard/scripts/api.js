@@ -1,5 +1,6 @@
 // API client for admin dashboard
-const API_BASE = 'http://localhost:3000/api/admin';
+// Uses the current origin so it works in both dev (localhost:3000) and production
+const API_BASE = window.location.origin + '/api/admin';
 
 // Helper function for making authenticated API calls
 async function apiCall(endpoint, options = {}) {

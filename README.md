@@ -22,3 +22,16 @@ npm start        # → http://localhost:3000
 ```
 
 The admin dashboard is a separate web app — not a Flutter screen. See `docs/ARCHITECTURE.md` for full details.
+
+## Deploy Admin Dashboard (Render / Railway)
+
+```sh
+cd admin-dashboard/server
+npm install
+```
+
+Push to GitHub, then:
+- **Render**: New Web Service → Root Directory = `admin-dashboard/server` → Build = `npm install` → Start = `npm start` → Add env vars
+- **Railway**: New Project → Root Directory = `admin-dashboard/server` → Add env vars
+
+Required env vars: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH` (bcrypt), `JWT_SECRET`
