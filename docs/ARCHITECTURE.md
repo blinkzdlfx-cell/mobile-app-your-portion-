@@ -136,6 +136,8 @@ npm start       # → http://localhost:3000
 3. Admin authenticates via JWT (username/password from `.env`)
 4. API mirrors the `SupabaseService` admin methods from the Flutter app
 
+**Deployment:** See `docs/DEPLOY_ADMIN.md` for Render, Railway, and Fly.io instructions.
+
 **API endpoints:**
 | Endpoint | Purpose |
 |----------|---------|

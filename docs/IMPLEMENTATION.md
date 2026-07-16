@@ -145,38 +145,7 @@ npm start       # → http://localhost:3000
 
 ## Deploying the Admin Dashboard
 
-The server is a standard Express app that can be deployed to any Node.js platform.
-
-### On Render (easiest)
-
-1. Push the repo to GitHub
-2. Go to [dashboard.render.com](https://dashboard.render.com) → New + → Web Service
-3. Connect your repo
-4. Settings:
-   - **Root Directory**: `admin-dashboard/server`
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-5. Add environment variables (same as `.env`):
-   - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `ADMIN_USERNAME`
-   - `ADMIN_PASSWORD_HASH` (bcrypt hash, generate with `node -e "require('bcryptjs').hash('your-password',10).then(console.log)"`)
-   - `JWT_SECRET` (random string, generate with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
-6. Deploy — the server serves both the dashboard UI and API
-
-### On Railway
-
-1. Push the repo to GitHub
-2. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub repo
-3. Settings → **Root Directory**: `admin-dashboard/server`
-4. Add the same env vars as above
-5. Railway auto-detects Node.js and runs `npm start`
-
-### Important
-
-- The frontend (`api.js`) automatically uses `window.location.origin` as the API base, so it works with any deployment domain — no code changes needed.
-- The server binds to `0.0.0.0` so it accepts connections from the deployment platform's proxy.
-- All 6 Supabase migration SQL files must be executed in your Supabase project before the dashboard will work.
+See `docs/DEPLOY_ADMIN.md` for full deployment instructions covering Render, Railway, and Fly.io.
 
 ### Role Helpers
 - `canSell()` → `bool`
