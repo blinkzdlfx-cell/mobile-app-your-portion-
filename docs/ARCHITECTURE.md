@@ -107,51 +107,64 @@ MaterialApp
               └── _NavItem (Profile)
 ```
 
-## Admin Dashboard (Separate Web App)
+## Admin Dashboard (Next.js 15 + Tailwind, separate web app)
 ```
 admin-dashboard/
-├── index.html          # SPA — Dashboard, Verification, Properties, Projects tabs
-├── styles.css          # Full admin UI styling (login, cards, modals, toasts)
-├── scripts/
-│   ├── api.js          # API client — calls localhost:3000/api/admin/*
-│   └── app.js          # SPA logic — auth, navigation, data loading, CRUD actions
-└── server/
-    ├── index.js        # Express server (port 3000) — serves static files + API
-    ├── setup.js        # Interactive .env generator (Supabase URL + service key + admin password)
-    ├── package.json
-    └── .env.example
-```
-
-**Server setup:**
-```sh
-cd admin-dashboard/server
-npm install
-npm run setup   # prompts for Supabase URL, service role key, admin password
-npm start       # → http://localhost:3000
+├── src/
+│   ├── app/
+│   │   ├── api/            # Route Handlers (no Express)
+│   │   │   ├── auth/login/         → POST /api/auth/login
+│   │   │   ├── dashboard/          → GET  /api/dashboard
+│   │   │   ├── verification/       → CRUD for seller/trusted requests
+│   │   │   ├── properties/         → CRUD for property listings
+│   │   │   └── projects/           → CRUD for kingdom projects
+│   │   ├── dashboard/page.tsx      — Stats grid, quick actions
+│   │   ├── verification/page.tsx   — Filterable request list, approve/reject
+│   │   ├── properties/page.tsx     — Property approval list
+│   │   ├── projects/page.tsx       — Project approval list with progress bars
+│   │   ├── page.tsx                — Login page
+│   │   └── layout.tsx              — Root layout with Toast + Auth providers
+│   └── lib/
+│       ├── admin-layout.tsx        — Reusable sidebar + topbar
+│       ├── auth-context.tsx        — React context for JWT auth state
+│       ├── api-client.ts           — Typed fetch wrapper with JWT Bearer token
+│       ├── api-utils.ts            — Server helpers (authGuard, responses)
+│       ├── auth.ts                 — jose JWT create/verify helpers
+│       ├── supabase.ts             — Supabase admin client (service_role)
+│       └── toast.tsx               — Toast notification system
+├── tailwind.config.ts         — Custom colors (primary, sage, cream), animations
+├── next.config.js             — Next.js config
+├── wrangler.toml              — Cloudflare Pages/Workers config
+├── package.json               — next, react, @supabase/supabase-js, jose
+├── .env.example / setup-env.mjs — Env setup
+└── README.md                  — Full docs
 ```
 
 **How it works:**
-1. Express serves the static HTML/CSS/JS at `/`
-2. All `/api/admin/*` endpoints use the Supabase **service role key** (bypasses RLS)
-3. Admin authenticates via JWT (username/password from `.env`)
-4. API mirrors the `SupabaseService` admin methods from the Flutter app
+1. Next.js builds to static pages + Cloudflare Workers output
+2. API routes run on Cloudflare Workers runtime (no Express, no Node.js server)
+3. All database operations use `@supabase/supabase-js` with the **service role key** (bypasses RLS)
+4. Admin authenticates via JWT (jose, HS256) — password compared against `ADMIN_PASSWORD_HASH` env var
+5. Toast notifications replace browser `alert()` — success/error/info variants
 
-**Deployment:** See `docs/DEPLOY_ADMIN.md` for Render, Railway, and Fly.io instructions.
+**Deployment:** Build with `npm run build`, deploy with `npm run deploy`. Or connect to Cloudflare Pages via Git. See `docs/DEPLOY_ADMIN.md` for full instructions.
 
 **API endpoints:**
 | Endpoint | Purpose |
 |----------|---------|
-| `POST /api/admin/auth/login` | Authenticate admin |
-| `GET /api/admin/dashboard` | Pending counts (seller, trusted, properties, projects) |
-| `GET /api/admin/verification/requests` | List verification requests |
-| `POST /api/admin/verification/approve` | Approve a request |
-| `POST /api/admin/verification/reject` | Reject with reason |
-| `GET /api/admin/properties/pending` | List pending properties |
-| `POST /api/admin/properties/approve` | Approve a property |
-| `POST /api/admin/properties/reject` | Reject with reason |
-| `GET /api/admin/projects/pending` | List pending projects |
-| `POST /api/admin/projects/approve` | Approve a project |
-| `POST /api/admin/projects/reject` | Reject with reason |
+| `POST /api/auth/login` | Authenticate admin |
+| `GET /api/dashboard` | Pending counts (seller, trusted, properties, projects) |
+| `GET /api/verification/requests` | List verification requests (with type/status filters) |
+| `POST /api/verification/approve` | Approve a request |
+| `POST /api/verification/reject` | Reject with reason |
+| `GET /api/properties/pending` | List pending properties |
+| `POST /api/properties/approve` | Approve a property |
+| `POST /api/properties/reject` | Reject with reason |
+| `GET /api/projects/pending` | List pending projects |
+| `POST /api/projects/approve` | Approve a project |
+| `POST /api/projects/reject` | Reject with reason |
+
+**Old Express version** is backed up at `admin-dashboard-express-backup/`.
 
 ## Database ER (Logical)
 ```

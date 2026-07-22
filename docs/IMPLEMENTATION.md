@@ -118,34 +118,59 @@ Navigation uses `pushNamed` / `pushReplacementNamed`. No `Navigator 2.0` or `go_
 - `approveProject(String projectId)` → void
 - `rejectProject(String projectId, String reason)` → void
 
-## Admin Dashboard Server
+## Admin Dashboard (Next.js 15 + Tailwind)
 
-The admin dashboard is a **separate web app** (not a Flutter screen) at `admin-dashboard/`. It consists of:
+The admin dashboard is a **separate web app** (not a Flutter screen) at `admin-dashboard/`. Built with Next.js 15 App Router, TypeScript, and Tailwind CSS. Zero Express — API routes are native Next.js Route Handlers running on Cloudflare Workers.
 
-### Frontend (`admin-dashboard/`)
-- **`index.html`** — SPA with 4 tabs (Dashboard, Verification, Properties, Projects)
-- **`styles.css`** — Full styling including login page, cards, modals, toasts
-- **`scripts/api.js`** — API client, all functions exposed globally (no module system)
-- **`scripts/app.js`** — SPA logic: auth check, navigation, data loading, CRUD, rejection modal
+### Frontend (`admin-dashboard/src/app/`)
+- **`page.tsx`** — Login page (gradient background, glassmorphism card, loading spinner)
+- **`dashboard/page.tsx`** — Stats grid (4 pending counts) + quick actions
+- **`verification/page.tsx`** — Filterable request list (type + status), approve/reject with modals
+- **`properties/page.tsx`** — Pending property approval list
+- **`projects/page.tsx`** — Pending project approval list with funding progress bars
+- **`layout.tsx`** — Root layout wrapping `AuthProvider` + `ToastProvider`
 
-### Backend (`admin-dashboard/server/`)
-- **`index.js`** — Express server on port 3000, serves static files + REST API
-- **`setup.js`** — Interactive CLI to generate `.env` with Supabase + admin credentials
-- Uses `@supabase/supabase-js` with **service role key** (bypasses RLS)
-- JWT-based admin auth with bcrypt password verification
-- Graceful startup — serves login page even without Supabase configured
+### Shared Components (`admin-dashboard/src/lib/`)
+- **`admin-layout.tsx`** — Sidebar navigation + top navbar + logout confirmation modal
+- **`auth-context.tsx`** — React context managing JWT token in localStorage
+- **`api-client.ts`** — Typed fetch wrapper with Bearer token injection
+- **`api-utils.ts`** — Server helpers (`authGuard`, `unauthorized()`, `serverError()`)
+- **`auth.ts`** — `jose` JWT creation/verification (HS256) + env config reader
+- **`supabase.ts`** — Supabase admin client using `service_role` key
+- **`toast.tsx`** — Toast notification system (success/error/info) replacing `alert()`
+
+### API Routes (`admin-dashboard/src/app/api/`)
+11 routes using Next.js Route Handlers — no Express, no Node.js server:
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/auth/login` | POST | Validate credentials, return JWT |
+| `/api/dashboard` | GET | Pending counts (seller, trusted, properties, projects) |
+| `/api/verification/requests` | GET | List with optional `requestType` + `status` filters |
+| `/api/verification/approve` | POST | Approve, update `profiles` flags |
+| `/api/verification/reject` | POST | Reject with `admin_note` |
+| `/api/properties/pending` | GET | List pending |
+| `/api/properties/approve` | POST | Set `status=approved, is_verified=true` |
+| `/api/properties/reject` | POST | Set `status=rejected` with `rejection_reason` |
+| `/api/projects/pending` | GET | List pending |
+| `/api/projects/approve` | POST | Set `status=active` |
+| `/api/projects/reject` | POST | Set `status=rejected` with `rejection_reason` |
 
 ### Setup
 ```sh
-cd admin-dashboard/server
+cd admin-dashboard
 npm install
-npm run setup   # or manually create .env from .env.example
-npm start       # → http://localhost:3000
+npm run setup   # interactive .env generator
+npm run dev     # → http://localhost:3000
 ```
 
-## Deploying the Admin Dashboard
+### Deploy
+```sh
+npm run build    # Build with @cloudflare/next-on-pages
+npm run deploy   # Deploy to Cloudflare Pages
+```
 
-See `docs/DEPLOY_ADMIN.md` for full deployment instructions covering Render, Railway, and Fly.io.
+See `docs/DEPLOY_ADMIN.md` for full instructions.
 
 ### Role Helpers
 - `canSell()` → `bool`
