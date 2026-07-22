@@ -41,6 +41,7 @@ error.txt
 # Admin dashboard
 admin-dashboard/node_modules/
 admin-dashboard/.next/
+admin-dashboard/.open-next/
 admin-dashboard/server/node_modules/
 admin-dashboard/server/.env
 
