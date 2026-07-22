@@ -38,7 +38,9 @@ migrate_working_dir/
 # Scratch files
 error.txt
 
-# Admin server
+# Admin dashboard
+admin-dashboard/node_modules/
+admin-dashboard/.next/
 admin-dashboard/server/node_modules/
 admin-dashboard/server/.env
 
