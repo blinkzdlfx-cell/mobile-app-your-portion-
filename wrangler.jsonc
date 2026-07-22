@@ -1,0 +1,16 @@
+{
+  "$schema": "admin-dashboard/node_modules/wrangler/config-schema.json",
+  "main": "admin-dashboard/.open-next/worker.js",
+  "name": "your-portion-admin",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": "admin-dashboard/.open-next/assets",
+    "binding": "ASSETS"
+  },
+  "build": {
+    "command": "cd admin-dashboard && npm install && npx opennextjs-cloudflare build"
+  }
+}
