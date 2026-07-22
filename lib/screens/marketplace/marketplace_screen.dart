@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
+import '../../widgets/property_card.dart';
 import '../../services/supabase_service.dart';
 import '../../models/property.dart';
 
@@ -357,10 +358,11 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                       // Property cards
                       ..._filteredProperties.map((p) => Padding(
                         padding: const EdgeInsets.only(bottom: 12),
-                        child: _PropertyCard(
+                        child: PropertyCard(
                           property: p,
                           isSaved: _savedPropertyIds.contains(p.id),
                           onSaveToggle: () => _toggleSave(p.id),
+                          onTap: () => Navigator.pushNamed(context, '/property-detail', arguments: p),
                         ),
                       )),
                     ],
@@ -432,190 +434,4 @@ class _FilterChip extends StatelessWidget {
   }
 }
 
-class _PropertyCard extends StatelessWidget {
-  final Property property;
-  final bool isSaved;
-  final VoidCallback? onSaveToggle;
 
-  const _PropertyCard({
-    required this.property,
-    this.isSaved = false,
-    this.onSaveToggle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppTheme.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.outlineVariant),
-        boxShadow: [AppTheme.ambientShadow],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image placeholder
-          Container(
-            height: 160,
-            decoration: BoxDecoration(
-              color: AppTheme.surfaceVariant,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Stack(
-              children: [
-                Center(
-                  child: Icon(Icons.image_outlined, size: 48, color: AppTheme.outlineVariant),
-                ),
-                Positioned(
-                  top: 12,
-                  left: 12,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppTheme.surface.withValues(alpha: 0.9),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      property.category,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: AppTheme.primary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 12,
-                  right: 12,
-                  child: GestureDetector(
-                    onTap: onSaveToggle,
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: AppTheme.surface.withValues(alpha: 0.9),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        isSaved ? Icons.favorite : Icons.favorite_border,
-                        size: 18,
-                        color: isSaved ? Colors.red : AppTheme.outline,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          // Info
-          Text(
-            property.title,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppTheme.primary,
-              fontWeight: FontWeight.w600,
-              fontSize: 22,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Row(
-            children: [
-              const Icon(Icons.location_on, size: 16, color: AppTheme.onSurfaceVariant),
-              const SizedBox(width: 4),
-              Text(
-                property.location,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: AppTheme.onSurfaceVariant,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    property.formattedPrice,
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      color: AppTheme.primary,
-                      fontSize: 28,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      const Text(
-                        'Verified Seller',
-                        style: TextStyle(color: AppTheme.onSurface),
-                      ),
-                      const SizedBox(width: 8),
-                      const Icon(Icons.star, size: 14, color: Colors.orange, fill: 1),
-                      const SizedBox(width: 2),
-                      const Text('4.8'),
-                    ],
-                  ),
-                ],
-              ),
-              ElevatedButton(
-                onPressed: () => _showPropertyDetails(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.surfaceContainer,
-                  foregroundColor: AppTheme.primary,
-                  minimumSize: const Size(100, 40),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  elevation: 0,
-                ),
-                child: const Text('View Details', style: TextStyle(fontSize: 12)),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showPropertyDetails(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Property Details', style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            )),
-            const SizedBox(height: 16),
-            Text('Title: ${property.title}', style: Theme.of(context).textTheme.bodyMedium),
-            const SizedBox(height: 8),
-            Text('Category: ${property.category}', style: Theme.of(context).textTheme.bodyMedium),
-            const SizedBox(height: 8),
-            Text('Price: ${property.formattedPrice}', style: Theme.of(context).textTheme.bodyMedium),
-            const SizedBox(height: 8),
-            Text('Location: ${property.location}', style: Theme.of(context).textTheme.bodyMedium),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('Close'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/property.dart';
 import '../models/kingdom_project.dart';
+import 'imagekit_service.dart';
 
 class SupabaseService {
   SupabaseClient get _client => Supabase.instance.client;
@@ -30,6 +31,7 @@ class SupabaseService {
   Future<List<Property>> getProperties({String? category}) async {
     final response = await _client.from('properties').select('*');
     var list = (response as List).cast<Map<String, dynamic>>();
+    list = list.where((p) => p['status'] == 'approved').toList();
     if (category != null && category != 'All Listings') {
       list = list.where((p) => p['category'] == category).toList();
     }
@@ -57,6 +59,26 @@ class SupabaseService {
 
   Future<void> deleteProperty(String id) async {
     await _client.from('properties').delete().filter('id', 'eq', id);
+  }
+
+  Future<void> saveDraft(Property property) async {
+    final user = _client.auth.currentUser;
+    if (user == null) return;
+    final data = property.toMap();
+    data['status'] = 'draft';
+    await _client.from('properties').insert(data);
+  }
+
+  Future<void> updateDraft(String id, Map<String, dynamic> updates) async {
+    await _client.from('properties').update(updates).filter('id', 'eq', id);
+  }
+
+  Future<void> archiveProperty(String id) async {
+    await _client.from('properties').update({'status': 'archived'}).filter('id', 'eq', id);
+  }
+
+  Future<void> reactivateProperty(String id) async {
+    await _client.from('properties').update({'status': 'approved'}).filter('id', 'eq', id);
   }
 
   // ======== SAVED PROPERTIES ========
@@ -215,6 +237,16 @@ class SupabaseService {
   }
 
   Future<String?> uploadPropertyImage(String filePath) async {
+    final imagekit = ImageKitService();
+    if (imagekit.isConfigured) {
+      final ext = filePath.split('.').last;
+      final fileName = 'property_${DateTime.now().millisecondsSinceEpoch}.$ext';
+      return imagekit.uploadImage(
+        filePath: filePath,
+        fileName: fileName,
+        folder: '/properties/${_client.auth.currentUser?.id}',
+      );
+    }
     return uploadFile('property_images', '${_client.auth.currentUser?.id}', filePath);
   }
 

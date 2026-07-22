@@ -28,36 +28,35 @@ class BottomNavBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _NavItem(
+            Expanded(child: _NavItem(
               icon: Icons.auto_stories_outlined,
               activeIcon: Icons.auto_stories,
               label: 'Daily',
               isActive: currentIndex == 0,
               onTap: () => onTap(0),
-            ),
-            _NavItem(
+            )),
+            Expanded(child: _NavItem(
               icon: Icons.storefront_outlined,
               activeIcon: Icons.storefront,
               label: 'Market',
               isActive: currentIndex == 1,
               onTap: () => onTap(1),
-            ),
-            _NavItem(
+            )),
+            Expanded(child: _NavItem(
               icon: Icons.diversity_1_outlined,
               activeIcon: Icons.diversity_1,
               label: 'Kingdom',
               isActive: currentIndex == 2,
               onTap: () => onTap(2),
-            ),
-            _NavItem(
+            )),
+            Expanded(child: _NavItem(
               icon: Icons.person_outline,
               activeIcon: Icons.person,
               label: 'Profile',
               isActive: currentIndex == 3,
               onTap: () => onTap(3),
-            ),
+            )),
           ],
         ),
       ),
@@ -88,7 +87,7 @@ class _NavItem extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
           color: isActive ? AppTheme.primaryContainer : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
@@ -102,13 +101,16 @@ class _NavItem extends StatelessWidget {
               size: 20,
             ),
             const SizedBox(width: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 11,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                color: isActive ? AppTheme.onPrimary : AppTheme.secondary,
+            Flexible(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 11,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+                  color: isActive ? AppTheme.onPrimary : AppTheme.secondary,
+                ),
               ),
             ),
           ],

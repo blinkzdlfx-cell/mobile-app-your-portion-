@@ -12,6 +12,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme/app_theme.dart';
 import 'config/app_protection.dart';
+import 'services/imagekit_service.dart';
+import 'models/property.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/auth/forgot_password_screen.dart';
@@ -34,6 +36,7 @@ import 'screens/properties/saved_properties_screen.dart';
 import 'screens/properties/my_properties_screen.dart';
 import 'screens/properties/create_property_screen.dart';
 import 'screens/properties/bookmarked_portions_screen.dart';
+import 'screens/properties/property_detail_screen.dart';
 import 'screens/kingdom_projects/kingdom_projects_screen.dart';
 import 'screens/kingdom_projects/create_kingdom_project_screen.dart';
 import 'screens/library/learning_library_screen.dart';
@@ -42,12 +45,21 @@ import 'screens/utility/offline_screen.dart';
 import 'screens/utility/empty_state_screen.dart';
 import 'screens/utility/success_screen.dart';
 import 'screens/utility/help_support_screen.dart';
+import 'screens/settings/trusted_member_status_screen.dart';
+import 'screens/settings/change_password_screen.dart';
+import 'screens/settings/notification_settings_screen.dart';
+import 'screens/settings/buyer_seller_role_screen.dart';
+import 'screens/settings/language_picker_screen.dart';
+import 'screens/settings/contact_us_screen.dart';
+import 'screens/settings/send_feedback_screen.dart';
+import 'screens/settings/about_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   // Load environment variables
   await dotenv.load(fileName: "assets/.env");
+  ImageKitService().init();
   
   // Initialize Supabase
   await Supabase.initialize(
@@ -117,7 +129,11 @@ class MyApp extends StatelessWidget {
         '/my-properties': (context) => const MyPropertiesScreen(),
         '/saved-properties': (context) => const SavedPropertiesScreen(),
         '/bookmarked-portions': (context) => const BookmarkedPortionsScreen(),
-        '/create-property': (context) => const CreatePropertyScreen(),
+        '/property-detail': (context) => const PropertyDetailScreen(),
+        '/create-property': (context) {
+          final existing = ModalRoute.of(context)?.settings.arguments;
+          return CreatePropertyScreen(existingProperty: existing is Property ? existing : null);
+        },
         // Kingdom Projects
         '/kingdom-projects': (context) => const KingdomProjectsScreen(),
         '/create-kingdom-project': (context) => const CreateKingdomProjectScreen(),
@@ -129,6 +145,15 @@ class MyApp extends StatelessWidget {
         '/empty-state': (context) => const EmptyStateScreen(),
         '/success': (context) => const SuccessScreen(message: 'Operation completed successfully.'),
         '/help-support': (context) => const HelpSupportScreen(),
+        // Settings
+        '/trusted-member-status': (context) => const TrustedMemberStatusScreen(),
+        '/change-password': (context) => const ChangePasswordScreen(),
+        '/notification-settings': (context) => const NotificationSettingsScreen(),
+        '/buyer-seller-role': (context) => const BuyerSellerRoleScreen(),
+        '/language': (context) => const LanguagePickerScreen(),
+        '/contact-us': (context) => const ContactUsScreen(),
+        '/send-feedback': (context) => const SendFeedbackScreen(),
+        '/about': (context) => const AboutScreen(),
       },
     );
   }

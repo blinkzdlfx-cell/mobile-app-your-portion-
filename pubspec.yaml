@@ -51,6 +51,9 @@ dependencies:
   # File picking for document upload
   file_picker: ^8.0.0
 
+  # HTTP client for ImageKit.io uploads
+  http: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
