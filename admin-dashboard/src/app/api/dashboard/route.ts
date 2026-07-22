@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
 import { authGuard, unauthorized, serverError } from '@/lib/api-utils'
 
+export const runtime = 'edge'
+
 export async function GET(request: NextRequest) {
   const admin = await authGuard(request)
   if (!admin) return unauthorized()
