@@ -35,18 +35,37 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with WidgetsBindingObserver {
   final _supabaseService = SupabaseService();
   String _fullName = '';
   String _email = '';
   String _role = 'buyer';
   String _avatarInitials = '?';
-  List<Color> _avatarGradient = [AppTheme.primaryContainer, AppTheme.primaryContainer];
+  List<Color> _avatarColors = [AppTheme.primaryContainer, AppTheme.primaryContainer];
   bool _isSellerVerified = false;
   bool _isTrustedMember = false;
   bool _isAdmin = false;
   bool _hasPendingVerification = false;
   bool _loaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _loadProfile();
+    }
+  }
 
   @override
   void didChangeDependencies() {
@@ -78,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _isAdmin = role == 'admin' || (profile?.role == 'admin');
         _hasPendingVerification = pendingRequest != null;
         _avatarInitials = _initials(name);
-        _avatarGradient = _avatarGradient(user.id);
+        _avatarColors = _avatarGradient(user.id);
       });
     }
   }
@@ -196,7 +215,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             // Content
             Expanded(
-              child: SingleChildScrollView(
+              child: RefreshIndicator(
+                onRefresh: _loadProfile,
+                child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
                 child: Column(
                   children: [
@@ -218,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                               gradient: LinearGradient(
-                                colors: _avatarGradient,
+                                colors: _avatarColors,
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
@@ -402,69 +423,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 8),
                     _ActivityCard(icon: Icons.menu_book_outlined, title: 'Bookmarked Portions', onTap: () => Navigator.pushNamed(context, '/bookmarked-portions')),
                     const SizedBox(height: 24),
-                    // Account section
-                    Text(
-                      'Account',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppTheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.surface,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: AppTheme.surfaceVariant.withValues(alpha: 0.3)),
-                        boxShadow: [BoxShadow(color: const Color(0xFF000000).withValues(alpha: 0.02), blurRadius: 30)],
-                      ),
-                      child: Column(
-                        children: [
-                          if (_isAdmin) ...[
-                            _AccountTile(icon: Icons.admin_panel_settings, title: 'Admin Dashboard', onTap: () => Navigator.pushNamed(context, '/admin')),
-                            _Divider(),
-                          ],
-                          _AccountTile(icon: Icons.person_outline, title: 'Edit Profile', onTap: () => Navigator.pushNamed(context, '/edit-profile').then((_) => _loadProfile())),
-                          _Divider(),
-                          _AccountTile(icon: Icons.notifications_outlined, title: 'Notifications', onTap: () => Navigator.pushNamed(context, '/notifications')),
-                          _Divider(),
-                          _AccountTile(icon: Icons.verified_user_outlined, title: 'Trusted Member Status', onTap: () => Navigator.pushNamed(context, '/become-trusted-member')),
-                          _Divider(),
-                          if (_role == 'seller' && !_isSellerVerified)
-                            _AccountTile(
-                              icon: Icons.badge_outlined,
-                              title: 'Seller Verification',
-                              trailing: _hasPendingVerification ? _PendingChip() : null,
-                              onTap: _hasPendingVerification ? null : () => _showVerificationSheet(context),
-                            ),
-                          if (_role == 'seller' && !_isSellerVerified) _Divider(),
-                          _AccountTile(icon: Icons.help_outline, title: 'Help & Support', onTap: () => Navigator.pushNamed(context, '/help-support')),
-                          _Divider(),
-                          _AccountTile(icon: Icons.mail_outline, title: 'Contact Us', onTap: () => Navigator.pushNamed(context, '/help-support')),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    // Logout
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () => _showLogoutDialog(context),
-                        icon: const Icon(Icons.logout),
-                        label: const Text('Log Out'),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppTheme.error,
-                          minimumSize: const Size(double.infinity, 56),
-                          side: const BorderSide(color: AppTheme.error, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
+          ),
           ],
         ),
       ),
@@ -563,105 +526,3 @@ class _ActivityCard extends StatelessWidget {
   }
 }
 
-class _PendingChip extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: AppTheme.primaryContainer.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.hourglass_top, size: 12, color: AppTheme.primaryContainer),
-          const SizedBox(width: 4),
-          Text(
-            'Pending',
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: AppTheme.primaryContainer,
-              fontSize: 11,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AccountTile extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final VoidCallback? onTap;
-  final Widget? trailing;
-
-  const _AccountTile({required this.icon, required this.title, this.onTap, this.trailing});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: Row(
-          children: [
-            Icon(icon, color: AppTheme.onSurfaceVariant),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.onSurface,
-                ),
-              ),
-            ),
-            if (trailing != null) ...[
-              trailing!,
-              const SizedBox(width: 8),
-            ],
-            const Icon(Icons.chevron_right, color: AppTheme.onSurfaceVariant),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-void _showLogoutDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (ctx) => AlertDialog(
-      icon: const Icon(Icons.logout, color: AppTheme.error, size: 32),
-      title: const Text('Log Out'),
-      content: const Text('Are you sure you want to log out?'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(ctx).pop(),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            Navigator.of(ctx).pop();
-            await Supabase.instance.client.auth.signOut();
-            if (context.mounted) {
-              Navigator.of(context).pushReplacementNamed('/welcome');
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.error,
-            foregroundColor: AppTheme.onError,
-          ),
-          child: const Text('Log Out'),
-        ),
-      ],
-    ),
-  );
-}
-
-class _Divider extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Divider(height: 1, color: AppTheme.surfaceVariant.withValues(alpha: 0.3), indent: 56);
-  }
-}

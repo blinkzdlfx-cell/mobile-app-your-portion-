@@ -1,8 +1,120 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
+import '../../services/supabase_service.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  final _supabaseService = SupabaseService();
+  String _role = 'buyer';
+  bool _isSellerVerified = false;
+  bool _hasPendingVerification = false;
+  bool _loaded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_loaded) {
+      _loaded = true;
+      _load();
+    }
+  }
+
+  Future<void> _load() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) return;
+    final meta = user.userMetadata;
+    final role = (meta?['role'] as String?) ?? 'buyer';
+    final profile = await _supabaseService.getCurrentProfile();
+    final pendingRequest = await _supabaseService.getPendingRequest('seller');
+    if (mounted) {
+      setState(() {
+        _role = profile?.role ?? role;
+        _isSellerVerified = profile?.isSellerVerified ?? false;
+        _hasPendingVerification = pendingRequest != null;
+      });
+    }
+  }
+
+  Future<void> _handleLogout() async {
+    await Supabase.instance.client.auth.signOut();
+    if (mounted) {
+      Navigator.of(context).pushNamedAndRemoveUntil('/welcome', (route) => false);
+    }
+  }
+
+  void _showVerificationSheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40, height: 4,
+                decoration: BoxDecoration(
+                  color: AppTheme.outlineVariant,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                width: 64, height: 64,
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryContainer.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.badge_outlined, size: 32, color: AppTheme.primaryContainer),
+              ),
+              const SizedBox(height: 16),
+              Text('Seller Verification',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: AppTheme.onSurface, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 8),
+              Text('Upload a government-issued ID for admin review.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppTheme.onSurfaceVariant, height: 1.5),
+                textAlign: TextAlign.center),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    Navigator.pushNamed(context, '/document-upload');
+                  },
+                  child: const Text('Upload Document'),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppTheme.onSurfaceVariant,
+                    side: const BorderSide(color: AppTheme.outlineVariant),
+                  ),
+                  child: const Text('Cancel'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +151,44 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: 8),
               _SettingsCard(items: [
                 _SettingsTile(icon: Icons.person_outline, title: 'Edit Profile', iconBg: AppTheme.primaryContainer.withValues(alpha: 0.1), iconColor: AppTheme.primaryContainer, onTap: () => Navigator.pushNamed(context, '/edit-profile')),
-                _SettingsTile(icon: Icons.verified_user_outlined, title: 'Trusted Member Status', iconBg: AppTheme.primaryContainer.withValues(alpha: 0.1), iconColor: AppTheme.primaryContainer),
-                _SettingsTile(icon: Icons.lock_outline, title: 'Change Password', iconBg: AppTheme.primaryContainer.withValues(alpha: 0.1), iconColor: AppTheme.primaryContainer),
+                _SettingsTile(icon: Icons.verified_user_outlined, title: 'Trusted Member Status', iconBg: AppTheme.primaryContainer.withValues(alpha: 0.1), iconColor: AppTheme.primaryContainer, onTap: () => Navigator.pushNamed(context, '/trusted-member-status')),
+                _SettingsTile(icon: Icons.lock_outline, title: 'Change Password', iconBg: AppTheme.primaryContainer.withValues(alpha: 0.1), iconColor: AppTheme.primaryContainer, onTap: () => Navigator.pushNamed(context, '/change-password')),
+                if (_role == 'seller' && !_isSellerVerified)
+                  _SettingsTile(
+                    icon: Icons.badge_outlined,
+                    title: 'Seller Verification',
+                    iconBg: AppTheme.primaryContainer.withValues(alpha: 0.1),
+                    iconColor: AppTheme.primaryContainer,
+                    trailing: _hasPendingVerification
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryContainer.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.hourglass_top, size: 12, color: AppTheme.primaryContainer),
+                                const SizedBox(width: 4),
+                                Text('Pending',
+                                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                    color: AppTheme.primaryContainer, fontSize: 11)),
+                              ],
+                            ),
+                          )
+                        : null,
+                    onTap: _hasPendingVerification ? null : _showVerificationSheet,
+                  ),
               ]),
               const SizedBox(height: 24),
               // Preferences section
               _SectionHeader(text: 'Preferences'),
               const SizedBox(height: 8),
               _SettingsCard(items: [
-                _SettingsTile(icon: Icons.notifications_outlined, title: 'Notifications', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary),
-                _SettingsTile(icon: Icons.swap_horiz, title: 'Buyer & Seller Role', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary),
-                _SettingsTile(icon: Icons.language, title: 'Language', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary, trailing: 'English'),
+                _SettingsTile(icon: Icons.notifications_outlined, title: 'Notifications', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary, onTap: () => Navigator.pushNamed(context, '/notification-settings')),
+                _SettingsTile(icon: Icons.swap_horiz, title: 'Buyer & Seller Role', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary, onTap: () => Navigator.pushNamed(context, '/buyer-seller-role')),
+                _SettingsTile(icon: Icons.language, title: 'Language', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary, trailing: Text('English', style: TextStyle(color: AppTheme.onSurfaceVariant, fontSize: 13)), onTap: () => Navigator.pushNamed(context, '/language')),
               ]),
               const SizedBox(height: 24),
               // Support section
@@ -57,15 +196,15 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: 8),
               _SettingsCard(items: [
                 _SettingsTile(icon: Icons.help_outline, title: 'Help Center', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary, onTap: () => Navigator.pushNamed(context, '/help-support')),
-                _SettingsTile(icon: Icons.mail_outline, title: 'Contact Us', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary),
-                _SettingsTile(icon: Icons.rate_review_outlined, title: 'Send Feedback', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary),
+                _SettingsTile(icon: Icons.mail_outline, title: 'Contact Us', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary, onTap: () => Navigator.pushNamed(context, '/contact-us')),
+                _SettingsTile(icon: Icons.rate_review_outlined, title: 'Send Feedback', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary, onTap: () => Navigator.pushNamed(context, '/send-feedback')),
               ]),
               const SizedBox(height: 24),
               // About section
               _SectionHeader(text: 'About'),
               const SizedBox(height: 8),
               _SettingsCard(items: [
-                _SettingsTile(icon: Icons.info_outline, title: 'About Your Portion', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary),
+                _SettingsTile(icon: Icons.info_outline, title: 'About Your Portion', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary, onTap: () => Navigator.pushNamed(context, '/about')),
                 _SettingsTile(icon: Icons.shield_outlined, title: 'Privacy Policy', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary),
                 _SettingsTile(icon: Icons.description_outlined, title: 'Terms & Conditions', iconBg: AppTheme.surfaceContainer, iconColor: AppTheme.secondary),
               ]),
@@ -83,7 +222,7 @@ class SettingsScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: _handleLogout,
                   icon: const Icon(Icons.logout),
                   label: const Text('Log Out'),
                   style: OutlinedButton.styleFrom(
@@ -160,7 +299,7 @@ class _SettingsTile extends StatelessWidget {
   final String title;
   final Color iconBg;
   final Color iconColor;
-  final String? trailing;
+  final Widget? trailing;
   final VoidCallback? onTap;
 
   const _SettingsTile({
@@ -199,12 +338,7 @@ class _SettingsTile extends StatelessWidget {
               ),
             ),
             if (trailing != null) ...[
-              Text(
-                trailing!,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: AppTheme.onSurfaceVariant,
-                ),
-              ),
+              trailing!,
               const SizedBox(width: 8),
             ],
             const Icon(Icons.chevron_right, color: AppTheme.outlineVariant),

@@ -44,8 +44,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
-  final bool _isBuyer = true;
-  final bool _isSeller = true;
   bool _isSaving = false;
   String _avatarInitials = '?';
   Color _avatarColor = AppTheme.primaryContainer;
@@ -204,7 +202,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: 16),
               _InputField(label: 'Full Name', controller: _nameController),
               const SizedBox(height: 12),
-              _InputField(label: 'Email Address', controller: _emailController, keyboardType: TextInputType.emailAddress),
+              _InputField(label: 'Email Address', controller: _emailController, readOnly: true),
               const SizedBox(height: 12),
               _InputField(label: 'Phone Number', controller: _phoneController, keyboardType: TextInputType.phone),
               const SizedBox(height: 12),
@@ -212,121 +210,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 label: 'Location',
                 controller: _locationController,
                 prefixIcon: Icons.location_on_outlined,
-              ),
-              const SizedBox(height: 32),
-              // Role section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'HOW DO YOU USE YOUR PORTION?',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: AppTheme.onSurfaceVariant,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.verified, size: 14, color: AppTheme.onPrimaryContainer),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Buyer & Seller',
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: AppTheme.onPrimaryContainer,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(child: _RoleCard(icon: Icons.shopping_bag_outlined, label: 'Buyer', isSelected: _isBuyer)),
-                  const SizedBox(width: 12),
-                  Expanded(child: _RoleCard(icon: Icons.storefront_outlined, label: 'Seller', isSelected: _isSeller)),
-                ],
-              ),
-              const SizedBox(height: 32),
-              // Trust section
-              Text(
-                'TRUST & VERIFICATION',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppTheme.onSurfaceVariant,
-                  letterSpacing: 1.2,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: AppTheme.surface,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppTheme.surfaceVariant),
-                  boxShadow: [AppTheme.ambientShadow],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE6F4EA),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.verified_user, color: Color(0xFF137333), fill: 1),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Trusted Member Verified',
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  color: AppTheme.onSurface,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Your identity has been securely verified, enhancing your trust within the community.',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: AppTheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppTheme.onSurface,
-                          minimumSize: const Size(double.infinity, 48),
-                          backgroundColor: AppTheme.secondary.withValues(alpha: 0.1),
-                          side: BorderSide.none,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
-                        child: const Text('View Trusted Member Status'),
-                      ),
-                    ),
-                  ],
-                ),
               ),
               const SizedBox(height: 32),
               // Save
@@ -373,12 +256,14 @@ class _InputField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final IconData? prefixIcon;
+  final bool readOnly;
 
   const _InputField({
     required this.label,
     required this.controller,
     this.keyboardType,
     this.prefixIcon,
+    this.readOnly = false,
   });
 
   @override
@@ -393,14 +278,17 @@ class _InputField extends StatelessWidget {
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: AppTheme.surfaceContainerLow,
+            color: readOnly ? AppTheme.surfaceVariant : AppTheme.surfaceContainerLow,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: AppTheme.surfaceVariant),
           ),
           child: TextField(
             controller: controller,
             keyboardType: keyboardType,
-            style: Theme.of(context).textTheme.bodyMedium,
+            readOnly: readOnly,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: readOnly ? AppTheme.onSurfaceVariant : AppTheme.onSurface,
+            ),
             decoration: InputDecoration(
               prefixIcon: prefixIcon != null ? Icon(prefixIcon, color: AppTheme.onSurfaceVariant) : null,
               border: InputBorder.none,
@@ -409,44 +297,6 @@ class _InputField extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _RoleCard extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isSelected;
-
-  const _RoleCard({required this.icon, required this.label, required this.isSelected});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFFF8FAF9) : AppTheme.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isSelected ? AppTheme.primaryContainer : AppTheme.surfaceVariant,
-          width: isSelected ? 1.5 : 1,
-        ),
-        boxShadow: isSelected ? [AppTheme.ambientShadow] : null,
-      ),
-      child: Column(
-        children: [
-          Icon(icon, size: 32, color: AppTheme.primaryContainer),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: AppTheme.primaryContainer,
-            ),
-          ),
-          if (isSelected)
-            const Icon(Icons.check_circle, size: 18, color: AppTheme.primaryContainer),
-        ],
-      ),
     );
   }
 }
