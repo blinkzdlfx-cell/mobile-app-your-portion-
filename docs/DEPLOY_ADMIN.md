@@ -44,7 +44,8 @@ npm run deploy
 3. Configure:
    - **Project name**: `your-portion-admin`
    - **Production branch**: `main`
-   - **Build command**: `cd admin-dashboard && npm install && npm run build`
+    - **Build command**: `cd admin-dashboard && npm install && npm run build:cf`
+    - **Note**: `package.json` has `build` for local dev and `build:cf` for Cloudflare (avoids a recursive loop with `@cloudflare/next-on-pages`)
    - **Build output directory**: `admin-dashboard/.vercel/output/static`
 4. Add environment variables (click **Add variable** for each):
    - `NEXT_PUBLIC_SUPABASE_URL`

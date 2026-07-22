@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx @cloudflare/next-on-pages",
+    "build": "next build",
+    "build:cf": "npx @cloudflare/next-on-pages",
     "start": "next start",
     "deploy": "npm run build && npx wrangler pages deploy .vercel/output/static --project-name=your-portion-admin",
     "preview": "npx wrangler pages dev .vercel/output/static",
