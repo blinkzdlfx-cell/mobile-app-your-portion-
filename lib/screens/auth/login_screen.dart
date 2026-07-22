@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   bool _obscurePassword = true;
   bool _isLoading = false;
+  StreamSubscription<AuthState>? _authSub;
 
   @override
   void initState() {
@@ -28,17 +30,28 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _onOAuthSignIn() {
+    _authSub?.cancel();
+    _authSub = Supabase.instance.client.auth.onAuthStateChange.listen((event) {
+      if (event.event == AuthChangeEvent.signedIn) {
+        _authSub?.cancel();
+        if (!mounted) return;
+        final role = event.session?.user.userMetadata?['role'] as String?;
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+    });
+  }
+
   Future<void> _handleGoogleSignIn() async {
     setState(() => _isLoading = true);
     try {
+      _onOAuthSignIn();
       await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.google,
         redirectTo: kIsWeb ? null : 'io.supabase.flutter://callback',
       );
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/choose-role');
-      }
     } catch (error) {
+      _authSub?.cancel();
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -54,14 +67,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleAppleSignIn() async {
     setState(() => _isLoading = true);
     try {
+      _onOAuthSignIn();
       await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.apple,
         redirectTo: kIsWeb ? null : 'io.supabase.flutter://callback',
       );
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/choose-role');
-      }
     } catch (error) {
+      _authSub?.cancel();
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -76,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    _authSub?.cancel();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -93,19 +106,34 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text,
       );
 
-      setState(() => _isLoading = false);
-
       if (mounted) {
         if (response.user != null) {
-          final role = response.user!.userMetadata?['role'] as String?;
-          final hasRole = role != null && role.isNotEmpty;
-          if (!hasRole) {
-            Navigator.pushReplacementNamed(context, '/choose-role');
-          } else {
-            Navigator.pushReplacementNamed(context, '/home');
+          String? role = response.user!.userMetadata?['role'] as String?;
+
+          if (role == null || role.isEmpty) {
+            try {
+              final profileRes = await Supabase.instance.client
+                  .from('profiles')
+                  .select('role')
+                  .filter('id', 'eq', response.user!.id)
+                  .single();
+              role = profileRes['role'] as String?;
+              if (role != null && role.isNotEmpty) {
+                await Supabase.instance.client.auth.updateUser(
+                  UserAttributes(data: {'role': role}),
+                );
+              }
+            } catch (_) {}
           }
+
+          setState(() => _isLoading = false);
+
+          Navigator.pushReplacementNamed(context, '/home');
+          return;
         }
       }
+
+      setState(() => _isLoading = false);
     } catch (error) {
       setState(() => _isLoading = false);
       if (mounted) {

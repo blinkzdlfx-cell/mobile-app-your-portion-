@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -43,18 +44,23 @@ class _SplashScreenState extends State<SplashScreen>
     _animController.forward();
 
     Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        if (widget.nextScreen != null) {
-          Navigator.of(context).pushReplacement(
-            PageRouteBuilder(
-              pageBuilder: (_, _, _) => widget.nextScreen!,
-              transitionsBuilder: (_, a, _, child) => FadeTransition(opacity: a, child: child),
-              transitionDuration: const Duration(milliseconds: 400),
-            ),
-          );
-        } else {
-          Navigator.of(context).pushReplacementNamed('/welcome');
-        }
+      if (!mounted) return;
+      if (widget.nextScreen != null) {
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (_, _, _) => widget.nextScreen!,
+            transitionsBuilder: (_, a, _, child) => FadeTransition(opacity: a, child: child),
+            transitionDuration: const Duration(milliseconds: 400),
+          ),
+        );
+        return;
+      }
+
+      final session = Supabase.instance.client.auth.currentSession;
+      if (session != null) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      } else {
+        Navigator.of(context).pushReplacementNamed('/welcome');
       }
     });
   }

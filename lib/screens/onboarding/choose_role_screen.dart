@@ -270,6 +270,20 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                 : Text(_selectedRole == 'seller' ? 'Continue to Verification' : 'Continue'),
           ),
         ),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton(
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 56),
+              side: const BorderSide(color: AppTheme.outlineVariant),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: const Text('Skip for now',
+              style: TextStyle(color: AppTheme.onSurfaceVariant)),
+          ),
+        ),
         const SizedBox(height: 16),
         Text(
           'You can update your role anytime from your profile settings.',
