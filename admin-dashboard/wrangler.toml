@@ -1,25 +1,6 @@
 name = "your-portion-admin"
-main = ".vercel/output/static/index.html"
 compatibility_date = "2024-12-01"
-
 pages_build_output_dir = ".vercel/output/static"
 
-[[services]]
-binding = "NEXT_PUBLIC_SUPABASE_URL"
-service = "supabase-url"
-
-[[services]]
-binding = "SUPABASE_SERVICE_ROLE_KEY"
-service = "supabase-key"
-
-[[services]]
-binding = "ADMIN_USERNAME"
-service = "admin-username"
-
-[[services]]
-binding = "ADMIN_PASSWORD_HASH"
-service = "admin-password-hash"
-
-[[services]]
-binding = "JWT_SECRET"
-service = "jwt-secret"
+# Environment variables are set in Cloudflare Dashboard → Pages → your-project → Settings → Environment variables
+# Do NOT put secrets in this file
