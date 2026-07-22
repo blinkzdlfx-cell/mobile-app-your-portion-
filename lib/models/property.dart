@@ -16,6 +16,7 @@ class Property {
   final String? contactEmail;
   final String status;
   final bool isVerified;
+  final String? rejectionReason;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -37,6 +38,7 @@ class Property {
     this.contactEmail,
     this.status = 'pending',
     this.isVerified = false,
+    this.rejectionReason,
     this.createdAt,
     this.updatedAt,
   });
@@ -65,6 +67,7 @@ class Property {
       contactEmail: map['contact_email'] as String?,
       status: (map['status'] as String?) ?? 'pending',
       isVerified: (map['is_verified'] as bool?) ?? false,
+      rejectionReason: map['rejection_reason'] as String?,
       createdAt: map['created_at'] != null ? DateTime.parse(map['created_at'] as String) : null,
       updatedAt: map['updated_at'] != null ? DateTime.parse(map['updated_at'] as String) : null,
     );
