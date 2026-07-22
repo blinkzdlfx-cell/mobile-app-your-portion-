@@ -10,6 +10,13 @@
     "directory": "admin-dashboard/.open-next/assets",
     "binding": "ASSETS"
   },
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://ssytwfbufkkidtoitgje.supabase.co",
+    "ADMIN_USERNAME": "Admin",
+    "ADMIN_PASSWORD_HASH": "153624",
+    "JWT_SECRET": "5d7b56c9d35fb4dabb6b6b1c3883d85b7961e33dcb8e3710bd953b255d02890f",
+    "SUPABASE_SERVICE_ROLE_KEY": ""
+  },
   "build": {
     "command": "cd admin-dashboard && npm install && npx opennextjs-cloudflare build"
   }
