@@ -6,6 +6,10 @@ import { ToastProvider } from '@/lib/toast'
 export const metadata: Metadata = {
   title: 'Your Portion — Admin',
   description: 'Admin dashboard for Your Portion marketplace',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

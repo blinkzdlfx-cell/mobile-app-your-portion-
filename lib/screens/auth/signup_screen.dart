@@ -171,18 +171,13 @@ class _SignupScreenState extends State<SignupScreen> {
                         // Logo and Brand
                         Column(
                           children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              decoration: BoxDecoration(
-                                color: AppTheme.primaryContainer,
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [AppTheme.ambientShadow],
-                              ),
-                              child: Icon(
-                                Icons.eco_outlined,
-                                color: AppTheme.onPrimaryContainer,
-                                size: 32,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                width: 64,
+                                height: 64,
+                                fit: BoxFit.contain,
                               ),
                             ),
                             const SizedBox(height: 16),

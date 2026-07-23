@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen>
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.eco_outlined, color: AppTheme.primary, size: 24),
+                    child: Image.asset('assets/images/logo.png', width: 24, height: 24, fit: BoxFit.contain),
                   ),
                   const SizedBox(width: 12),
                   Column(

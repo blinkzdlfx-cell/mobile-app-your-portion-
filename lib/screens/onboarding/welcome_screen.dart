@@ -19,10 +19,11 @@ class WelcomeScreen extends StatelessWidget {
                 SizedBox(
                   width: 200,
                   height: 200,
-                  child: Icon(
-                    Icons.eco_rounded,
-                    size: 100,
-                    color: AppTheme.primaryContainer.withValues(alpha: 0.3),
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    width: 120,
+                    height: 120,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 const SizedBox(height: 32),

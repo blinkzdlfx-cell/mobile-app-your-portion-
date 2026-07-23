@@ -84,18 +84,13 @@ class _SplashScreenState extends State<SplashScreen>
               position: _logoSlide,
               child: FadeTransition(
                 opacity: _logoFade,
-                child: Container(
-                  width: 128,
-                  height: 128,
-                  decoration: BoxDecoration(
-                    color: AppTheme.surfaceBright,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [AppTheme.ambientShadow],
-                  ),
-                  child: Icon(
-                    Icons.eco_outlined,
-                    size: 64,
-                    color: AppTheme.primaryContainer,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    width: 128,
+                    height: 128,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

@@ -186,18 +186,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Logo and Brand
                         Column(
                           children: [
-                            Container(
+                            Image.asset(
+                              'assets/images/logo.png',
                               width: 40,
                               height: 40,
-                              decoration: BoxDecoration(
-                                color: AppTheme.primaryContainer,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(
-                                Icons.eco_outlined,
-                                color: AppTheme.onPrimaryContainer,
-                                size: 24,
-                              ),
+                              fit: BoxFit.contain,
                             ),
                             const SizedBox(height: 12),
                             Text(
