@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../theme/app_theme.dart';
@@ -30,6 +29,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
       type: FileType.custom,
       allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
       allowMultiple: false,
+      withData: true,
     );
     if (result != null && result.files.isNotEmpty) {
       setState(() {
@@ -48,29 +48,13 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
 
     try {
       final ext = _idFile!.name.split('.').last;
-      String? idDocumentUrl;
-      String? faceImageUrl;
-
-      if (kIsWeb) {
-        final idBytes = _idFile!.bytes;
-        final faceBytes = _faceFile!.bytes;
-        if (idBytes == null || faceBytes == null) {
-          throw Exception('File data not available');
-        }
-        idDocumentUrl = await _supabaseService.uploadVerificationDocument(bytes: idBytes, extension: ext);
-        faceImageUrl = await _supabaseService.uploadFaceImage(bytes: faceBytes, extension: ext);
-      } else {
-        final idFilePath = _idFile!.path;
-        final faceFilePath = _faceFile!.path;
-        if (idFilePath == null || faceFilePath == null) {
-          throw Exception('File path not available');
-        }
-        idDocumentUrl = await _supabaseService.uploadVerificationDocument(filePath: idFilePath);
-        faceImageUrl = await _supabaseService.uploadFaceImage(filePath: faceFilePath);
+      final idBytes = _idFile!.bytes;
+      final faceBytes = _faceFile!.bytes;
+      if (idBytes == null || faceBytes == null) {
+        throw Exception('File data not available');
       }
-
-      if (idDocumentUrl == null) throw Exception('Failed to upload ID document');
-      if (faceImageUrl == null) throw Exception('Failed to upload face image');
+      final idDocumentUrl = await _supabaseService.uploadVerificationDocument(bytes: idBytes, extension: ext);
+      final faceImageUrl = await _supabaseService.uploadFaceImage(bytes: faceBytes, extension: ext);
 
       await _supabaseService.submitVerificationRequest(
         requestType: 'seller',

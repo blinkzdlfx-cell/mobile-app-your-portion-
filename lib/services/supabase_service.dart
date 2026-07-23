@@ -228,47 +228,26 @@ class SupabaseService {
     return list.isNotEmpty ? list.first : null;
   }
 
-  Future<String?> uploadFile(
-    String bucket,
-    String path, {
-    String? filePath,
-    Uint8List? bytes,
-    String? extension,
-  }) async {
+  Future<String> _uploadBytes(String bucket, String path, Uint8List bytes, String extension) async {
     final user = _client.auth.currentUser;
-    if (user == null) return null;
-    final ext = extension ?? (filePath?.split('.').last ?? 'jpg');
-    final fileName = '$path/${DateTime.now().millisecondsSinceEpoch}.$ext';
-    try {
-      if (bytes != null) {
-        await _client.storage.from(bucket).upload(
-          fileName,
-          bytes,
-          fileOptions: const FileOptions(contentType: 'image/jpeg'),
-        );
-      } else if (filePath != null) {
-        await _client.storage.from(bucket).upload(
-          fileName,
-          File(filePath),
-          fileOptions: const FileOptions(contentType: 'image/jpeg'),
-        );
-      } else {
-        return null;
-      }
-      return _client.storage.from(bucket).getPublicUrl(fileName);
-    } catch (_) {
-      return null;
-    }
+    if (user == null) throw Exception('Not authenticated');
+    final fileName = '$path/${DateTime.now().millisecondsSinceEpoch}.$extension';
+    await _client.storage.from(bucket).upload(
+      fileName,
+      bytes,
+      fileOptions: const FileOptions(contentType: 'image/jpeg'),
+    );
+    final url = _client.storage.from(bucket).getPublicUrl(fileName);
+    if (url.isEmpty) throw Exception('Failed to retrieve file URL');
+    return url;
   }
 
-  Future<String?> uploadVerificationDocument({String? filePath, Uint8List? bytes, String? extension}) async {
-    return uploadFile('verification_documents', '${_client.auth.currentUser?.id}/documents',
-        filePath: filePath, bytes: bytes, extension: extension);
+  Future<String> uploadVerificationDocument({required Uint8List bytes, required String extension}) async {
+    return _uploadBytes('verification_documents', '${_client.auth.currentUser?.id}/documents', bytes, extension);
   }
 
-  Future<String?> uploadFaceImage({String? filePath, Uint8List? bytes, String? extension}) async {
-    return uploadFile('verification_documents', '${_client.auth.currentUser?.id}/face',
-        filePath: filePath, bytes: bytes, extension: extension);
+  Future<String> uploadFaceImage({required Uint8List bytes, required String extension}) async {
+    return _uploadBytes('verification_documents', '${_client.auth.currentUser?.id}/face', bytes, extension);
   }
 
   Future<String?> uploadPropertyImage(String filePath) async {
@@ -282,7 +261,13 @@ class SupabaseService {
         folder: '/properties/${_client.auth.currentUser?.id}',
       );
     }
-    return uploadFile('property_images', '${_client.auth.currentUser?.id}', filePath: filePath);
+    try {
+      final bytes = await File(filePath).readAsBytes();
+      final ext = filePath.split('.').last;
+      return await _uploadBytes('property_images', '${_client.auth.currentUser?.id}', bytes, ext);
+    } catch (_) {
+      return null;
+    }
   }
 
   // ======== ADMIN METHODS ========

@@ -280,10 +280,27 @@
 
 ---
 
+## Setup After Clone
+
+```bash
+git clone <repo-url> your-portion
+cd your-portion
+
+# Flutter app
+flutter pub get
+cp assets/.env.example assets/.env   # fill in your real Supabase/ImageKit keys
+
+# Admin dashboard
+cd admin-dashboard
+cp .env.example .env                 # fill in real keys
+npm install
+cd ..
+```
+
 ## Next Priority Order
 1. ✅ **Property Images** — migration, ImageKit, card, image display, detail screen, 8-image limit
 2. ✅ **Property Management** — edit/delete/archive/reactivate, status badges, rejection reason, submit draft
-3. ⬜ **Profile & Settings** — avatar upload, change password, preferences
+3. ✅ **Profile & Settings** — avatar upload, change password, preferences, role selection
 4. ⬜ **Kingdom Projects** — full CRUD, donations
 5. ⬜ **Reviews & Ratings**
 6. ⬜ **Daily Portion** — real data
