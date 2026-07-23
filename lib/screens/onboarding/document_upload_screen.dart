@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../theme/app_theme.dart';
@@ -46,16 +47,29 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
     setState(() => _isUploading = true);
 
     try {
-      final idFilePath = _idFile!.path;
-      final faceFilePath = _faceFile!.path;
-      if (idFilePath == null || faceFilePath == null) {
-        throw Exception('File path not available');
+      final ext = _idFile!.name.split('.').last;
+      String? idDocumentUrl;
+      String? faceImageUrl;
+
+      if (kIsWeb) {
+        final idBytes = _idFile!.bytes;
+        final faceBytes = _faceFile!.bytes;
+        if (idBytes == null || faceBytes == null) {
+          throw Exception('File data not available');
+        }
+        idDocumentUrl = await _supabaseService.uploadVerificationDocument(bytes: idBytes, extension: ext);
+        faceImageUrl = await _supabaseService.uploadFaceImage(bytes: faceBytes, extension: ext);
+      } else {
+        final idFilePath = _idFile!.path;
+        final faceFilePath = _faceFile!.path;
+        if (idFilePath == null || faceFilePath == null) {
+          throw Exception('File path not available');
+        }
+        idDocumentUrl = await _supabaseService.uploadVerificationDocument(filePath: idFilePath);
+        faceImageUrl = await _supabaseService.uploadFaceImage(filePath: faceFilePath);
       }
 
-      final idDocumentUrl = await _supabaseService.uploadVerificationDocument(idFilePath);
       if (idDocumentUrl == null) throw Exception('Failed to upload ID document');
-
-      final faceImageUrl = await _supabaseService.uploadFaceImage(faceFilePath);
       if (faceImageUrl == null) throw Exception('Failed to upload face image');
 
       await _supabaseService.submitVerificationRequest(

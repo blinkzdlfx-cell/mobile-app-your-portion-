@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/property.dart';
@@ -227,29 +228,47 @@ class SupabaseService {
     return list.isNotEmpty ? list.first : null;
   }
 
-  Future<String?> uploadFile(String bucket, String path, String filePath) async {
+  Future<String?> uploadFile(
+    String bucket,
+    String path, {
+    String? filePath,
+    Uint8List? bytes,
+    String? extension,
+  }) async {
     final user = _client.auth.currentUser;
     if (user == null) return null;
-    final ext = filePath.split('.').last;
+    final ext = extension ?? (filePath?.split('.').last ?? 'jpg');
     final fileName = '$path/${DateTime.now().millisecondsSinceEpoch}.$ext';
     try {
-      await _client.storage.from(bucket).upload(
-        fileName,
-        File(filePath),
-        fileOptions: const FileOptions(contentType: 'image/jpeg'),
-      );
+      if (bytes != null) {
+        await _client.storage.from(bucket).upload(
+          fileName,
+          bytes,
+          fileOptions: const FileOptions(contentType: 'image/jpeg'),
+        );
+      } else if (filePath != null) {
+        await _client.storage.from(bucket).upload(
+          fileName,
+          File(filePath),
+          fileOptions: const FileOptions(contentType: 'image/jpeg'),
+        );
+      } else {
+        return null;
+      }
       return _client.storage.from(bucket).getPublicUrl(fileName);
     } catch (_) {
       return null;
     }
   }
 
-  Future<String?> uploadVerificationDocument(String filePath) async {
-    return uploadFile('verification_documents', '${_client.auth.currentUser?.id}/documents', filePath);
+  Future<String?> uploadVerificationDocument({String? filePath, Uint8List? bytes, String? extension}) async {
+    return uploadFile('verification_documents', '${_client.auth.currentUser?.id}/documents',
+        filePath: filePath, bytes: bytes, extension: extension);
   }
 
-  Future<String?> uploadFaceImage(String filePath) async {
-    return uploadFile('verification_documents', '${_client.auth.currentUser?.id}/face', filePath);
+  Future<String?> uploadFaceImage({String? filePath, Uint8List? bytes, String? extension}) async {
+    return uploadFile('verification_documents', '${_client.auth.currentUser?.id}/face',
+        filePath: filePath, bytes: bytes, extension: extension);
   }
 
   Future<String?> uploadPropertyImage(String filePath) async {
