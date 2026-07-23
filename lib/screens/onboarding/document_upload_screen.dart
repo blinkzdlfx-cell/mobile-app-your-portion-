@@ -80,14 +80,17 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _isUploading = false);
-        final errMsg = e.toString();
-        String userMsg;
-        if (errMsg.contains('42501') || errMsg.contains('row-level security')) {
+        String userMsg = e.toString();
+        if (userMsg.contains('42501') || userMsg.contains('row-level security')) {
           userMsg = 'Session expired. Please sign in again and retry.';
-        } else if (errMsg.contains('Failed to upload')) {
+        } else if (userMsg.contains('Failed to upload')) {
           userMsg = 'Could not upload files. Check your connection and try again.';
-        } else {
-          userMsg = 'Something went wrong. Please try again.';
+        } else if (userMsg.contains('column') && userMsg.contains('does not exist')) {
+          userMsg = 'Setup incomplete — missing database columns. Contact support.';
+        } else if (userMsg.contains('relation') && userMsg.contains('does not exist')) {
+          userMsg = 'Setup incomplete — database tables missing. Contact support.';
+        } else if (userMsg.contains('foreign key')) {
+          userMsg = 'Account setup issue. Please sign out and sign in again.';
         }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

@@ -187,7 +187,10 @@ class SupabaseService {
     String? faceImageUrl,
   }) async {
     final user = _client.auth.currentUser;
-    if (user == null) return;
+    if (user == null) throw Exception('No authenticated user');
+
+    await _ensureProfileExists(user);
+
     final data = <String, dynamic>{
       'user_id': user.id,
       'request_type': requestType,
@@ -199,6 +202,19 @@ class SupabaseService {
     if (idType != null) data['id_type'] = idType;
     if (faceImageUrl != null) data['face_image_url'] = faceImageUrl;
     await _client.from('verification_requests').insert(data);
+  }
+
+  Future<void> _ensureProfileExists(User user) async {
+    try {
+      final existing = await _client.from('profiles').select('id').filter('id', 'eq', user.id).maybeSingle();
+      if (existing != null) return;
+      await _client.from('profiles').insert({
+        'id': user.id,
+        'email': user.email,
+        'full_name': user.userMetadata?['full_name'],
+        'role': user.userMetadata?['role'] ?? 'buyer',
+      });
+    } catch (_) {}
   }
 
   Future<Map<String, dynamic>?> getPendingRequest(String requestType) async {
