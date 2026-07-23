@@ -252,24 +252,25 @@ class _HomeScreenState extends State<HomeScreen>
                     const SizedBox(height: 32),
                     // Marketplace preview
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Marketplace',
-                              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                color: AppTheme.primary,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Marketplace',
+                                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                  color: AppTheme.primary,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Invest in kingdom-aligned properties.',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppTheme.secondary,
+                              Text(
+                                'Invest in kingdom-aligned properties.',
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: AppTheme.secondary,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         TextButton(
                           onPressed: () => Navigator.pushNamed(context, '/marketplace'),
