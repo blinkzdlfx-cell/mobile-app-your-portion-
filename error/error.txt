@@ -1,3 +1,1 @@
-lib/services/supabase_service.dart:285:22: Error: Too many positional arguments: 2 allowed, but 3 found.
-Try removing the extra positional arguments.
-    return uploadFile('property_images', '${_client.auth.currentUser?.id}', filePath);
+NoSuchMethodError: 'readAsBytesSync'method not foundReceiver: Instance of 'NativeUint8List'Arguments: []

@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/property.dart';
@@ -231,15 +233,28 @@ class SupabaseService {
   Future<String> _uploadBytes(String bucket, String path, Uint8List bytes, String extension) async {
     final user = _client.auth.currentUser;
     if (user == null) throw Exception('Not authenticated');
+    final session = _client.auth.currentSession;
+    final token = session?.accessToken;
+    if (token == null) throw Exception('No session token');
+
     final fileName = '$path/${DateTime.now().millisecondsSinceEpoch}.$extension';
-    await _client.storage.from(bucket).upload(
-      fileName,
-      bytes,
-      fileOptions: const FileOptions(contentType: 'image/jpeg'),
-    );
-    final url = _client.storage.from(bucket).getPublicUrl(fileName);
-    if (url.isEmpty) throw Exception('Failed to retrieve file URL');
-    return url;
+    final supabaseUrl = _client.supabaseUrl;
+    final anonKey = dotenv.env['SUPABASE_PUBLISHABLE_KEY'] ?? '';
+
+    final uri = Uri.parse('$supabaseUrl/storage/v1/object/$bucket/$fileName');
+    final request = http.MultipartRequest('POST', uri)
+      ..headers['apikey'] = anonKey
+      ..headers['Authorization'] = 'Bearer $token'
+      ..files.add(http.MultipartFile.fromBytes('file', bytes, filename: fileName));
+
+    final response = await request.send();
+    final body = await response.stream.bytesToString();
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception('Upload failed ($response.statusCode): $body');
+    }
+
+    return '$supabaseUrl/storage/v1/object/public/$bucket/$fileName';
   }
 
   Future<String> uploadVerificationDocument({required Uint8List bytes, required String extension}) async {
