@@ -1,1 +1,7 @@
-NoSuchMethodError: 'readAsBytesSync'method not foundReceiver: Instance of 'NativeUint8List'Arguments: []
+
+lib/services/supabase_service.dart:241:33: Error: The getter 'supabaseUrl' isn't defined for the type 'SupabaseClient'.
+ - 'SupabaseClient' is from 'package:supabase/src/supabase_client.dart'
+ ('../../../../AppData/Local/Pub/Cache/hosted/pub.dev/supabase-2.13.4/lib/src/supabase_client.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'supabaseUrl'.
+    final supabaseUrl = _client.supabaseUrl;
+                                ^^^^^^^^^^^

@@ -238,7 +238,7 @@ class SupabaseService {
     if (token == null) throw Exception('No session token');
 
     final fileName = '$path/${DateTime.now().millisecondsSinceEpoch}.$extension';
-    final supabaseUrl = _client.supabaseUrl;
+    final supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
     final anonKey = dotenv.env['SUPABASE_PUBLISHABLE_KEY'] ?? '';
 
     final uri = Uri.parse('$supabaseUrl/storage/v1/object/$bucket/$fileName');
