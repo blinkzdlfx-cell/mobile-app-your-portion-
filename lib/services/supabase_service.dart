@@ -282,7 +282,7 @@ class SupabaseService {
         folder: '/properties/${_client.auth.currentUser?.id}',
       );
     }
-    return uploadFile('property_images', '${_client.auth.currentUser?.id}', filePath);
+    return uploadFile('property_images', '${_client.auth.currentUser?.id}', filePath: filePath);
   }
 
   // ======== ADMIN METHODS ========
