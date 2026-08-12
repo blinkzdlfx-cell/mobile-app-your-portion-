@@ -34,6 +34,9 @@ migrate_working_dir/
 /coverage/
 
 # Environment variables
+.env
+*.env
+!.env.example
 
 # Scratch files
 error.txt
@@ -44,6 +47,11 @@ admin-dashboard/.next/
 admin-dashboard/.open-next/
 admin-dashboard/server/node_modules/
 admin-dashboard/server/.env
+next-env.d.ts
+*.tsbuildinfo
+
+# Kotlin build artifacts
+android/.kotlin/
 
 # Symbolication related
 app.*.symbols

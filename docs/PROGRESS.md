@@ -25,7 +25,7 @@
 ### Home
 - ✅ `HomeScreen` — `/home` (greeting, search, daily portion, categories, kingdom projects — Coming Soon)
 - 🔄 `DailyPortionScreen` — `/daily-portion` (UI exists, real data integration needed)
-- 🔄 `NotificationsScreen` — `/notifications`
+- ✅ `NotificationsScreen` — `/notifications` (real API data, realtime updates, New/Earlier sections, mark-all-read, relative timestamps)
 - ✅ `ProfileScreen` — `/profile` (gradient avatar, badges, role-based visibility, pull-to-refresh, auto-refresh on foreground)
   - ✅ Pull-to-refresh
   - ✅ Auto-refresh on app foreground
@@ -36,11 +36,11 @@
   - ⬜ Avatar image picker & upload
   - ⬜ Phone/email verification badge
 - ✅ `SettingsScreen` — `/settings`
-  - ✅ Basic structure (Account, Preferences, Support, About, Logout)
-  - ⬜ Change Password (UI exists, no backend)
-  - ⬜ Language picker
-  - ⬜ Notification preferences toggle
-  - ⬜ Buyer/Seller role toggle
+  - ✅ Change Password (`/change-password` — real Supabase `updateUser` backend)
+  - ✅ Language picker (`/language`)
+  - ✅ Notification settings toggle (`/notification-settings`)
+  - ✅ Buyer/Seller role toggle (`/buyer-seller-role` — real `updateUser` backend)
+  - ✅ Trusted Member Status (`/trusted-member-status`), Contact Us, Send Feedback, About
   - ⬜ Dark mode toggle
 
 ### Marketplace
@@ -73,7 +73,7 @@
 - ✅ `PropertyDetailScreen` — `/property-detail` (PageView image gallery, dot indicators, status badges, specs table, contact seller)
 
 ### Kingdom Projects
-- ✅ `KingdomProjectsScreen` — `/kingdom-projects` (Coming Soon placeholder)
+- ✅ `KingdomProjectsScreen` — `/kingdom-projects` (real API data, status filter chips, detail bottom sheet, create FAB with canSell gating)
 - 🔄 `CreateKingdomProjectScreen` — `/create-kingdom-project`
   - ⬜ Image upload for project
   - ⬜ Donation integration
@@ -134,6 +134,18 @@
 - Admin reviews via web dashboard
 - Admin approves → `profiles.is_seller_verified = true`
 - App reflects changes via WidgetsBindingObserver + pull-to-refresh
+- ✅ Verification status card (`VerificationStatusCard` widget) on profile/settings — pending/approved/rejected/terminated states with admin reason + re-apply CTA
+- ✅ Admin can terminate verification (`/api/verification/terminate`) — revokes `is_seller_verified` / `is_trusted_member`, records reason, notifies user
+
+### Notifications & Push — ✅ Complete
+- ✅ `notifications` table + realtime publication (migration `00010`)
+- ✅ `device_tokens` table for FCM (migration `00011`)
+- ✅ `NotificationBell` widget — live unread badge via Postgres realtime
+- ✅ `NotificationsScreen` — realtime inserts, New/Earlier grouping, mark-all-read
+- ✅ `PushNotificationService` — Firebase FCM (guarded: app runs fine without Firebase config), token sync to `device_tokens` on login/refresh, unregister on logout
+- ✅ Admin `notifyUser()` helper — in-app insert + email (SMTP) + push (FCM HTTP v1 with OAuth2, legacy fallback)
+- ✅ Notifications sent on verification approve/reject/terminate
+- ✅ Admin storage proxy `/api/storage/[...path]` + `DocumentViewer` component — admins can view uploaded ID/face documents
 
 ### Property Images — ✅ Complete
 - ✅ ImageKit.io service — upload via REST API, CDN delivery
@@ -154,12 +166,13 @@
 - ✅ Archive / Reactivate property
 - ⬜ Analytics (views, saves count)
 
-### Profile & Settings — ⬜ Not Started
+### Profile & Settings
+- ✅ Change Password (Supabase `updateUser`)
+- ✅ Buyer/Seller role toggle (Supabase `updateUser`)
+- ✅ Notification preferences screen
+- ✅ Language picker screen
 - ⬜ Avatar image upload (crop, resize, store in `avatars` bucket)
-- ⬜ Change Password (Supabase `updateUser` with current password verification)
 - ⬜ Phone/email verification badge
-- ⬜ Language picker with i18n
-- ⬜ Notification preferences (push vs email)
 - ⬜ Dark mode toggle
 - ⬜ Delete account flow
 
@@ -183,10 +196,10 @@
 - ⬜ Rich text rendering for portion content
 
 ### Notifications
-- ⬜ Fetch from `notifications` table
-- ⬜ Read/unread state
-- ⬜ Push notification integration
-- ⬜ In-app notification badge
+- ✅ Fetch from `notifications` table
+- ✅ Read/unread state (mark-all-read)
+- ✅ Push notification integration (FCM, guarded)
+- ✅ In-app notification badge (realtime)
 
 ### Search
 - ⬜ `SearchResultsScreen` — cross-entity search
@@ -213,18 +226,21 @@
 - ✅ Tailwind CSS — custom color tokens, animations
 - ✅ `src/app/page.tsx` — Login page (gradient background)
 - ✅ `src/app/dashboard/page.tsx` — Stats grid (4 cards), quick actions
-- ✅ `src/app/verification/page.tsx` — Filterable request list, approve/reject modal
+- ✅ `src/app/verification/page.tsx` — Filterable request list, approve/reject/terminate modal, document viewer
 - ✅ `src/app/properties/page.tsx` — Property approval list with reject modal
 - ✅ `src/app/projects/page.tsx` — Project approval list with progress bars
+- ✅ `src/components/document-viewer.tsx` — Modal viewer for uploaded verification documents
+- ✅ `src/lib/notifications.ts` — `notifyUser()` (in-app + email + FCM push) with cached OAuth2 token
 - ✅ `src/lib/admin-layout.tsx` — Sidebar nav + top bar + logout modal + mobile hamburger
 - ✅ `src/lib/auth-context.tsx` — React context for JWT auth
 - ✅ `src/lib/api-client.ts` — Typed fetch wrapper with JWT Bearer
 - ✅ `src/lib/toast.tsx` — Toast notification system
 
-### Backend (11 API routes, no Express)
+### Backend (13 API routes, no Express)
 - ✅ Auth: POST `/api/auth/login`
 - ✅ Dashboard: GET `/api/dashboard`
-- ✅ Verification: GET list, POST approve, POST reject
+- ✅ Verification: GET list, POST approve, POST reject, POST terminate
+- ✅ Storage: GET `/api/storage/[...path]` (document viewing proxy)
 - ✅ Properties: GET pending, POST approve, POST reject
 - ✅ Projects: GET pending, POST approve, POST reject
 
@@ -246,7 +262,10 @@
 - ✅ Executed in Supabase project
 - ✅ Migration: `00007_storage_property_images.sql` — `property_images` storage bucket + RLS
 - ✅ Migration: `00008_property_lifecycle.sql` — status CHECK constraint (`draft`/`pending`/`approved`/`rejected`/`archived`), RLS SELECT policy, `rejection_reason` column
-- ⬜ Migration: `00008_storage_avatars.sql`
+- ✅ Migration: `00009_verification_setup.sql` — verification request columns + storage bucket (idempotent)
+- ✅ Migration: `00010_notifications_and_termination.sql` — `notifications` table + realtime, termination columns (idempotent)
+- ✅ Migration: `00011_device_tokens.sql` — `device_tokens` table for FCM push (idempotent)
+- ⬜ Migrations 00009–00011 pending execution in Supabase SQL Editor
 
 ---
 
@@ -258,6 +277,7 @@
 - ✅ file_picker — document/image uploads
 - ✅ ImageKit.io — cloud image CDN with optimization (`ImageKitService`, REST API upload)
 - ✅ `http` ^1.2.0 — HTTP client for ImageKit API
+- ✅ firebase_core + firebase_messaging — FCM push notifications (guarded)
 - ✅ git ignored .env for security
 - ✅ GitHub Actions keep-alive workflow
 - ✅ App protection (root/jailbreak detection, screen protection)
@@ -300,10 +320,10 @@ cd ..
 ## Next Priority Order
 1. ✅ **Property Images** — migration, ImageKit, card, image display, detail screen, 8-image limit
 2. ✅ **Property Management** — edit/delete/archive/reactivate, status badges, rejection reason, submit draft
-3. ✅ **Profile & Settings** — avatar upload, change password, preferences, role selection
-4. ⬜ **Kingdom Projects** — full CRUD, donations
-5. ⬜ **Reviews & Ratings**
-6. ⬜ **Daily Portion** — real data
-7. ⬜ **Notifications** — real data, push
+3. ✅ **Notifications & Push** — realtime in-app, FCM push, admin notify, verification termination
+4. 🔄 **Profile & Settings** — change password, role toggle, notification prefs, language picker done; ⬜ avatar upload, dark mode, phone/email verification badge
+5. ⬜ **Kingdom Projects** — full CRUD, donations
+6. ⬜ **Reviews & Ratings**
+7. ⬜ **Daily Portion** — real data
 8. ⬜ **Search** — cross-entity
 9. ⬜ **Infrastructure** — error tracking, caching, CI/CD

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../services/push_notification_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -15,6 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _role = 'buyer';
   bool _isSellerVerified = false;
   bool _hasPendingVerification = false;
+  String? _verificationStatus;
   bool _loaded = false;
 
   @override
@@ -32,88 +34,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final meta = user.userMetadata;
     final role = (meta?['role'] as String?) ?? 'buyer';
     final profile = await _supabaseService.getCurrentProfile();
-    final pendingRequest = await _supabaseService.getPendingRequest('seller');
+    final verificationRequest = await _supabaseService.getLatestVerificationRequest('seller');
+    final status = SupabaseService.verificationStatus(verificationRequest);
     if (mounted) {
       setState(() {
         _role = profile?.role ?? role;
         _isSellerVerified = profile?.isSellerVerified ?? false;
-        _hasPendingVerification = pendingRequest != null;
+        _hasPendingVerification = status == 'pending';
+        _verificationStatus = status;
       });
     }
   }
 
   Future<void> _handleLogout() async {
+    await PushNotificationService().unregister();
     await Supabase.instance.client.auth.signOut();
     if (mounted) {
       Navigator.of(context).pushNamedAndRemoveUntil('/welcome', (route) => false);
     }
-  }
-
-  void _showVerificationSheet() {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (ctx) {
-        return Container(
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40, height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.outlineVariant,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                width: 64, height: 64,
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryContainer.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.badge_outlined, size: 32, color: AppTheme.primaryContainer),
-              ),
-              const SizedBox(height: 16),
-              Text('Seller Verification',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: AppTheme.onSurface, fontWeight: FontWeight.w600)),
-              const SizedBox(height: 8),
-              Text('Upload a government-issued ID for admin review.',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.onSurfaceVariant, height: 1.5),
-                textAlign: TextAlign.center),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    Navigator.pushNamed(context, '/document-upload');
-                  },
-                  child: const Text('Upload Document'),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppTheme.onSurfaceVariant,
-                    side: const BorderSide(color: AppTheme.outlineVariant),
-                  ),
-                  child: const Text('Cancel'),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -177,8 +115,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ],
                             ),
                           )
-                        : null,
-                    onTap: _hasPendingVerification ? null : _showVerificationSheet,
+                        : (_verificationStatus == 'rejected' || _verificationStatus == 'terminated')
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.errorContainer.withValues(alpha: 0.4),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.info_outline, size: 12, color: AppTheme.onErrorContainer),
+                                    const SizedBox(width: 4),
+                                    Text(_verificationStatus == 'rejected' ? 'Rejected' : 'Terminated',
+                                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                        color: AppTheme.onErrorContainer, fontSize: 11)),
+                                  ],
+                                ),
+                              )
+                            : null,
+                    onTap: _hasPendingVerification
+                        ? null
+                        : () => Navigator.pushNamed(context, '/seller-verification'),
                   ),
               ]),
               const SizedBox(height: 24),

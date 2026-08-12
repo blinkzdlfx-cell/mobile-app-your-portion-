@@ -36,9 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (event.event == AuthChangeEvent.signedIn) {
         _authSub?.cancel();
         if (!mounted) return;
-        final role = event.session?.user.userMetadata?['role'] as String?;
-          Navigator.pushReplacementNamed(context, '/home');
-        }
+        Navigator.pushReplacementNamed(context, '/home');
+      }
     });
   }
 

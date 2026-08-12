@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { AdminLayout } from '@/lib/admin-layout'
 import { api } from '@/lib/api-client'
 import { useToast } from '@/lib/toast'
+import DocumentViewer from '@/components/document-viewer'
 
 interface VerificationRequest {
   id: string
@@ -18,6 +19,8 @@ interface VerificationRequest {
   id_type: string | null
   face_image_url: string | null
   admin_note: string | null
+  terminated_at: string | null
+  termination_reason: string | null
   profiles?: { full_name: string; email: string; phone: string }
 }
 
@@ -30,6 +33,9 @@ export default function VerificationPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [rejectModal, setRejectModal] = useState<{ id: string } | null>(null)
   const [rejectReason, setRejectReason] = useState('')
+  const [terminateModal, setTerminateModal] = useState<{ id: string } | null>(null)
+  const [terminateReason, setTerminateReason] = useState('')
+  const [viewer, setViewer] = useState<VerificationRequest | null>(null)
 
   async function load() {
     setLoading(true)
@@ -68,6 +74,27 @@ export default function VerificationPage() {
       await load()
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : 'Failed to reject', 'error')
+    }
+    finally { setActionLoading(null) }
+  }
+
+  async function handleTerminate() {
+    if (!terminateModal) return
+    const req = requests.find((r) => r.id === terminateModal.id)
+    if (!req) return
+    if (!terminateReason.trim()) {
+      toast('A reason is required to terminate verification', 'error')
+      return
+    }
+    setActionLoading(terminateModal.id)
+    try {
+      await api.terminateVerification(terminateModal.id, req.user_id, req.request_type, terminateReason.trim())
+      toast('Verification terminated — seller notified', 'success')
+      setTerminateModal(null)
+      setTerminateReason('')
+      await load()
+    } catch (err: unknown) {
+      toast(err instanceof Error ? err.message : 'Failed to terminate', 'error')
     }
     finally { setActionLoading(null) }
   }
@@ -140,9 +167,13 @@ export default function VerificationPage() {
                       <h3 className="font-semibold text-gray-900">{req.full_name || req.profiles?.full_name || 'Unknown'}</h3>
                       <p className="text-sm text-gray-500">{req.profiles?.email || req.phone || ''}</p>
                       <div className="flex items-center gap-2 mt-2">
-                        <span className={`badge-${req.status} text-xs`}>
-                          {req.status.charAt(0).toUpperCase() + req.status.slice(1)}
-                        </span>
+                        {req.terminated_at ? (
+                          <span className="badge-rejected text-xs">Terminated</span>
+                        ) : (
+                          <span className={`badge-${req.status} text-xs`}>
+                            {req.status.charAt(0).toUpperCase() + req.status.slice(1)}
+                          </span>
+                        )}
                         <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
                           {req.request_type === 'seller' ? 'Seller' : 'Trusted Member'}
                         </span>
@@ -153,10 +184,16 @@ export default function VerificationPage() {
                       {req.admin_note && (
                         <p className="text-sm text-gray-600 mt-1"><span className="font-medium">Admin note:</span> {req.admin_note}</p>
                       )}
+                      {req.termination_reason && (
+                        <p className="text-sm text-red-600 mt-1"><span className="font-medium">Termination reason:</span> {req.termination_reason}</p>
+                      )}
                       {req.id_document_url && (
-                        <a href={req.id_document_url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary font-medium hover:underline mt-2 inline-block">
-                          View Document
-                        </a>
+                        <button
+                          onClick={() => setViewer(req)}
+                          className="text-sm text-primary font-medium hover:underline mt-2 inline-block bg-transparent border-none p-0 cursor-pointer"
+                        >
+                          {req.status === 'approved' ? 'Review Documents' : 'View Documents'}
+                        </button>
                       )}
                     </div>
                   </div>
@@ -185,6 +222,67 @@ export default function VerificationPage() {
           </div>
         )}
       </div>
+
+      {viewer && (
+        <DocumentViewer
+          title={`${viewer.full_name || viewer.profiles?.full_name || 'Applicant'} — ${viewer.request_type === 'seller' ? 'Seller' : 'Trusted Member'} verification`}
+          subtitle={`${viewer.profiles?.email || viewer.phone || 'No email provided'} · Submitted ${new Date(viewer.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}`}
+          idDocumentUrl={viewer.id_document_url}
+          faceImageUrl={viewer.face_image_url}
+          status={viewer.status}
+          terminated={!!viewer.terminated_at}
+          terminationReason={viewer.termination_reason}
+          onClose={() => setViewer(null)}
+          onApprove={() => {
+            const req = viewer
+            setViewer(null)
+            handleApprove(req)
+          }}
+          onReject={() => {
+            const req = viewer
+            setViewer(null)
+            setRejectModal({ id: req.id })
+          }}
+          onTerminate={() => {
+            const req = viewer
+            setViewer(null)
+            setTerminateModal({ id: req.id })
+          }}
+          actionLoading={actionLoading === viewer.id}
+        />
+      )}
+
+      {terminateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={() => setTerminateModal(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Terminate Verification</h3>
+                <p className="text-sm text-gray-500">This will revoke the seller&apos;s verified status.</p>
+              </div>
+            </div>
+            <textarea
+              value={terminateReason}
+              onChange={(e) => setTerminateReason(e.target.value)}
+              className="input-field mb-4"
+              rows={3}
+              placeholder="Reason for termination (sent to the seller)..."
+              autoFocus
+            />
+            <div className="flex gap-3 justify-end">
+              <button onClick={() => setTerminateModal(null)} className="btn-secondary !py-2 !px-4 text-sm">Cancel</button>
+              <button onClick={handleTerminate} disabled={actionLoading === terminateModal.id} className="btn-danger !py-2 !px-4 text-sm">
+                {actionLoading === terminateModal.id ? 'Terminating...' : 'Terminate'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {rejectModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={() => setRejectModal(null)}>

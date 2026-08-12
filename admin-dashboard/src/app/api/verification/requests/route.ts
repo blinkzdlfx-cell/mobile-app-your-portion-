@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
 import { authGuard, unauthorized, serverError } from '@/lib/api-utils'
 
+const PUBLIC_URL_MARKER = '/object/public/'
+
+function toProxyPath(rawUrl: string | null) {
+  if (!rawUrl) return null
+  const idx = rawUrl.indexOf(PUBLIC_URL_MARKER)
+  if (idx === -1) return rawUrl
+  const objectPath = rawUrl.slice(idx + PUBLIC_URL_MARKER.length)
+  return `/api/storage/${objectPath}`
+}
+
 export async function GET(request: NextRequest) {
   const admin = await authGuard(request)
   if (!admin) return unauthorized()
@@ -22,7 +32,13 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query
     if (error) throw error
 
-    return NextResponse.json(data || [])
+    const rows = (data || []).map((req) => ({
+      ...req,
+      id_document_url: toProxyPath(req.id_document_url),
+      face_image_url: toProxyPath(req.face_image_url),
+    }))
+
+    return NextResponse.json(rows)
   } catch (error) {
     return serverError(error, 'Failed to load verification requests')
   }

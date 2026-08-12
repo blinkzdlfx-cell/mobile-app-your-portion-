@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'dart:io';
+import 'dart:typed_data';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
 import '../../models/property.dart';
@@ -108,6 +108,7 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.image,
       allowMultiple: true,
+      withData: true,
     );
     if (result != null && result.files.isNotEmpty) {
       final combined = [..._selectedImages, ...result.files];
@@ -134,8 +135,10 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
 
       List<String> imageUrls = List.from(_existingImageUrls);
       for (final file in _selectedImages) {
-        if (file.path != null) {
-          final url = await _supabaseService.uploadPropertyImage(file.path!);
+        final bytes = file.bytes;
+        if (bytes != null) {
+          final ext = file.extension?.isNotEmpty == true ? file.extension! : 'jpg';
+          final url = await _supabaseService.uploadPropertyImage(bytes: bytes, extension: ext);
           if (url != null) imageUrls.add(url);
         }
       }
@@ -411,15 +414,15 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            ..._existingImageUrls.asMap().entries.map((e) => _buildImagePreview(e.value, isNetwork: true, index: e.key)),
-            ..._selectedImages.asMap().entries.map((e) => _buildImagePreview(e.value.path!, isNetwork: false, index: e.key)),
+            ..._existingImageUrls.asMap().entries.map((e) => _buildImagePreview(networkUrl: e.value, isNetwork: true, index: e.key)),
+            ..._selectedImages.asMap().entries.map((e) => _buildImagePreview(bytes: e.value.bytes, isNetwork: false, index: e.key)),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildImagePreview(String source, {required bool isNetwork, required int index}) {
+  Widget _buildImagePreview({Uint8List? bytes, String? networkUrl, required bool isNetwork, required int index}) {
     return Stack(
       children: [
         ClipRRect(
@@ -427,17 +430,19 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
           child: SizedBox(
             width: 80, height: 80,
             child: isNetwork
-                ? Image.network(source, fit: BoxFit.cover,
+                ? Image.network(networkUrl!, fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
-                : Image.file(File(source), fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant))),
+                : bytes != null
+                    ? Image.memory(bytes, fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
+                    : Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)),
           ),
         ),
         Positioned(
           top: 4, right: 4,
           child: GestureDetector(
             onTap: () => isNetwork
-                ? _removeExistingImage(source)
+                ? _removeExistingImage(networkUrl!)
                 : _removeSelectedImage(index),
             child: Container(
               width: 24, height: 24,

@@ -35,13 +35,17 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with WidgetsBindingObserver {
+class _ProfileScreenState extends State<ProfileScreen>
+    with WidgetsBindingObserver {
   final _supabaseService = SupabaseService();
   String _fullName = '';
   String _email = '';
   String _role = 'buyer';
   String _avatarInitials = '?';
-  List<Color> _avatarColors = [AppTheme.primaryContainer, AppTheme.primaryContainer];
+  List<Color> _avatarColors = [
+    AppTheme.primaryContainer,
+    AppTheme.primaryContainer,
+  ];
   bool _isSellerVerified = false;
   bool _isTrustedMember = false;
   bool _isAdmin = false;
@@ -111,72 +115,74 @@ class _ProfileScreenState extends State<ProfileScreen> with WidgetsBindingObserv
       builder: (ctx) {
         return Container(
           padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.outlineVariant,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryContainer.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.badge_outlined,
-                  size: 32,
-                  color: AppTheme.primaryContainer,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Seller Verification',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: AppTheme.onSurface,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Upload a government-issued ID (NIN, voter card, passport, or proof of address) for admin review.',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.onSurfaceVariant,
-                  height: 1.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    Navigator.pushNamed(context, '/document-upload');
-                  },
-                  child: const Text('Upload Document'),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppTheme.onSurfaceVariant,
-                    side: const BorderSide(color: AppTheme.outlineVariant),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppTheme.outlineVariant,
+                    borderRadius: BorderRadius.circular(2),
                   ),
-                  child: const Text('Cancel'),
                 ),
-              ),
-            ],
+                const SizedBox(height: 24),
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryContainer.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.badge_outlined,
+                    size: 32,
+                    color: AppTheme.primaryContainer,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Seller Verification',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: AppTheme.onSurface,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Upload a government-issued ID (NIN, voter card, passport, or proof of address) for admin review.',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppTheme.onSurfaceVariant,
+                    height: 1.5,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                      Navigator.pushNamed(context, '/document-upload');
+                    },
+                    child: const Text('Upload Document'),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppTheme.onSurfaceVariant,
+                      side: const BorderSide(color: AppTheme.outlineVariant),
+                    ),
+                    child: const Text('Cancel'),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -208,7 +214,10 @@ class _ProfileScreenState extends State<ProfileScreen> with WidgetsBindingObserv
                   const Spacer(),
                   IconButton(
                     onPressed: () => Navigator.pushNamed(context, '/settings'),
-                    icon: const Icon(Icons.settings_outlined, color: AppTheme.onSurfaceVariant),
+                    icon: const Icon(
+                      Icons.settings_outlined,
+                      color: AppTheme.onSurfaceVariant,
+                    ),
                   ),
                 ],
               ),
@@ -218,216 +227,295 @@ class _ProfileScreenState extends State<ProfileScreen> with WidgetsBindingObserv
               child: RefreshIndicator(
                 onRefresh: _loadProfile,
                 child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
-                child: Column(
-                  children: [
-                    // Profile card
-                    Container(
-                      padding: const EdgeInsets.all(0),
-                      decoration: BoxDecoration(
-                        color: AppTheme.surface,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: AppTheme.surfaceVariant.withValues(alpha: 0.5)),
-                        boxShadow: [AppTheme.ambientShadow],
-                      ),
-                      child: Column(
-                        children: [
-                          // Gradient header area
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.fromLTRB(24, 32, 24, 0),
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                              gradient: LinearGradient(
-                                colors: _avatarColors,
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 88,
-                                  height: 88,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.surface.withValues(alpha: 0.2),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: AppTheme.surface.withValues(alpha: 0.5), width: 3),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _avatarInitials,
-                                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                        color: AppTheme.surface,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  _fullName.isNotEmpty ? _fullName : 'Friend',
-                                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                                    color: AppTheme.surface,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  _email,
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: AppTheme.surface.withValues(alpha: 0.8),
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-                              ],
-                            ),
-                          ),
-                          // Badges section
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
-                            child: Row(
-                              children: [
-                                _ProfileBadge(
-                                  icon: _isAdmin ? Icons.admin_panel_settings : Icons.person_outline,
-                                  label: _isAdmin ? 'Admin' : (_role == 'seller' ? 'Seller' : 'Buyer'),
-                                ),
-                                const SizedBox(width: 8),
-                                if (_isTrustedMember)
-                                  Row(
-                                    children: [
-                                      _ProfileBadge(
-                                        icon: Icons.verified,
-                                        label: 'Trusted Member',
-                                      ),
-                                      const SizedBox(width: 8),
-                                    ],
-                                  ),
-                                if (_isSellerVerified)
-                                  _ProfileBadge(
-                                    icon: Icons.verified,
-                                    label: 'Verified Seller',
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Verification CTA for unverified sellers
-                    if (_role == 'seller' && !_isSellerVerified) ...[
-                      const SizedBox(height: 24),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
+                  child: Column(
+                    children: [
+                      // Profile card
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(0),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppTheme.primaryContainer.withValues(alpha: 0.08),
-                              AppTheme.primaryFixedDim.withValues(alpha: 0.05),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
+                          color: AppTheme.surface,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: AppTheme.primaryContainer.withValues(alpha: 0.3),
+                            color: AppTheme.surfaceVariant.withValues(
+                              alpha: 0.5,
+                            ),
                           ),
+                          boxShadow: [AppTheme.ambientShadow],
                         ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.primaryContainer.withValues(alpha: 0.15),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    _hasPendingVerification
-                                        ? Icons.hourglass_top
-                                        : Icons.verified_user_outlined,
-                                    color: AppTheme.primaryContainer,
-                                    size: 24,
-                                  ),
+                            // Gradient header area
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.fromLTRB(24, 32, 24, 0),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(20),
                                 ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        _hasPendingVerification
-                                            ? 'Verification Pending'
-                                            : 'Complete Seller Verification',
-                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          color: AppTheme.onSurface,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 2),
-                                      Text(
-                                        _hasPendingVerification
-                                            ? 'Your documents are under admin review.'
-                                            : 'Upload your ID to start listing properties.',
-                                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                          color: AppTheme.onSurfaceVariant,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            if (!_hasPendingVerification) ...[
-                              const SizedBox(height: 16),
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () => _showVerificationSheet(context),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppTheme.primaryContainer,
-                                    foregroundColor: AppTheme.onPrimary,
-                                    minimumSize: const Size(double.infinity, 48),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                  child: const Text('Verify Now'),
+                                gradient: LinearGradient(
+                                  colors: _avatarColors,
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                                 ),
                               ),
-                            ],
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 88,
+                                    height: 88,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.surface.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: AppTheme.surface.withValues(
+                                          alpha: 0.5,
+                                        ),
+                                        width: 3,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        _avatarInitials,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge
+                                            ?.copyWith(
+                                              color: AppTheme.surface,
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    _fullName.isNotEmpty ? _fullName : 'Friend',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge
+                                        ?.copyWith(
+                                          color: AppTheme.surface,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    _email,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppTheme.surface.withValues(
+                                            alpha: 0.8,
+                                          ),
+                                        ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                ],
+                              ),
+                            ),
+                            // Badges section
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                24,
+                                20,
+                                24,
+                                24,
+                              ),
+                              child: Row(
+                                children: [
+                                  _ProfileBadge(
+                                    icon: _isAdmin
+                                        ? Icons.admin_panel_settings
+                                        : Icons.person_outline,
+                                    label: _isAdmin
+                                        ? 'Admin'
+                                        : (_role == 'seller'
+                                              ? 'Seller'
+                                              : 'Buyer'),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  if (_isTrustedMember)
+                                    Row(
+                                      children: [
+                                        _ProfileBadge(
+                                          icon: Icons.verified,
+                                          label: 'Trusted Member',
+                                        ),
+                                        const SizedBox(width: 8),
+                                      ],
+                                    ),
+                                  if (_isSellerVerified)
+                                    _ProfileBadge(
+                                      icon: Icons.verified,
+                                      label: 'Verified Seller',
+                                    ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ],
-                    const SizedBox(height: 24),
-                    // My Activity
-                    Text(
-                      'My Activity',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppTheme.onSurface,
+                      // Verification CTA for unverified sellers
+                      if (_role == 'seller' && !_isSellerVerified) ...[
+                        const SizedBox(height: 24),
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppTheme.primaryContainer.withValues(
+                                  alpha: 0.08,
+                                ),
+                                AppTheme.primaryFixedDim.withValues(
+                                  alpha: 0.05,
+                                ),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: AppTheme.primaryContainer.withValues(
+                                alpha: 0.3,
+                              ),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 48,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.primaryContainer
+                                          .withValues(alpha: 0.15),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      _hasPendingVerification
+                                          ? Icons.hourglass_top
+                                          : Icons.verified_user_outlined,
+                                      color: AppTheme.primaryContainer,
+                                      size: 24,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _hasPendingVerification
+                                              ? 'Verification Pending'
+                                              : 'Complete Seller Verification',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                color: AppTheme.onSurface,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          _hasPendingVerification
+                                              ? 'Your documents are under admin review.'
+                                              : 'Upload your ID to start listing properties.',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium
+                                              ?.copyWith(
+                                                color:
+                                                    AppTheme.onSurfaceVariant,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (!_hasPendingVerification) ...[
+                                const SizedBox(height: 16),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () =>
+                                        _showVerificationSheet(context),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          AppTheme.primaryContainer,
+                                      foregroundColor: AppTheme.onPrimary,
+                                      minimumSize: const Size(
+                                        double.infinity,
+                                        48,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    child: const Text('Verify Now'),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 24),
+                      // My Activity
+                      Text(
+                        'My Activity',
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(color: AppTheme.onSurface),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    if (_role != 'buyer')
-                      _ActivityCard(icon: Icons.home_outlined, title: 'My Properties', onTap: () => Navigator.pushNamed(context, '/my-properties')),
-                    if (_role != 'buyer') const SizedBox(height: 8),
-                    _ActivityCard(icon: Icons.favorite_outline, title: 'Saved Properties', onTap: () => Navigator.pushNamed(context, '/saved-properties')),
-                    const SizedBox(height: 8),
-                    _ActivityCard(icon: Icons.church_outlined, title: 'My Kingdom Projects', onTap: () => Navigator.pushNamed(context, '/kingdom-projects', arguments: {'myProjects': true})),
-                    const SizedBox(height: 8),
-                    _ActivityCard(icon: Icons.menu_book_outlined, title: 'Bookmarked Portions', onTap: () => Navigator.pushNamed(context, '/bookmarked-portions')),
-                    const SizedBox(height: 24),
-                  ],
+                      const SizedBox(height: 16),
+                      if (_role != 'buyer')
+                        _ActivityCard(
+                          icon: Icons.home_outlined,
+                          title: 'My Properties',
+                          onTap: () =>
+                              Navigator.pushNamed(context, '/my-properties'),
+                        ),
+                      if (_role != 'buyer') const SizedBox(height: 8),
+                      _ActivityCard(
+                        icon: Icons.favorite_outline,
+                        title: 'Saved Properties',
+                        onTap: () =>
+                            Navigator.pushNamed(context, '/saved-properties'),
+                      ),
+                      const SizedBox(height: 8),
+                      _ActivityCard(
+                        icon: Icons.church_outlined,
+                        title: 'My Kingdom Projects',
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/kingdom-projects',
+                          arguments: {'myProjects': true},
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      _ActivityCard(
+                        icon: Icons.menu_book_outlined,
+                        title: 'Bookmarked Portions',
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/bookmarked-portions',
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
           ],
         ),
       ),
@@ -491,8 +579,15 @@ class _ActivityCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppTheme.surface,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppTheme.surfaceVariant.withValues(alpha: 0.3)),
-          boxShadow: [BoxShadow(color: const Color(0xFF000000).withValues(alpha: 0.02), blurRadius: 30)],
+          border: Border.all(
+            color: AppTheme.surfaceVariant.withValues(alpha: 0.3),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF000000).withValues(alpha: 0.02),
+              blurRadius: 30,
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -525,4 +620,3 @@ class _ActivityCard extends StatelessWidget {
     );
   }
 }
-

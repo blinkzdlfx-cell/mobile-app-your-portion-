@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
+import '../../widgets/notification_bell.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -92,12 +93,9 @@ class _HomeScreenState extends State<HomeScreen>
                     ],
                   ),
                   const Spacer(),
-                  IconButton(
-                    onPressed: () => Navigator.pushNamed(context, '/notifications'),
-                    icon: const Icon(Icons.notifications_outlined, color: AppTheme.onSurface),
-                    style: IconButton.styleFrom(
-                      backgroundColor: AppTheme.surfaceContainer,
-                    ),
+                  NotificationBell(
+                    iconColor: AppTheme.onSurface,
+                    backgroundColor: AppTheme.surfaceContainer,
                   ),
                 ],
               ),

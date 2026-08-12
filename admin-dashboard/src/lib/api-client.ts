@@ -15,6 +15,21 @@ async function apiFetch(endpoint: string, options: RequestInit = {}) {
   return data
 }
 
+async function apiFetchBlob(endpoint: string) {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null
+  const headers: Record<string, string> = {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  }
+
+  const url = endpoint.startsWith(API_BASE) ? endpoint : `${API_BASE}${endpoint}`
+  const res = await fetch(url, { headers })
+  if (!res.ok) {
+    const message = await res.text().catch(() => '')
+    throw new Error(message || `HTTP ${res.status}`)
+  }
+  return res.blob()
+}
+
 export const api = {
   login: (username: string, password: string) =>
     apiFetch('/auth/login', {
@@ -23,6 +38,8 @@ export const api = {
     }),
 
   getDashboard: () => apiFetch('/dashboard'),
+
+  fetchDocumentBlob: (path: string) => apiFetchBlob(path),
 
   getVerificationRequests: (params?: Record<string, string>) => {
     const qs = params ? '?' + new URLSearchParams(params).toString() : ''
@@ -39,6 +56,12 @@ export const api = {
     apiFetch('/verification/reject', {
       method: 'POST',
       body: JSON.stringify({ requestId, reason }),
+    }),
+
+  terminateVerification: (requestId: string, userId: string, requestType: string, reason: string) =>
+    apiFetch('/verification/terminate', {
+      method: 'POST',
+      body: JSON.stringify({ requestId, userId, requestType, reason }),
     }),
 
   getPendingProperties: (status = 'pending') =>

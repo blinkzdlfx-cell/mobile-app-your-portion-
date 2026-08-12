@@ -11,6 +11,7 @@ class TrustedMemberStatusScreen extends StatefulWidget {
 
 class _TrustedMemberStatusScreenState extends State<TrustedMemberStatusScreen> {
   String? _status;
+  String? _reason;
   bool _loading = true;
 
   @override
@@ -34,13 +35,24 @@ class _TrustedMemberStatusScreenState extends State<TrustedMemberStatusScreen> {
       final isTrusted = profile['is_trusted_member'] as bool? ?? false;
       final req = await Supabase.instance.client
           .from('verification_requests')
-          .select('status')
+          .select('status, admin_note, termination_reason, terminated_at')
           .filter('user_id', 'eq', user.id)
+          .filter('request_type', 'eq', 'trusted_member')
+          .order('created_at', ascending: false)
+          .limit(1)
           .maybeSingle();
-      if (isTrusted) {
+      if (isTrusted && req != null && req['terminated_at'] == null) {
         _status = 'verified';
       } else if (req != null) {
-        _status = req['status'] as String? ?? 'none';
+        if (req['terminated_at'] != null) {
+          _status = 'terminated';
+          _reason = (req['termination_reason'] as String?) ?? (req['admin_note'] as String?);
+        } else {
+          _status = req['status'] as String? ?? 'none';
+          if (_status == 'rejected') {
+            _reason = req['admin_note'] as String?;
+          }
+        }
       } else {
         _status = 'none';
       }
@@ -79,23 +91,32 @@ class _TrustedMemberStatusScreenState extends State<TrustedMemberStatusScreen> {
                           ? const Color(0xFFE6F4EA)
                           : _status == 'pending'
                               ? const Color(0xFFFFF3E0)
-                              : AppTheme.surfaceContainerLow,
+                              : _status == 'rejected' || _status == 'terminated'
+                                  ? const Color(0xFFFCE8E6)
+                                  : AppTheme.surfaceContainerLow,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      _status == 'verified' ? Icons.verified : _status == 'pending' ? Icons.hourglass_top : Icons.shield_outlined,
+                      _status == 'verified' ? Icons.verified
+                          : _status == 'pending' ? Icons.hourglass_top
+                          : _status == 'rejected' || _status == 'terminated' ? Icons.gpp_bad_outlined
+                          : Icons.shield_outlined,
                       size: 40,
                       color: _status == 'verified'
                           ? const Color(0xFF137333)
                           : _status == 'pending'
                               ? const Color(0xFFB06000)
-                              : AppTheme.onSurfaceVariant,
+                              : _status == 'rejected' || _status == 'terminated'
+                                  ? const Color(0xFFC62828)
+                                  : AppTheme.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: 24),
                   Text(
                     _status == 'verified' ? 'Verified Member'
                         : _status == 'pending' ? 'Application Pending'
+                        : _status == 'terminated' ? 'Verification Terminated'
+                        : _status == 'rejected' ? 'Application Rejected'
                         : 'Not a Trusted Member',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: AppTheme.onSurface, fontWeight: FontWeight.w600, fontSize: 22),
@@ -106,11 +127,44 @@ class _TrustedMemberStatusScreenState extends State<TrustedMemberStatusScreen> {
                         ? 'Your account is verified. You have full access to all features.'
                         : _status == 'pending'
                             ? 'Your application is being reviewed. This usually takes 1-2 business days.'
-                            : 'Become a trusted member to unlock seller features and build trust in the community.',
+                            : _status == 'rejected' || _status == 'terminated'
+                                ? 'An admin ${_status == 'rejected' ? 'rejected your application' : 'terminated your verification'}. You can review the reason below and re-apply.'
+                                : 'Become a trusted member to unlock seller features and build trust in the community.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: AppTheme.onSurfaceVariant),
                   ),
+                  if ((_status == 'rejected' || _status == 'terminated') && _reason != null) ...[
+                    const SizedBox(height: 20),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFCE8E6),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.info_outline, color: Color(0xFFC62828), size: 18),
+                              SizedBox(width: 8),
+                              Text('Reason from admin',
+                                style: TextStyle(
+                                  color: Color(0xFFC62828),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                )),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(_reason!,
+                            style: const TextStyle(color: Color(0xFFC62828), height: 1.5)),
+                        ],
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 32),
                   if (_status == 'none')
                     SizedBox(
@@ -124,6 +178,21 @@ class _TrustedMemberStatusScreenState extends State<TrustedMemberStatusScreen> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
                         child: const Text('Apply Now',
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
+                      ),
+                    ),
+                  if (_status == 'rejected' || _status == 'terminated')
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pushNamed(context, '/become-trusted-member'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primaryContainer,
+                          foregroundColor: AppTheme.onPrimary,
+                          minimumSize: const Size(double.infinity, 56),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: const Text('Re-apply for Verification',
                           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
                       ),
                     ),

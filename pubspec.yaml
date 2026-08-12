@@ -54,6 +54,11 @@ dependencies:
   # HTTP client for ImageKit.io uploads
   http: ^1.2.0
 
+  # MIME types for file uploads
+  http_parser: ^4.0.0
+  firebase_core: ^4.13.0
+  firebase_messaging: ^16.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

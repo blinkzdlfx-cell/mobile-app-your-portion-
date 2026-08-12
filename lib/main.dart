@@ -13,6 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme/app_theme.dart';
 import 'config/app_protection.dart';
 import 'services/imagekit_service.dart';
+import 'services/push_notification_service.dart';
 import 'models/property.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
@@ -66,6 +67,9 @@ void main() async {
     url: dotenv.env['SUPABASE_URL'] ?? '',
     publishableKey: dotenv.env['SUPABASE_PUBLISHABLE_KEY'] ?? '',
   );
+
+  // Optional push notifications (no-op until Firebase is configured)
+  await PushNotificationService().init();
   
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([

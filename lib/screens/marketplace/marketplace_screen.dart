@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/property_card.dart';
+import '../../widgets/notification_bell.dart';
 import '../../services/supabase_service.dart';
 import '../../models/property.dart';
 
@@ -38,7 +39,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
       results = results.where((p) => p.category == _activeFilter).toList();
     }
     final loc = _selectedLocation.trim().toLowerCase();
-    if (loc.isNotEmpty) {
+    if (loc.isNotEmpty && loc != 'all locations') {
       results = results.where((p) => p.location.toLowerCase().contains(loc)).toList();
     }
     if (_selectedType != 'All Types') {
@@ -275,10 +276,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           fontSize: 22,
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.notifications_outlined, color: AppTheme.primary),
-                        onPressed: () => Navigator.pushNamed(context, '/notifications'),
-                      ),
+                      const NotificationBell(iconColor: AppTheme.primary),
                     ],
                   ),
                   const SizedBox(height: 4),

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,17 +23,13 @@ class ImageKitService {
     _urlEndpoint!.isNotEmpty;
 
   Future<String?> uploadImage({
-    required String filePath,
+    required Uint8List bytes,
     required String fileName,
     String folder = '/properties',
   }) async {
     if (!isConfigured) return null;
 
     try {
-      final file = File(filePath);
-      if (!file.existsSync()) return null;
-
-      final bytes = await file.readAsBytes();
       final base64File = base64Encode(bytes);
 
       final auth = base64Encode(utf8.encode('$_privateKey:'));

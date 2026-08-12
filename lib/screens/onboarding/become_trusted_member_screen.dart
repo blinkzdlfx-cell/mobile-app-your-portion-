@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/verification_status_card.dart';
 
 class BecomeTrustedMemberScreen extends StatefulWidget {
   const BecomeTrustedMemberScreen({super.key});
@@ -16,7 +17,7 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
   final _phoneController = TextEditingController();
   final _reasonController = TextEditingController();
   bool _isSubmitting = false;
-  bool _hasPendingRequest = false;
+  Map<String, dynamic>? _existingRequest;
   bool _loaded = false;
 
   @override
@@ -24,13 +25,19 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
     super.didChangeDependencies();
     if (!_loaded) {
       _loaded = true;
-      _checkPending();
+      _checkExisting();
     }
   }
 
-  Future<void> _checkPending() async {
-    final existing = await _supabaseService.getPendingRequest('trusted_member');
-    if (mounted) setState(() => _hasPendingRequest = existing != null);
+  Future<void> _checkExisting() async {
+    final existing = await _supabaseService.getLatestVerificationRequest('trusted_member');
+    if (mounted) setState(() => _existingRequest = existing);
+  }
+
+  void _reapply() {
+    setState(() {
+      _existingRequest = null;
+    });
   }
 
   Future<void> _submit() async {
@@ -47,7 +54,7 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
         reason: _reasonController.text.trim(),
       );
       if (mounted) {
-        setState(() => _hasPendingRequest = true);
+        await _checkExisting();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Verification request submitted! An admin will review it shortly.'),
@@ -102,27 +109,11 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
                 ],
               ),
               const SizedBox(height: 32),
-              if (_hasPendingRequest) ...[
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surface,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppTheme.primaryContainer.withValues(alpha: 0.3)),
-                  ),
-                  child: Column(
-                    children: [
-                      const Icon(Icons.hourglass_top, size: 48, color: AppTheme.primaryContainer),
-                      const SizedBox(height: 16),
-                      Text('Request Pending',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: AppTheme.onBackground)),
-                      const SizedBox(height: 8),
-                      Text('Your trusted member verification request is being reviewed by an admin. You\'ll be notified once it\'s approved.',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.onSurfaceVariant),
-                        textAlign: TextAlign.center),
-                    ],
-                  ),
+              if (_existingRequest != null) ...[
+                VerificationStatusCard(
+                  requestType: 'trusted_member',
+                  request: _existingRequest,
+                  onReapply: _reapply,
                 ),
               ] else ...[
                 Text('Become a Trusted Member',

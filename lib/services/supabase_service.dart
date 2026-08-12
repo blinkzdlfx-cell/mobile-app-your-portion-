@@ -1,7 +1,7 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/property.dart';
@@ -230,6 +230,33 @@ class SupabaseService {
     return list.isNotEmpty ? list.first : null;
   }
 
+  Future<Map<String, dynamic>?> getLatestVerificationRequest(String requestType) async {
+    final user = _client.auth.currentUser;
+    if (user == null) return null;
+    final response = await _client.from('verification_requests').select('*');
+    final list = (response as List).cast<Map<String, dynamic>>()
+        .where((r) => r['user_id'] == user.id && r['request_type'] == requestType)
+        .toList();
+    if (list.isEmpty) return null;
+    list.sort((a, b) => (b['created_at'] as String).compareTo(a['created_at'] as String));
+    return list.first;
+  }
+
+  /// Status helpers for a verification request.
+  /// Returns 'pending', 'approved', 'rejected', 'terminated', or 'none'.
+  static String verificationStatus(Map<String, dynamic>? request) {
+    if (request == null) return 'none';
+    final status = request['status'] as String? ?? 'none';
+    if (status == 'approved' && request['terminated_at'] != null) return 'terminated';
+    return status;
+  }
+
+  static String? verificationReason(Map<String, dynamic>? request) {
+    if (request == null) return null;
+    final reason = request['termination_reason'] as String? ?? request['admin_note'] as String?;
+    return reason;
+  }
+
   Future<String> _uploadBytes(String bucket, String path, Uint8List bytes, String extension) async {
     final user = _client.auth.currentUser;
     if (user == null) throw Exception('Not authenticated');
@@ -241,11 +268,18 @@ class SupabaseService {
     final supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
     final anonKey = dotenv.env['SUPABASE_PUBLISHABLE_KEY'] ?? '';
 
+    final mediaType = _contentTypeFor(extension);
+
     final uri = Uri.parse('$supabaseUrl/storage/v1/object/$bucket/$fileName');
     final request = http.MultipartRequest('POST', uri)
       ..headers['apikey'] = anonKey
       ..headers['Authorization'] = 'Bearer $token'
-      ..files.add(http.MultipartFile.fromBytes('file', bytes, filename: fileName));
+      ..files.add(http.MultipartFile.fromBytes(
+        'file',
+        bytes,
+        filename: fileName,
+        contentType: mediaType,
+      ));
 
     final response = await request.send();
     final body = await response.stream.bytesToString();
@@ -257,6 +291,27 @@ class SupabaseService {
     return '$supabaseUrl/storage/v1/object/public/$bucket/$fileName';
   }
 
+  static MediaType _contentTypeFor(String extension) {
+    switch (extension.toLowerCase()) {
+      case 'png':
+        return MediaType('image', 'png');
+      case 'jpg':
+      case 'jpeg':
+        return MediaType('image', 'jpeg');
+      case 'gif':
+        return MediaType('image', 'gif');
+      case 'webp':
+        return MediaType('image', 'webp');
+      case 'heic':
+      case 'heif':
+        return MediaType('image', 'heic');
+      case 'pdf':
+        return MediaType('application', 'pdf');
+      default:
+        return MediaType('application', 'octet-stream');
+    }
+  }
+
   Future<String> uploadVerificationDocument({required Uint8List bytes, required String extension}) async {
     return _uploadBytes('verification_documents', '${_client.auth.currentUser?.id}/documents', bytes, extension);
   }
@@ -265,21 +320,18 @@ class SupabaseService {
     return _uploadBytes('verification_documents', '${_client.auth.currentUser?.id}/face', bytes, extension);
   }
 
-  Future<String?> uploadPropertyImage(String filePath) async {
+  Future<String?> uploadPropertyImage({required Uint8List bytes, required String extension}) async {
     final imagekit = ImageKitService();
     if (imagekit.isConfigured) {
-      final ext = filePath.split('.').last;
-      final fileName = 'property_${DateTime.now().millisecondsSinceEpoch}.$ext';
+      final fileName = 'property_${DateTime.now().millisecondsSinceEpoch}.$extension';
       return imagekit.uploadImage(
-        filePath: filePath,
+        bytes: bytes,
         fileName: fileName,
         folder: '/properties/${_client.auth.currentUser?.id}',
       );
     }
     try {
-      final bytes = await File(filePath).readAsBytes();
-      final ext = filePath.split('.').last;
-      return await _uploadBytes('property_images', '${_client.auth.currentUser?.id}', bytes, ext);
+      return await _uploadBytes('property_images', '${_client.auth.currentUser?.id}', bytes, extension);
     } catch (_) {
       return null;
     }
@@ -333,6 +385,67 @@ class SupabaseService {
       'admin_note': reason,
       'reviewed_by': _client.auth.currentUser?.id,
     }).filter('id', 'eq', requestId);
+  }
+
+  // ======== NOTIFICATIONS ========
+
+  Future<List<Map<String, dynamic>>> getNotifications() async {
+    final user = _client.auth.currentUser;
+    if (user == null) return [];
+    final response = await _client
+        .from('notifications')
+        .select('*')
+        .filter('user_id', 'eq', user.id)
+        .filter('channel', 'eq', 'in_app')
+        .order('created_at', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>();
+  }
+
+  Future<int> getUnreadNotificationCount() async {
+    final user = _client.auth.currentUser;
+    if (user == null) return 0;
+    try {
+      final response = await _client
+          .from('notifications')
+          .select('is_read')
+          .filter('user_id', 'eq', user.id)
+          .filter('channel', 'eq', 'in_app');
+      final list = (response as List).cast<Map<String, dynamic>>();
+      return list.where((n) => n['is_read'] == false).length;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  Future<void> markNotificationsRead() async {
+    final user = _client.auth.currentUser;
+    if (user == null) return;
+    await _client
+        .from('notifications')
+        .update({'is_read': true})
+        .filter('user_id', 'eq', user.id)
+        .filter('is_read', 'eq', false);
+  }
+
+  RealtimeChannel subscribeToNotifications(void Function(Map<String, dynamic>) onInsert) {
+    final user = _client.auth.currentUser;
+    final channel = _client
+        .channel('notifications-${user?.id ?? 'anon'}')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.insert,
+          schema: 'public',
+          table: 'notifications',
+          callback: (payload) {
+            final record = payload.newRecord;
+            if (record['user_id'] == user?.id) onInsert(record);
+          },
+        );
+    channel.subscribe();
+    return channel;
+  }
+
+  void unsubscribeFromNotifications(RealtimeChannel channel) {
+    _client.removeChannel(channel);
   }
 
   Future<void> approveProperty(String propertyId) async {
