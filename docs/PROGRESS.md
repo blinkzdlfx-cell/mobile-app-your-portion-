@@ -217,11 +217,13 @@
 - ✅ Filters within search results (all/portions/properties/projects)
 
 ### Infrastructure & DX
-- ✅ GitHub Actions keep-alive workflow
+- ✅ GitHub Actions keep-alive workflow (⚠️ to be replaced by Cloudflare cron)
 - ✅ CI gate (`.github/workflows/ci.yml`) — `flutter analyze` + `flutter test` + debug APK build on push/PR
 - ✅ Sentry crash reporting (initialized when `--dart-define=SENTRY_DSN=...` is provided)
 - ✅ Image caching (cached_network_image across property card/detail/gallery/avatars)
 - ✅ Test suite (18 tests: all 5 model unit-test groups + app-boot smoke test)
+- ⬜ Replace GitHub keep-alive with Cloudflare cron triggers (see Backend Plan below)
+- ⬜ Push notification worker on Cloudflare Workers (scheduled sends + keep-alive; admin `notifyUser()` already covers manual admin sends)
 - ⬜ Offline support / local cache
 - ⬜ Deep linking / universal links
 - ⬜ Analytics (Firebase?)
@@ -336,13 +338,58 @@ npm install
 cd ..
 ```
 
+---
+
+## Deferred Tasks (documented, NOT started)
+
+Feature gaps (non-Kingdom-Projects):
+- ⬜ Saved-property cards: image thumbnail display (`SavedPropertiesScreen`)
+- ⬜ Learning Library: real articles/content + API (currently static placeholder cards)
+- ⬜ Daily Portion: rich text / links inside portion content
+- ⬜ Property analytics (view/save counts) on My Properties
+
+Infrastructure:
+- ⬜ Offline support / local cache
+- ⬜ Deep linking / universal links
+- ⬜ App analytics (Firebase or similar)
+
+Deploy ops (needed for shipped features):
+- ⬜ Run migration `00013_account_and_reviews.sql` in Supabase SQL Editor (avatars bucket + RLS, reviews DELETE policy, profiles self-delete)
+- ⬜ Deploy edge function: `supabase functions deploy delete-account` (needs `SUPABASE_SERVICE_ROLE_KEY`; enable "Allow users to delete their account" in Auth settings)
+- ⬜ Replace GitHub keep-alive action with Cloudflare cron triggers; add push worker (see Backend Plan)
+
+---
+
+## Backend Plan (Push Notifications & Keep-Alive)
+
+Direction agreed: consolidate on Cloudflare — keep GitHub Actions for CI only, move keep-alive + scheduled push to Cloudflare cron triggers/Workers, keep the whole backend easy to manage (single Worker surface, same account as the existing admin dashboard).
+
+**Push delivery decision: Direct FCM via Cloudflare Worker (Appwrite Messaging evaluated and rejected).**
+Why: volume is tiny (1 scheduled push/day + admin-triggered sends); FCM HTTP v1 send already works in the admin dashboard (same pattern to reuse); tokens already live in `device_tokens` (single source of truth); Appwrite would add a second backend platform (SDK in app, API keys, dashboard, free-tier limits) for no real gain at this scale. Delivery states go to a `push_logs` table instead.
+
+Daily portion flow (agreed):
+- Admin dashboard gets a Daily Portions section: two tabs — Posted / Unposted (write-ahead pool)
+- Unposted = `is_published = false`, `publish_date = NULL`; Posted = cron claims oldest unposted, sets `publish_date = today`
+- Cloudflare cron (single trigger, 6am) does BOTH: posts one portion per day (idempotent) AND keeps Supabase awake (free tier pauses only after 7 days of zero requests — a daily DB-touching job is a 7x safety margin; the GitHub keep-alive workflow gets deleted once live)
+- AI writer (later): fills the unposted pool through the same admin API; cron unchanged
+
+Implementation order:
+- ✅ Migration `00014_daily_portions_queue.sql` — `publish_date` default → NULL (drafts must not look published-today), unique partial index on `publish_date` (idempotency guard) — ⚠️ pending SQL Editor run
+- ✅ Admin dashboard: Daily Portions section — API routes (`GET/POST /api/portions`, `PATCH/DELETE /api/portions/[id]`) + UI (`/portions`: Unposted/Posted tabs, write-ahead form, edit inline, publish-now, unpost, delete)
+- ⬜ Cloudflare Worker `push-worker/`: 6am cron → claim oldest unposted portion → insert `publish_date = today` → FCM v1 send to `device_tokens` → log to `push_logs`; keep-alive comes free with the same job
+- ⬜ AI portion writer (later): fills the unposted pool through the same admin API; cron unchanged
+- ⬜ Appwrite: NOT planned — superseded by the direct-FCM decision above
+
+---
+
 ## Next Priority Order
 1. ✅ **Property Images** — migration, secure Storage uploads, card, image display, detail screen, 8-image limit
 2. ✅ **Property Management** — edit/delete/archive/reactivate, status badges, rejection reason, submit draft
-3. ✅ **Notifications & Push** — realtime in-app, FCM push, admin notify, verification termination
+3. ✅ **Notifications & Push (in-app)** — realtime in-app, FCM push from admin, verification termination
 4. ✅ **Profile & Settings** — avatar upload, dark mode, email verification badge, delete account (edge function to deploy)
 5. ✅ **Daily Portion** — real data (today's portion, read status, reflections, bookmarks)
 6. ✅ **Search** — cross-entity, debounced, history, filters
 7. ✅ **Reviews & Ratings** — form, list, average, edit/delete
 8. ✅ **Infrastructure** — Sentry (opt-in), image caching, CI gate, 18 tests, dark mode
-9. ⬜ **Kingdom Projects** — full CRUD (image upload), donations, project detail — last
+9. ⬜ **Deferred tasks** — see "Deferred Tasks" above (small feature gaps, infra, deploy ops, backend plan)
+10. ⬜ **Kingdom Projects** — full CRUD (image upload), donations, project detail — LAST

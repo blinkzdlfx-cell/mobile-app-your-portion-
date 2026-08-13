@@ -93,4 +93,24 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ projectId, reason }),
     }),
+
+  getPortions: (scope: 'unposted' | 'posted' = 'unposted') =>
+    apiFetch(`/portions?scope=${scope}`),
+
+  createPortion: (data: { title: string; content: string; scripture_reference?: string; category?: string }) =>
+    apiFetch('/portions', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updatePortion: (id: string, data: Partial<{ title: string; content: string; scripture_reference: string; category: string; publishNow: boolean; unpublish: boolean }>) =>
+    apiFetch(`/portions/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  deletePortion: (id: string) =>
+    apiFetch(`/portions/${id}`, {
+      method: 'DELETE',
+    }),
 }
