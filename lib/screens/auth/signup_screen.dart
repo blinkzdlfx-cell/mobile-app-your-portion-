@@ -44,7 +44,7 @@ class _SignupScreenState extends State<SignupScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (!_agreeToTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
           content: Text('Please agree to the Terms of Service and Privacy Policy'),
           backgroundColor: AppTheme.error,
         ),
@@ -68,7 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
       if (mounted) {
         if (response.user != null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
+             SnackBar(
               content: Text('Account created! Please check your email and verify your address before signing in.'),
               backgroundColor: AppTheme.primaryContainer,
             ),
@@ -148,7 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           color: AppTheme.surface,
         ),
         child: SafeArea(
@@ -348,7 +348,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             foregroundColor: AppTheme.onPrimary,
                           ),
                           child: _isLoading
-                              ? const SizedBox(
+                              ?  SizedBox(
                                   width: 24,
                                   height: 24,
                                   child: CircularProgressIndicator(
@@ -369,7 +369,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         // Divider
                         Row(
                           children: [
-                            const Expanded(child: Divider(color: AppTheme.surfaceVariant)),
+                             Expanded(child: Divider(color: AppTheme.surfaceVariant)),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Text(
@@ -379,7 +379,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                               ),
                             ),
-                            const Expanded(child: Divider(color: AppTheme.surfaceVariant)),
+                             Expanded(child: Divider(color: AppTheme.surfaceVariant)),
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -399,7 +399,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           style: OutlinedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 56),
-                            side: const BorderSide(color: AppTheme.outlineVariant),
+                            side:  BorderSide(color: AppTheme.outlineVariant),
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -415,7 +415,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           style: OutlinedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 56),
-                            side: const BorderSide(color: AppTheme.outlineVariant),
+                            side:  BorderSide(color: AppTheme.outlineVariant),
                           ),
                         ),
                         const SizedBox(height: 32),

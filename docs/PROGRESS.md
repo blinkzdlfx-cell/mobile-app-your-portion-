@@ -24,35 +24,38 @@
 
 ### Home
 - ✅ `HomeScreen` — `/home` (greeting, search, daily portion, categories, kingdom projects — Coming Soon)
-- ✅ `DailyPortionScreen` — `/daily-portion` (real API data: today's published portion with fallback, bookmark, mark-as-read, saved reflection)
+- ✅ `DailyPortionScreen` — `/daily-portion` (real API data: today's published portion with fallback, bookmark, mark-as-read, saved reflection; accepts `initialPortionId` for deep-link from search)
 - ✅ `NotificationsScreen` — `/notifications` (real API data, realtime updates, New/Earlier sections, mark-all-read, relative timestamps)
 - ✅ `ProfileScreen` — `/profile` (gradient avatar, badges, role-based visibility, pull-to-refresh, auto-refresh on foreground)
   - ✅ Pull-to-refresh
   - ✅ Auto-refresh on app foreground
-  - ⬜ Avatar image upload (currently initials-only)
+  - ✅ Avatar image display (cached, falls back to initials)
+  - ✅ Email-verified indicator next to name
   - ✅ Seller verification CTA + pending/verified status
 - ✅ `EditProfileScreen` — `/edit-profile`
   - ✅ Name, email, phone, location fields
-  - ⬜ Avatar image picker & upload
-  - ⬜ Phone/email verification badge
+  - ✅ Avatar image picker & upload (taptastic, Supabase Storage `avatars` bucket)
+  - ✅ Email verification badge next to Edit Profile in settings
 - ✅ `SettingsScreen` — `/settings`
   - ✅ Change Password (`/change-password` — real Supabase `updateUser` backend)
   - ✅ Language picker (`/language`)
   - ✅ Notification settings toggle (`/notification-settings`)
   - ✅ Buyer/Seller role toggle (`/buyer-seller-role` — real `updateUser` backend)
   - ✅ Trusted Member Status (`/trusted-member-status`), Contact Us, Send Feedback, About
-  - ⬜ Dark mode toggle
+  - ✅ Dark mode toggle (persisted, full dark palette)
+  - ✅ Email verification status tile
+  - ✅ Delete account (edge function + confirmation dialog)
 
 ### Marketplace
 - ✅ `MarketplaceScreen` — `/marketplace` (filters, chips, property cards, FAB, real API data)
   - ✅ Category, location, type, seller, price, size filters
   - ✅ Save/unsave properties
   - ✅ Property detail screen with image gallery (full-screen PageView + dot indicators)
-  - ✅ Image display from `property.images` (loading spinner + error fallback)
+  - ✅ Image display from `property.images` (cached, loading + error fallback)
   - ✅ Pagination / infinite scroll (server-side `.range()`, 20/page)
-  - ⬜ Search bar integration
-  - ⬜ Sort options (price, date, location)
-- ⬜ `SearchResultsScreen` — `/search-results`
+  - ✅ Search bar (home screen) → `/search-results` with query argument
+  - ✅ Sort options (Newest, Price low→high, Price high→low — server-side `.order()`)
+- ✅ `SearchResultsScreen` — `/search-results` (debounced cross-entity search, recent searches, filter chips, sectioned results)
 
 ### Properties
 - ✅ `SavedPropertiesScreen` — `/saved-properties` (real API data)
@@ -71,6 +74,8 @@
   - ✅ Contextual actions per status (edit, submit, archive, reactivate, delete)
   - ✅ Delete confirmation dialog
 - ✅ `PropertyDetailScreen` — `/property-detail` (PageView image gallery, dot indicators, status badges, specs table, contact seller)
+  - ✅ Reviews section (average rating, verified-reviewer names, empty state)
+  - ✅ Review sheet — star rating + comment, submit/edit/delete
 
 ### Kingdom Projects
 - ✅ `KingdomProjectsScreen` — `/kingdom-projects` (real API data, status filter chips, detail bottom sheet, create FAB with canSell gating)
@@ -96,6 +101,11 @@
 ### SupabaseService
 - ✅ Server-side filtered queries everywhere (`.eq()`, `.inFilter()`, `.order()` — no more fetch-all-then-filter)
 - ✅ Paginated `getProperties` (page/pageSize) + `getPropertiesByIds` for saved listings
+- ✅ `getProperties` sort (`sortBy`: newest / price_asc / price_desc)
+- ✅ Search (`searchProperties` / `searchProjects` / `searchPortions` — ilike title)
+- ✅ Reviews CRUD (`getReviews`, `getMyReview`, `addReview`, `updateReview`, `deleteReview`)
+- ✅ Avatar upload (`uploadAvatar` → `avatars` storage bucket, RLS-protected)
+- ✅ Account (`isEmailVerified`, `deleteAccount` via edge function)
 - ✅ Profile CRUD (`getCurrentProfile`, `updateProfile`)
 - ✅ Property CRUD (`getProperties`, `getMyProperties`, `createProperty`, `updateProperty`, `deleteProperty`)
   - ✅ `getProperties` filters to `status == 'approved'` for marketplace
@@ -109,19 +119,18 @@
 - ✅ Admin methods (get/approve/reject for verification, properties, projects)
 
 ### Database
-- ✅ 6 migrations executed in Supabase
+- ✅ Migrations 00001–00012 executed in Supabase
+- ✅ Migration `00013_account_and_reviews.sql` — `avatars` bucket + RLS, reviews DELETE policy, profiles self-delete policy (⚠️ pending execution in SQL Editor)
 - ✅ RLS policies on all tables
 - ✅ Auth trigger `handle_new_user()` auto-creates profile
-- ⬜ Migration: `00007_storage_property_images.sql` — Create `property_images` storage bucket with RLS
-- ⬜ Migration: `00008_storage_avatars.sql` — Create `avatars` storage bucket with RLS
-- ⬜ Migration: `00009_storage_project_images.sql` — Create `project_images` storage bucket with RLS
+- ⬜ Edge function `delete-account` — deploy with `supabase functions deploy delete-account` (needs `SUPABASE_SERVICE_ROLE_KEY` + "Allow users to delete their account" setting)
 
 ### Storage
 - ✅ `verification_documents` bucket (created in migration)
 - ✅ `property_images` bucket (created in migration, RLS-protected)
+- ✅ `avatars` bucket (migration `00013`, ⚠️ pending execution)
 - ✅ All image uploads go through Supabase Storage with user-scoped paths
 - ✅ ImageKit private-key upload removed from the client (security — keys in app binaries are extractable)
-- ⬜ `avatars` bucket (needs creation)
 - ⬜ `project_images` bucket (needs creation)
 
 ---
@@ -166,10 +175,10 @@
 - ✅ Buyer/Seller role toggle (Supabase `updateUser`)
 - ✅ Notification preferences screen
 - ✅ Language picker screen
-- ⬜ Avatar image upload (crop, resize, store in `avatars` bucket)
-- ⬜ Phone/email verification badge
-- ⬜ Dark mode toggle
-- ⬜ Delete account flow
+- ✅ Avatar image upload (pick → `avatars` bucket → cached preview)
+- ✅ Email verification badge
+- ✅ Dark mode toggle (persisted) — full dark palette via brightness-aware `AppTheme`
+- ✅ Delete account flow (edge function, confirmation dialog)
 
 ### Kingdom Projects
 - ⬜ Project creation with image + goal + description
@@ -179,10 +188,11 @@
 - ⬜ Project status lifecycle (pending → active → completed/cancelled)
 
 ### Reviews & Ratings
-- ⬜ Review creation form (rating 1-5, comment)
-- ⬜ Reviews list on property detail
-- ⬜ Average rating calculation
-- ⬜ Reviewer identity (verified buyer badge)
+- ✅ Review creation form (rating 1-5 stars, comment)
+- ✅ Reviews list on property detail (with reviewer join `reviewer:profiles`)
+- ✅ Average rating calculation
+- ✅ Reviewer identity (seller-verified badge)
+- ✅ Edit / delete own review
 
 ### Daily Portion — ✅ Complete
 - ✅ Fetch from `daily_portions` table (published only, newest first)
@@ -201,17 +211,18 @@
 - ✅ In-app notification badge (realtime)
 
 ### Search
-- ⬜ `SearchResultsScreen` — cross-entity search
-- ⬜ Debounced API queries
-- ⬜ Search history
-- ⬜ Filters within search results
+- ✅ `SearchResultsScreen` — cross-entity search (Daily Portions, Properties, Kingdom Projects)
+- ✅ Debounced API queries (400 ms)
+- ✅ Search history (SharedPreferences, max 5, tappable)
+- ✅ Filters within search results (all/portions/properties/projects)
 
 ### Infrastructure & DX
 - ✅ GitHub Actions keep-alive workflow
-- ⬜ Error boundary / crash reporting (Sentry?)
-- ⬜ Image caching (cached_network_image)
+- ✅ CI gate (`.github/workflows/ci.yml`) — `flutter analyze` + `flutter test` + debug APK build on push/PR
+- ✅ Sentry crash reporting (initialized when `--dart-define=SENTRY_DSN=...` is provided)
+- ✅ Image caching (cached_network_image across property card/detail/gallery/avatars)
+- ✅ Test suite (18 tests: all 5 model unit-test groups + app-boot smoke test)
 - ⬜ Offline support / local cache
-- ⬜ CI/CD for Flutter builds
 - ⬜ Deep linking / universal links
 - ⬜ Analytics (Firebase?)
 
@@ -265,7 +276,8 @@
 - ✅ Migration: `00010_notifications_and_termination.sql` — `notifications` table + realtime, termination columns (idempotent)
 - ✅ Migration: `00011_device_tokens.sql` — `device_tokens` table for FCM push (idempotent)
 - ✅ Migration: `00012_portion_reads.sql` — `portion_reads` (read status) + `portion_reflections` tables (idempotent)
-- ⬜ Migrations 00009–00012 pending execution in Supabase SQL Editor
+- ✅ Migration: `00013_account_and_reviews.sql` — `avatars` bucket + RLS, `property_reviews` DELETE policy, profiles self-delete policy (⚠️ pending execution in SQL Editor)
+- ⬜ Deploy edge function `delete-account` (needs `SUPABASE_SERVICE_ROLE_KEY`)
 
 ---
 
@@ -275,17 +287,22 @@
 - ✅ google_fonts ^6.1.0 (Inter)
 - ✅ flutter_dotenv — environment variables
 - ✅ file_picker — document/image uploads
-- ✅ Supabase Storage buckets for all image uploads (`property_images`, RLS-protected)
+- ✅ cached_network_image — image caching (property images, avatars)
+- ✅ shared_preferences — theme mode + search history persistence
+- ✅ sentry_flutter — crash reporting (opt-in via `SENTRY_DSN` dart-define)
+- ✅ Supabase Storage buckets for all image uploads (`property_images`, `avatars`, RLS-protected)
 - ✅ `http` ^1.2.0 — HTTP client for direct Supabase Storage uploads
 - ✅ firebase_core + firebase_messaging — FCM push notifications (guarded)
 - ✅ git ignored .env for security
-- ✅ GitHub Actions keep-alive workflow
+- ✅ GitHub Actions keep-alive workflow + CI gate (analyze/test/apk)
 - ✅ App protection (root/jailbreak detection, screen protection)
 
 ## Models
 - ✅ `UserProfile` — with `canSell`, `canBuy`, `isBoth`, `displayRole`, `firstName`
 - ✅ `Property` — with `formattedPrice`, `fromMap`, `toMap`, `images` (List\<String\>)
 - ✅ `KingdomProject` — with `progressPercent`, `fromMap`, `toMap`
+- ✅ `DailyPortion` — with `paragraphs`
+- ✅ `PropertyReview` — with reviewer join (`reviewer:profiles`)
 
 ## Security
 - ✅ `AppProtection` — root/jailbreak detection, screen protection, debug detection
@@ -296,7 +313,7 @@
 - ✅ `flutter analyze` clean (0 issues incl. `use_build_context_synchronously` crash risks)
 
 ## Design
-- ✅ `AppTheme` — full Serene Covenant palette (50+ color tokens), Inter typography
+- ✅ `AppTheme` — full Serene Covenant palette (50+ color tokens), Inter typography, light + dark palettes
 - ✅ `BottomNavBar` — reusable with Daily, Market, Kingdom, Profile tabs
 - ✅ Profile card — gradient avatar, compact badges, professional layout
 
@@ -323,9 +340,9 @@ cd ..
 1. ✅ **Property Images** — migration, secure Storage uploads, card, image display, detail screen, 8-image limit
 2. ✅ **Property Management** — edit/delete/archive/reactivate, status badges, rejection reason, submit draft
 3. ✅ **Notifications & Push** — realtime in-app, FCM push, admin notify, verification termination
-4. 🔄 **Profile & Settings** — change password, role toggle, notification prefs, language picker done; ⬜ avatar upload, dark mode, phone/email verification badge
+4. ✅ **Profile & Settings** — avatar upload, dark mode, email verification badge, delete account (edge function to deploy)
 5. ✅ **Daily Portion** — real data (today's portion, read status, reflections, bookmarks)
-6. ⬜ **Kingdom Projects** — full CRUD, donations
-7. ⬜ **Reviews & Ratings**
-8. ⬜ **Search** — cross-entity
-9. ⬜ **Infrastructure** — error tracking, caching, CI/CD
+6. ✅ **Search** — cross-entity, debounced, history, filters
+7. ✅ **Reviews & Ratings** — form, list, average, edit/delete
+8. ✅ **Infrastructure** — Sentry (opt-in), image caching, CI gate, 18 tests, dark mode
+9. ⬜ **Kingdom Projects** — full CRUD (image upload), donations, project detail — last

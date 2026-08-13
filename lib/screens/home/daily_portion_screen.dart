@@ -4,7 +4,9 @@ import '../../services/supabase_service.dart';
 import '../../models/daily_portion.dart';
 
 class DailyPortionScreen extends StatefulWidget {
-  const DailyPortionScreen({super.key});
+  const DailyPortionScreen({super.key, this.initialPortionId});
+
+  final String? initialPortionId;
 
   @override
   State<DailyPortionScreen> createState() => _DailyPortionScreenState();
@@ -34,7 +36,10 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
 
   Future<void> _load() async {
     try {
-      final portion = await _supabaseService.getTodayPortion();
+      final id = widget.initialPortionId;
+      final portion = id != null
+          ? await _supabaseService.getPortionById(id)
+          : await _supabaseService.getTodayPortion();
       if (portion == null) {
         if (mounted) setState(() => _loading = false);
         return;
@@ -79,7 +84,7 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
     if (mounted) {
       setState(() => _isRead = true);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
           content: Text("Today's portion marked as read"),
           backgroundColor: AppTheme.primaryContainer,
         ),
@@ -95,7 +100,7 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
     if (mounted) {
       setState(() => _savingReflection = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
           content: Text('Reflection saved'),
           backgroundColor: AppTheme.primaryContainer,
         ),
@@ -105,7 +110,7 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
 
   void _share() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+       SnackBar(
         content: Text('Sharing coming soon'),
         backgroundColor: AppTheme.secondaryContainer,
       ),
@@ -136,7 +141,7 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.primary),
                     style: IconButton.styleFrom(
                       backgroundColor: Colors.transparent,
                     ),
@@ -227,7 +232,7 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
 
   Widget _buildBody() {
     if (_loading) {
-      return const Center(child: CircularProgressIndicator(color: AppTheme.primary));
+      return  Center(child: CircularProgressIndicator(color: AppTheme.primary));
     }
     final portion = _portion;
     if (portion == null) {
@@ -333,7 +338,7 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
                   ],
                 ),
                 if (scripture != null) ...[
-                  const Divider(height: 32, color: AppTheme.outlineVariant),
+                   Divider(height: 32, color: AppTheme.outlineVariant),
                   Row(
                     children: [
                       _InfoChip(icon: Icons.menu_book, label: 'Bible Text', value: scripture),
@@ -433,7 +438,7 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
             child: OutlinedButton.icon(
               onPressed: _savingReflection ? null : _saveReflection,
               icon: _savingReflection
-                  ? const SizedBox(
+                  ?  SizedBox(
                       width: 18,
                       height: 18,
                       child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primary),

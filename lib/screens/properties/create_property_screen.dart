@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -238,7 +239,7 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
       backgroundColor: AppTheme.surface,
       body: SafeArea(
         child: !_isEditMode && _canSell == null
-            ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+            ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
             : _isEditMode || _canSell! ? _buildForm() : _buildVerificationNeeded(),
       ),
     );
@@ -254,7 +255,7 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
             Container(
               width: 80, height: 80,
               decoration: BoxDecoration(color: AppTheme.primaryContainer.withValues(alpha: 0.1), shape: BoxShape.circle),
-              child: const Icon(Icons.verified_user_outlined, size: 40, color: AppTheme.primaryContainer),
+              child:  Icon(Icons.verified_user_outlined, size: 40, color: AppTheme.primaryContainer),
             ),
             const SizedBox(height: 24),
             Text('Verification Required',
@@ -277,7 +278,7 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () => Navigator.of(context).pop(),
-                style: OutlinedButton.styleFrom(foregroundColor: AppTheme.onSurfaceVariant, minimumSize: const Size(double.infinity, 56), side: const BorderSide(color: AppTheme.outlineVariant), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                style: OutlinedButton.styleFrom(foregroundColor: AppTheme.onSurfaceVariant, minimumSize: const Size(double.infinity, 56), side:  BorderSide(color: AppTheme.outlineVariant), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                 child: const Text('Go Back'),
               ),
             ),
@@ -295,7 +296,7 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
         children: [
           Row(
             children: [
-              IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back, color: AppTheme.onSurface)),
+              IconButton(onPressed: () => Navigator.of(context).pop(), icon:  Icon(Icons.arrow_back, color: AppTheme.onSurface)),
               const SizedBox(width: 8),
               Text(_isEditMode ? 'Edit Property' : 'Create Property',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppTheme.onSurface, fontWeight: FontWeight.w600, fontSize: 22)),
@@ -376,7 +377,7 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppTheme.onSurfaceVariant,
                       minimumSize: const Size(double.infinity, 56),
-                      side: const BorderSide(color: AppTheme.outlineVariant),
+                      side:  BorderSide(color: AppTheme.outlineVariant),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: Text(_isSubmitting ? 'Saving...' : 'Save Draft'),
@@ -393,7 +394,7 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: _isSubmitting
-                      ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(AppTheme.onPrimary)))
+                      ?  SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(AppTheme.onPrimary)))
                       : Text(_isEditMode ? 'Update Property' : 'Submit Property'),
                 ),
               ),
@@ -430,12 +431,12 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
           child: SizedBox(
             width: 80, height: 80,
             child: isNetwork
-                ? Image.network(networkUrl!, fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
+                ? CachedNetworkImage(imageUrl: networkUrl!, fit: BoxFit.cover,
+                    errorWidget: (_, _, _) => Container(color: AppTheme.surfaceVariant, child:  Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
                 : bytes != null
                     ? Image.memory(bytes, fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
-                    : Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)),
+                        errorBuilder: (_, _, _) => Container(color: AppTheme.surfaceVariant, child:  Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
+                    : Container(color: AppTheme.surfaceVariant, child:  Icon(Icons.broken_image, color: AppTheme.outlineVariant)),
           ),
         ),
         Positioned(

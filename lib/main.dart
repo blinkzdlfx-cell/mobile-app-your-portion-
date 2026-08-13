@@ -9,9 +9,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme/app_theme.dart';
 import 'config/app_protection.dart';
+import 'services/app_settings.dart';
 import 'services/push_notification_service.dart';
 import 'models/property.dart';
 import 'screens/auth/login_screen.dart';
@@ -77,7 +79,7 @@ void main() async {
   
   // Set system UI overlay style
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
+     SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarColor: AppTheme.surface,
@@ -92,8 +94,22 @@ void main() async {
       debugPrint('App integrity check failed');
     }
   }
-  
-  runApp(const MyApp());
+
+  // Restore persisted settings (theme mode, etc.)
+  await AppSettings.init();
+
+  const sentryDsn = String.fromEnvironment('SENTRY_DSN');
+  if (sentryDsn.isNotEmpty) {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = sentryDsn;
+        options.tracesSampleRate = 0.2;
+      },
+      appRunner: () => runApp(const MyApp()),
+    );
+  } else {
+    runApp(const MyApp());
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -101,12 +117,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Your Portion',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      home: const SplashScreen(),
-      routes: {
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: AppSettings.themeMode,
+      builder: (context, mode, _) {
+        AppTheme.setDarkMode(mode == ThemeMode.dark);
+        return MaterialApp(
+          title: 'Your Portion',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: mode,
+          home: const SplashScreen(),
+          routes: {
         // Auth & Onboarding
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
@@ -120,14 +142,20 @@ class MyApp extends StatelessWidget {
         '/seller-verification': (context) => const SellerVerificationScreen(),
         // Home
         '/home': (context) => const HomeScreen(),
-        '/daily-portion': (context) => const DailyPortionScreen(),
+        '/daily-portion': (context) {
+          final arg = ModalRoute.of(context)?.settings.arguments;
+          return DailyPortionScreen(initialPortionId: arg is String ? arg : null);
+        },
         '/notifications': (context) => const NotificationsScreen(),
         '/profile': (context) => const ProfileScreen(),
         '/edit-profile': (context) => const EditProfileScreen(),
         '/settings': (context) => const SettingsScreen(),
         // Marketplace & Properties
         '/marketplace': (context) => const MarketplaceScreen(),
-        '/search-results': (context) => const SearchResultsScreen(),
+        '/search-results': (context) {
+          final arg = ModalRoute.of(context)?.settings.arguments;
+          return SearchResultsScreen(initialQuery: arg is String ? arg : null);
+        },
         '/my-properties': (context) => const MyPropertiesScreen(),
         '/saved-properties': (context) => const SavedPropertiesScreen(),
         '/bookmarked-portions': (context) => const BookmarkedPortionsScreen(),
@@ -156,6 +184,8 @@ class MyApp extends StatelessWidget {
         '/contact-us': (context) => const ContactUsScreen(),
         '/send-feedback': (context) => const SendFeedbackScreen(),
         '/about': (context) => const AboutScreen(),
+      },
+      );
       },
     );
   }

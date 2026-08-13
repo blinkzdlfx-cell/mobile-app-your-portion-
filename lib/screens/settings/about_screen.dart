@@ -12,7 +12,7 @@ class AboutScreen extends StatelessWidget {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
+          icon:  Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('About Your Portion',
@@ -30,7 +30,7 @@ class AboutScreen extends StatelessWidget {
                 color: AppTheme.primaryContainer,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Icon(Icons.eco_outlined, size: 44, color: AppTheme.onPrimary),
+              child:  Icon(Icons.eco_outlined, size: 44, color: AppTheme.onPrimary),
             ),
             const SizedBox(height: 20),
             Text('Your Portion',

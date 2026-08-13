@@ -24,7 +24,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
+          icon:  Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Notifications',
@@ -57,7 +57,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.info_outline, size: 20, color: AppTheme.onSurfaceVariant),
+                   Icon(Icons.info_outline, size: 20, color: AppTheme.onSurfaceVariant),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text('Preferences are saved locally for now.',
@@ -110,7 +110,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
         ),
         child: Icon(icon, color: AppTheme.secondary, size: 18),
       ),
-      title: Text(title, style: const TextStyle(color: AppTheme.onSurface, fontSize: 15)),
+      title: Text(title, style:  TextStyle(color: AppTheme.onSurface, fontSize: 15)),
       activeThumbColor: AppTheme.primaryContainer,
     );
   }

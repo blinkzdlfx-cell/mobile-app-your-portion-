@@ -82,7 +82,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
           setState(() {});
         } else if (msg.contains('42501') || msg.contains('row-level security')) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
+             SnackBar(
               content: Text('Session expired. Please sign in again to continue.'),
               backgroundColor: AppTheme.error,
             ),
@@ -117,7 +117,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.primary),
                     style: IconButton.styleFrom(backgroundColor: Colors.transparent),
                   ),
                   const Spacer(),
@@ -169,7 +169,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                 color: AppTheme.primaryContainer.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child:  Icon(
                 Icons.mark_email_unread_outlined,
                 size: 40,
                 color: AppTheme.primaryContainer,
@@ -261,7 +261,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             child: _isSaving
-                ? const SizedBox(
+                ?  SizedBox(
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
@@ -279,10 +279,10 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
             onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false),
             style: OutlinedButton.styleFrom(
               minimumSize: const Size(double.infinity, 56),
-              side: const BorderSide(color: AppTheme.outlineVariant),
+              side:  BorderSide(color: AppTheme.outlineVariant),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
-            child: const Text('Skip for now',
+            child:  Text('Skip for now',
               style: TextStyle(color: AppTheme.onSurfaceVariant)),
           ),
         ),
@@ -370,12 +370,12 @@ class _RoleCard extends StatelessWidget {
               ),
             ),
             if (isSelected)
-              const Icon(
+               Icon(
                 Icons.radio_button_checked,
                 color: AppTheme.primaryContainer,
               )
             else
-              const Icon(
+               Icon(
                 Icons.radio_button_off,
                 color: AppTheme.outlineVariant,
               ),

@@ -18,14 +18,14 @@ class LearningLibraryScreen extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant),
                   ),
                   const Spacer(),
                   Text('Library',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 22)),
                   const Spacer(),
-                  const Icon(Icons.search, color: AppTheme.onSurfaceVariant),
+                   Icon(Icons.search, color: AppTheme.onSurfaceVariant),
                 ],
               ),
               const SizedBox(height: 16),
@@ -35,7 +35,7 @@ class LearningLibraryScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                   decoration: InputDecoration(
                     hintText: 'Search articles, guides or topics...',
-                    prefixIcon: const Icon(Icons.search, color: AppTheme.outlineVariant),
+                    prefixIcon:  Icon(Icons.search, color: AppTheme.outlineVariant),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(vertical: 16),
                   ),
@@ -175,7 +175,7 @@ class _ArticleCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                  const Icon(Icons.schedule, size: 16, color: AppTheme.outline),
+                   Icon(Icons.schedule, size: 16, color: AppTheme.outline),
                   const SizedBox(width: 4),
                   Text(readTime, style: Theme.of(context).textTheme.labelMedium?.copyWith(color: AppTheme.outline)),
                 ]),
@@ -222,7 +222,7 @@ class _ListItem extends StatelessWidget {
           Expanded(
             child: Text(title, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.onSurface)),
           ),
-          const Icon(Icons.chevron_right, color: AppTheme.outlineVariant),
+           Icon(Icons.chevron_right, color: AppTheme.outlineVariant),
         ],
       ),
     );

@@ -30,7 +30,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+          icon:  Icon(Icons.arrow_back, color: AppTheme.primary),
         ),
         title: Text(
           'Help & Support',

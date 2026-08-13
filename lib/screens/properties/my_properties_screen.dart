@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
@@ -82,7 +83,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
         await _supabaseService.deleteProperty(p.id);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Property deleted'), backgroundColor: AppTheme.primaryContainer),
+             SnackBar(content: Text('Property deleted'), backgroundColor: AppTheme.primaryContainer),
           );
           _load();
         }
@@ -101,7 +102,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
       await _supabaseService.archiveProperty(p.id);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Property archived'), backgroundColor: AppTheme.primaryContainer),
+           SnackBar(content: Text('Property archived'), backgroundColor: AppTheme.primaryContainer),
         );
         _load();
       }
@@ -119,7 +120,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
       await _supabaseService.reactivateProperty(p.id);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Property reactivated'), backgroundColor: AppTheme.primaryContainer),
+           SnackBar(content: Text('Property reactivated'), backgroundColor: AppTheme.primaryContainer),
         );
         _load();
       }
@@ -143,13 +144,13 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               child: Row(
                 children: [
-                  IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant)),
+                  IconButton(onPressed: () => Navigator.of(context).pop(), icon:  Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant)),
                   const Spacer(),
                   Text('My Properties',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 22)),
                   const Spacer(),
                   IconButton(
-                    icon: const Icon(Icons.refresh, color: AppTheme.primary),
+                    icon:  Icon(Icons.refresh, color: AppTheme.primary),
                     onPressed: _load,
                   ),
                 ],
@@ -157,7 +158,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
             ),
             Expanded(
               child: _loading
-                  ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                  ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
                   : _properties.isEmpty
                       ? Center(
                           child: Padding(
@@ -209,8 +210,8 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
                 child: SizedBox(
                   width: 72, height: 72,
                   child: p.images.isNotEmpty
-                      ? Image.network(p.images.first, fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) => _thumbnailPlaceholder())
+                      ? CachedNetworkImage(imageUrl: p.images.first, fit: BoxFit.cover,
+                          errorWidget: (_, _, _) => _thumbnailPlaceholder())
                       : _thumbnailPlaceholder(),
                 ),
               ),
@@ -227,7 +228,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppTheme.primaryContainer, fontWeight: FontWeight.w600, fontSize: 18)),
                     const SizedBox(height: 4),
                     Row(children: [
-                      const Icon(Icons.location_on, size: 14, color: AppTheme.onSurfaceVariant),
+                       Icon(Icons.location_on, size: 14, color: AppTheme.onSurfaceVariant),
                       const SizedBox(width: 4),
                       Expanded(child: Text(p.location,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppTheme.onSurfaceVariant),
@@ -290,7 +291,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
   Widget _thumbnailPlaceholder() {
     return Container(
       color: AppTheme.surfaceVariant,
-      child: const Icon(Icons.image_outlined, size: 32, color: AppTheme.outlineVariant),
+      child:  Icon(Icons.image_outlined, size: 32, color: AppTheme.outlineVariant),
     );
   }
 
@@ -343,7 +344,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
       await _supabaseService.updateProperty(p.id, {'status': 'pending', 'rejection_reason': null});
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Property submitted for review'), backgroundColor: AppTheme.primaryContainer),
+           SnackBar(content: Text('Property submitted for review'), backgroundColor: AppTheme.primaryContainer),
         );
         _load();
       }

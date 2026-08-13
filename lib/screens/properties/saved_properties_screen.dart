@@ -40,7 +40,7 @@ class _SavedPropertiesScreenState extends State<SavedPropertiesScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant),
                   ),
                   const Spacer(),
                   Text('Saved Properties',
@@ -110,7 +110,7 @@ class _SavedPropertiesScreenState extends State<SavedPropertiesScreen> {
                                             ),
                                             child: IconButton(
                                               padding: EdgeInsets.zero,
-                                              icon: const Icon(Icons.favorite, size: 18, color: AppTheme.onErrorContainer, fill: 1),
+                                              icon:  Icon(Icons.favorite, size: 18, color: AppTheme.onErrorContainer, fill: 1),
                                               onPressed: () async {
                                                 await _supabaseService.unsaveProperty(p.id);
                                                 _load();
@@ -131,7 +131,7 @@ class _SavedPropertiesScreenState extends State<SavedPropertiesScreen> {
                                             color: AppTheme.onSurface)),
                                         const SizedBox(height: 8),
                                         Row(children: [
-                                          const Icon(Icons.location_on, size: 20, color: AppTheme.onSurfaceVariant),
+                                           Icon(Icons.location_on, size: 20, color: AppTheme.onSurfaceVariant),
                                           const SizedBox(width: 4),
                                           Expanded(child: Text(p.location,
                                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.onSurfaceVariant))),

@@ -144,9 +144,9 @@ class _HomeScreenState extends State<HomeScreen>
                                 hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: AppTheme.outlineVariant,
                                 ),
-                                prefixIcon: const Icon(Icons.search, color: AppTheme.outline),
+                                prefixIcon:  Icon(Icons.search, color: AppTheme.outline),
                                 suffixIcon: IconButton(
-                                  icon: const Icon(Icons.close, color: AppTheme.outline),
+                                  icon:  Icon(Icons.close, color: AppTheme.outline),
                                   onPressed: () {
                                     _searchController.clear();
                                     setState(() => _isSearchExpanded = false);
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen>
                               ),
                               onSubmitted: (value) {
                                 if (value.trim().isNotEmpty) {
-                                  Navigator.pushNamed(context, '/search-results');
+                                  Navigator.pushNamed(context, '/search-results', arguments: value.trim());
                                 }
                               },
                             )
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   _searchFocusNode.requestFocus();
                                 });
                               },
-                              child: const SizedBox(
+                              child:  SizedBox(
                                 height: 56,
                                 child: Center(
                                   child: Icon(Icons.search, color: AppTheme.outline),
@@ -300,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   offset: Offset(_arrowOffset.value, 0),
                                   child: child,
                                 ),
-                                child: const Icon(Icons.arrow_forward, size: 16, color: AppTheme.primaryContainer),
+                                child:  Icon(Icons.arrow_forward, size: 16, color: AppTheme.primaryContainer),
                               ),
                             ],
                           ),
@@ -362,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen>
                               color: AppTheme.primaryContainer.withValues(alpha: 0.1),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child:  Icon(
                               Icons.construction_rounded,
                               size: 28,
                               color: AppTheme.primaryContainer,

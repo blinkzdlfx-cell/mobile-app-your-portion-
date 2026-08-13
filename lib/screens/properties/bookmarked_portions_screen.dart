@@ -39,7 +39,7 @@ class _BookmarkedPortionsScreenState extends State<BookmarkedPortionsScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant),
                   ),
                   const Spacer(),
                   Text('Bookmarked Portions',
@@ -96,7 +96,7 @@ class _BookmarkedPortionsScreenState extends State<BookmarkedPortionsScreen> {
                                             color: AppTheme.onSurface, fontWeight: FontWeight.w600)),
                                       ),
                                       IconButton(
-                                        icon: const Icon(Icons.bookmark, color: AppTheme.primaryContainer, fill: 1),
+                                        icon:  Icon(Icons.bookmark, color: AppTheme.primaryContainer, fill: 1),
                                         onPressed: () async {
                                           await _supabaseService.removeBookmarkedPortion(p.id);
                                           _load();

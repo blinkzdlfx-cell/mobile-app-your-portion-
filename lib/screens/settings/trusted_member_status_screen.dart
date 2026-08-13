@@ -70,7 +70,7 @@ class _TrustedMemberStatusScreenState extends State<TrustedMemberStatusScreen> {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
+          icon:  Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Trusted Member Status',
@@ -78,7 +78,7 @@ class _TrustedMemberStatusScreenState extends State<TrustedMemberStatusScreen> {
             color: AppTheme.onSurface, fontWeight: FontWeight.w600, fontSize: 22)),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+          ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
           : Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -203,7 +203,7 @@ class _TrustedMemberStatusScreenState extends State<TrustedMemberStatusScreen> {
                         onPressed: () {},
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 56),
-                          side: const BorderSide(color: AppTheme.outlineVariant),
+                          side:  BorderSide(color: AppTheme.outlineVariant),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
                         child: const Text('Application Submitted',

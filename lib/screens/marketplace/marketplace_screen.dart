@@ -33,6 +33,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   String _selectedPurpose = 'All Purposes';
   double _minSize = 0;
   double _maxSize = 100;
+  String _sortBy = 'newest';
   final _locationController = TextEditingController();
 
   List<Property> _allProperties = [];
@@ -102,7 +103,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
     try {
       _page = 0;
       _hasMore = true;
-      final properties = await _supabaseService.getProperties(page: 0, pageSize: _pageSize);
+      final properties = await _supabaseService.getProperties(page: 0, pageSize: _pageSize, sortBy: _sortBy);
       if (mounted) setState(() { _allProperties = properties; });
     } catch (_) {
     } finally {
@@ -115,7 +116,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
     _isLoadingMore = true;
     try {
       final nextPage = _page + 1;
-      final more = await _supabaseService.getProperties(page: nextPage, pageSize: _pageSize);
+      final more = await _supabaseService.getProperties(page: nextPage, pageSize: _pageSize, sortBy: _sortBy);
       if (!mounted) return;
       setState(() {
         _page = nextPage;
@@ -196,7 +197,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                   decoration: InputDecoration(
                     hintText: 'Search location...',
                     hintStyle: Theme.of(ctx).textTheme.bodyMedium?.copyWith(color: AppTheme.outline),
-                    prefixIcon: const Icon(Icons.search, color: AppTheme.outline),
+                    prefixIcon:  Icon(Icons.search, color: AppTheme.outline),
                     filled: true,
                     fillColor: AppTheme.surfaceContainerLow,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
@@ -306,7 +307,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+                        icon:  Icon(Icons.arrow_back, color: AppTheme.primary),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       Text(
@@ -317,7 +318,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           fontSize: 22,
                         ),
                       ),
-                      const NotificationBell(iconColor: AppTheme.primary),
+                       NotificationBell(iconColor: AppTheme.primary),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -363,9 +364,9 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           decoration: InputDecoration(
                             hintText: 'Search land, houses, apartments...',
                             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.outline),
-                            prefixIcon: const Icon(Icons.search, color: AppTheme.outline),
+                            prefixIcon:  Icon(Icons.search, color: AppTheme.outline),
                             suffixIcon: IconButton(
-                              icon: const Icon(Icons.tune, color: AppTheme.outline),
+                              icon:  Icon(Icons.tune, color: AppTheme.outline),
                               onPressed: _showFilterSheet,
                             ),
                             border: InputBorder.none,
@@ -395,6 +396,37 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
+                      // Sort row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: _showSortSheet,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: AppTheme.surfaceContainerLowest,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: AppTheme.outlineVariant),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                   Icon(Icons.swap_vert, size: 16, color: AppTheme.primaryContainer),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    _sortLabel,
+                                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                      color: AppTheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
                       // Property cards
                       ..._filteredProperties.map((p) => Padding(
                         padding: const EdgeInsets.only(bottom: 12),
@@ -406,7 +438,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                         ),
                       )),
                       if (_isLoadingMore)
-                        const Padding(
+                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Center(
                             child: SizedBox(
@@ -425,7 +457,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/create-property'),
         backgroundColor: AppTheme.primaryContainer,
-        child: const Icon(Icons.add, color: AppTheme.onPrimary, size: 28),
+        child:  Icon(Icons.add, color: AppTheme.onPrimary, size: 28),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavBar(
@@ -437,6 +469,76 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
         },
       ),
     );
+  }
+
+  String get _sortLabel {
+    switch (_sortBy) {
+      case 'price_asc':
+        return 'Price: Low to High';
+      case 'price_desc':
+        return 'Price: High to Low';
+      default:
+        return 'Newest First';
+    }
+  }
+
+  void _showSortSheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+              child: Text(
+                'Sort By',
+                style: Theme.of(ctx).textTheme.headlineMedium?.copyWith(
+                  color: AppTheme.onSurface,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            RadioGroup<String>(
+              groupValue: _sortBy,
+              onChanged: (v) => _applySort(v),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<String>(
+                    value: 'newest',
+                    activeColor: AppTheme.primaryContainer,
+                    title: const Text('Newest First'),
+                  ),
+                  RadioListTile<String>(
+                    value: 'price_asc',
+                    activeColor: AppTheme.primaryContainer,
+                    title: const Text('Price: Low to High'),
+                  ),
+                  RadioListTile<String>(
+                    value: 'price_desc',
+                    activeColor: AppTheme.primaryContainer,
+                    title: const Text('Price: High to Low'),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _applySort(String? value) {
+    if (value == null) return;
+    Navigator.of(context).pop();
+    setState(() => _sortBy = value);
+    _loadProperties();
   }
 
   Future<void> _toggleSave(String propertyId) async {

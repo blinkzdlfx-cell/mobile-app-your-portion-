@@ -20,7 +20,7 @@ class LoadingScreen extends StatelessWidget {
                 color: AppTheme.primaryContainer,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Center(
+              child:  Center(
                 child: SizedBox(
                   width: 32,
                   height: 32,

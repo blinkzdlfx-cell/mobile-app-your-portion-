@@ -5,6 +5,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/property.dart';
+import '../models/property_review.dart';
 import '../models/kingdom_project.dart';
 import '../models/daily_portion.dart';
 
@@ -33,9 +34,12 @@ class SupabaseService {
 
   // ======== PROPERTIES ========
 
-  /// Approved listings, filtered and paginated server-side, newest first.
+  /// Approved listings, filtered and paginated server-side.
+  ///
+  /// [sortBy]: 'newest' (default), 'price_asc', or 'price_desc'.
   Future<List<Property>> getProperties({
     String? category,
+    String sortBy = 'newest',
     int page = 0,
     int pageSize = 20,
   }) async {
@@ -46,9 +50,12 @@ class SupabaseService {
     if (category != null && category != 'All Listings') {
       query = query.eq('category', category);
     }
-    final response = await query
-        .order('created_at', ascending: false)
-        .range(page * pageSize, page * pageSize + pageSize - 1);
+    final sorted = switch (sortBy) {
+      'price_asc' => query.order('price', ascending: true),
+      'price_desc' => query.order('price', ascending: false),
+      _ => query.order('created_at', ascending: false),
+    };
+    final response = await sorted.range(page * pageSize, page * pageSize + pageSize - 1);
     return (response as List)
         .cast<Map<String, dynamic>>()
         .map(Property.fromMap)
@@ -191,6 +198,17 @@ class SupabaseService {
       }
     }
     return all.first;
+  }
+
+  Future<DailyPortion?> getPortionById(String id) async {
+    final row = await _client
+        .from('daily_portions')
+        .select('*')
+        .eq('id', id)
+        .eq('is_published', true)
+        .maybeSingle();
+    if (row == null) return null;
+    return DailyPortion.fromMap(row);
   }
 
   Future<bool> isPortionRead(String portionId) async {
@@ -455,6 +473,122 @@ class SupabaseService {
       return await _uploadBytes('property_images', '${_client.auth.currentUser?.id}', bytes, extension);
     } catch (_) {
       return null;
+    }
+  }
+
+  Future<String?> uploadAvatar({required Uint8List bytes, required String extension}) async {
+    try {
+      return await _uploadBytes('avatars', '${_client.auth.currentUser?.id}/avatar', bytes, extension);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // ======== REVIEWS ========
+
+  Future<List<PropertyReview>> getReviews(String propertyId) async {
+    final response = await _client
+        .from('reviews')
+        .select('*, reviewer:profiles(full_name, is_seller_verified)')
+        .eq('property_id', propertyId)
+        .order('created_at', ascending: false);
+    return (response as List)
+        .cast<Map<String, dynamic>>()
+        .map(PropertyReview.fromMap)
+        .toList();
+  }
+
+  Future<PropertyReview?> getMyReview(String propertyId) async {
+    final user = _client.auth.currentUser;
+    if (user == null) return null;
+    final row = await _client
+        .from('reviews')
+        .select('*, reviewer:profiles(full_name, is_seller_verified)')
+        .eq('property_id', propertyId)
+        .eq('reviewer_id', user.id)
+        .maybeSingle();
+    if (row == null) return null;
+    return PropertyReview.fromMap(row);
+  }
+
+  Future<void> addReview(String propertyId, int rating, String? comment) async {
+    final user = _client.auth.currentUser;
+    if (user == null) throw Exception('Not authenticated');
+    await _client.from('reviews').insert({
+      'property_id': propertyId,
+      'reviewer_id': user.id,
+      'rating': rating,
+      'comment': comment,
+    });
+  }
+
+  Future<void> updateReview(String reviewId, int rating, String? comment) async {
+    await _client.from('reviews').update({
+      'rating': rating,
+      'comment': comment,
+    }).eq('id', reviewId);
+  }
+
+  Future<void> deleteReview(String reviewId) async {
+    await _client.from('reviews').delete().eq('id', reviewId);
+  }
+
+  // ======== SEARCH ========
+
+  Future<List<Property>> searchProperties(String query, {int limit = 10}) async {
+    final q = query.trim();
+    if (q.isEmpty) return [];
+    final response = await _client
+        .from('properties')
+        .select('*')
+        .eq('status', 'approved')
+        .ilike('title', '%$q%')
+        .order('created_at', ascending: false)
+        .limit(limit);
+    return (response as List).cast<Map<String, dynamic>>().map(Property.fromMap).toList();
+  }
+
+  Future<List<KingdomProject>> searchProjects(String query, {int limit = 10}) async {
+    final q = query.trim();
+    if (q.isEmpty) return [];
+    final response = await _client
+        .from('kingdom_projects')
+        .select('*')
+        .inFilter('status', ['active', 'completed'])
+        .ilike('title', '%$q%')
+        .order('created_at', ascending: false)
+        .limit(limit);
+    return (response as List).cast<Map<String, dynamic>>().map(KingdomProject.fromMap).toList();
+  }
+
+  Future<List<DailyPortion>> searchPortions(String query, {int limit = 10}) async {
+    final q = query.trim();
+    if (q.isEmpty) return [];
+    final response = await _client
+        .from('daily_portions')
+        .select('*')
+        .eq('is_published', true)
+        .ilike('title', '%$q%')
+        .order('publish_date', ascending: false)
+        .limit(limit);
+    return (response as List).cast<Map<String, dynamic>>().map(DailyPortion.fromMap).toList();
+  }
+
+  // ======== ACCOUNT ========
+
+  bool isEmailVerified() {
+    final user = _client.auth.currentUser;
+    if (user == null) return false;
+    return user.emailConfirmedAt != null || (user.userMetadata?['email_verified'] as bool?) == true;
+  }
+
+  /// Deletes the user's account via the `delete-account` edge function.
+  /// Requires deployment: `supabase functions deploy delete-account`.
+  Future<void> deleteAccount() async {
+    final response = await _client.functions.invoke('delete-account');
+    if (response.status >= 400) {
+      final data = response.data as Map<String, dynamic>?;
+      throw Exception(data?['error'] ?? 'Account deletion failed');
     }
   }
 

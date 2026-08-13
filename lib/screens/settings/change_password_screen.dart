@@ -43,7 +43,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Password changed successfully'), backgroundColor: AppTheme.primaryContainer),
+           SnackBar(content: Text('Password changed successfully'), backgroundColor: AppTheme.primaryContainer),
         );
         Navigator.of(context).pop();
       }
@@ -74,7 +74,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
+          icon:  Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Change Password',
@@ -97,7 +97,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 obscureText: _obscureCurrent,
                 decoration: InputDecoration(
                   labelText: 'Current Password',
-                  prefixIcon: const Icon(Icons.lock_outline, color: AppTheme.onSurfaceVariant),
+                  prefixIcon:  Icon(Icons.lock_outline, color: AppTheme.onSurfaceVariant),
                   suffixIcon: IconButton(
                     icon: Icon(_obscureCurrent ? Icons.visibility_off : Icons.visibility, color: AppTheme.onSurfaceVariant),
                     onPressed: () => setState(() => _obscureCurrent = !_obscureCurrent),
@@ -111,7 +111,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 obscureText: _obscureNew,
                 decoration: InputDecoration(
                   labelText: 'New Password',
-                  prefixIcon: const Icon(Icons.lock_outline, color: AppTheme.onSurfaceVariant),
+                  prefixIcon:  Icon(Icons.lock_outline, color: AppTheme.onSurfaceVariant),
                   suffixIcon: IconButton(
                     icon: Icon(_obscureNew ? Icons.visibility_off : Icons.visibility, color: AppTheme.onSurfaceVariant),
                     onPressed: () => setState(() => _obscureNew = !_obscureNew),
@@ -129,7 +129,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 obscureText: _obscureConfirm,
                 decoration: InputDecoration(
                   labelText: 'Confirm New Password',
-                  prefixIcon: const Icon(Icons.lock_outline, color: AppTheme.onSurfaceVariant),
+                  prefixIcon:  Icon(Icons.lock_outline, color: AppTheme.onSurfaceVariant),
                   suffixIcon: IconButton(
                     icon: Icon(_obscureConfirm ? Icons.visibility_off : Icons.visibility, color: AppTheme.onSurfaceVariant),
                     onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
@@ -151,7 +151,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: _loading
-                    ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.onPrimary))
+                    ?  SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.onPrimary))
                     : const Text('Change Password', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
               ),
             ],

@@ -57,7 +57,7 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
       await _checkExisting();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
           content: Text('Verification request submitted! An admin will review it shortly.'),
           backgroundColor: AppTheme.primaryContainer,
         ),
@@ -95,14 +95,14 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.onBackground),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.onBackground),
                     style: IconButton.styleFrom(backgroundColor: AppTheme.surfaceContainer),
                   ),
                   const Spacer(),
                   Container(
                     width: 40, height: 40,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(Icons.eco_outlined, color: AppTheme.primary, size: 28),
+                    child:  Icon(Icons.eco_outlined, color: AppTheme.primary, size: 28),
                   ),
                   const Spacer(),
                   const SizedBox(width: 48),
@@ -143,7 +143,7 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: _isSubmitting
-                        ? const SizedBox(width: 24, height: 24,
+                        ?  SizedBox(width: 24, height: 24,
                             child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(AppTheme.onPrimary)))
                         : const Text('Submit Request'),
                   ),
@@ -159,7 +159,7 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.shield_outlined, size: 18, color: AppTheme.onSurfaceVariant),
+                       Icon(Icons.shield_outlined, size: 18, color: AppTheme.onSurfaceVariant),
                       const SizedBox(width: 12),
                       Expanded(child: Text(
                         'Your information is securely protected and is only used to maintain a trusted community.',

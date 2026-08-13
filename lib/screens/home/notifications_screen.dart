@@ -87,7 +87,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.onSurface),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.onSurface),
                     style: IconButton.styleFrom(backgroundColor: Colors.transparent),
                   ),
                   const Spacer(),
@@ -114,7 +114,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             ),
             Expanded(
               child: _loading
-                  ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                  ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
                   : RefreshIndicator(
                       onRefresh: _load,
                       color: AppTheme.primary,
@@ -214,7 +214,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               Container(
                 width: 10,
                 height: 10,
-                decoration: const BoxDecoration(
+                decoration:  BoxDecoration(
                   color: AppTheme.primaryContainer,
                   shape: BoxShape.circle,
                 ),

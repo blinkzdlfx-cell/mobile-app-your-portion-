@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
@@ -42,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   String _email = '';
   String _role = 'buyer';
   String _avatarInitials = '?';
+  bool _emailVerified = false;
   List<Color> _avatarColors = [
     AppTheme.primaryContainer,
     AppTheme.primaryContainer,
@@ -51,6 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   bool _isAdmin = false;
   bool _hasPendingVerification = false;
   bool _loaded = false;
+  String? _avatarUrl;
 
   @override
   void initState() {
@@ -90,6 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     final profile = await _supabaseService.getCurrentProfile();
     final pendingRequest = await _supabaseService.getPendingRequest('seller');
+    final emailVerified = _supabaseService.isEmailVerified();
 
     if (mounted) {
       setState(() {
@@ -102,6 +106,8 @@ class _ProfileScreenState extends State<ProfileScreen>
         _hasPendingVerification = pendingRequest != null;
         _avatarInitials = _initials(name);
         _avatarColors = _avatarGradient(user.id);
+        _avatarUrl = profile?.avatarUrl;
+        _emailVerified = emailVerified;
       });
     }
   }
@@ -135,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     color: AppTheme.primaryContainer.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child:  Icon(
                     Icons.badge_outlined,
                     size: 32,
                     color: AppTheme.primaryContainer,
@@ -176,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     onPressed: () => Navigator.of(ctx).pop(),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppTheme.onSurfaceVariant,
-                      side: const BorderSide(color: AppTheme.outlineVariant),
+                      side:  BorderSide(color: AppTheme.outlineVariant),
                     ),
                     child: const Text('Cancel'),
                   ),
@@ -201,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               child: Row(
                 children: [
-                  const Icon(Icons.arrow_back, color: AppTheme.primary),
+                   Icon(Icons.arrow_back, color: AppTheme.primary),
                   const Spacer(),
                   Text(
                     'My Profile',
@@ -214,7 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   const Spacer(),
                   IconButton(
                     onPressed: () => Navigator.pushNamed(context, '/settings'),
-                    icon: const Icon(
+                    icon:  Icon(
                       Icons.settings_outlined,
                       color: AppTheme.onSurfaceVariant,
                     ),
@@ -276,31 +282,82 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         width: 3,
                                       ),
                                     ),
-                                    child: Center(
-                                      child: Text(
-                                        _avatarInitials,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .displayLarge
-                                            ?.copyWith(
-                                              color: AppTheme.surface,
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.w600,
+                                    clipBehavior: Clip.antiAlias,
+                                    child: _avatarUrl != null
+                                        ? CachedNetworkImage(
+                                            imageUrl: _avatarUrl!,
+                                            fit: BoxFit.cover,
+                                            placeholder: (_, _) => Center(
+                                              child: Text(
+                                                _avatarInitials,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displayLarge
+                                                    ?.copyWith(
+                                                      color: AppTheme.surface,
+                                                      fontSize: 30,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                              ),
                                             ),
-                                      ),
-                                    ),
+                                            errorWidget: (_, _, _) => Center(
+                                              child: Text(
+                                                _avatarInitials,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displayLarge
+                                                    ?.copyWith(
+                                                      color: AppTheme.surface,
+                                                      fontSize: 30,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                              ),
+                                            ),
+                                          )
+                                        : Center(
+                                            child: Text(
+                                              _avatarInitials,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .displayLarge
+                                                  ?.copyWith(
+                                                    color: AppTheme.surface,
+                                                    fontSize: 30,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                            ),
+                                          ),
                                   ),
                                   const SizedBox(height: 16),
-                                  Text(
-                                    _fullName.isNotEmpty ? _fullName : 'Friend',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge
-                                        ?.copyWith(
-                                          color: AppTheme.surface,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          _fullName.isNotEmpty
+                                              ? _fullName
+                                              : 'Friend',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineLarge
+                                              ?.copyWith(
+                                                color: AppTheme.surface,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                         ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Icon(
+                                        _emailVerified
+                                            ? Icons.verified
+                                            : Icons.error_outline,
+                                        size: 18,
+                                        color: AppTheme.surface,
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(height: 6),
                                   Text(
@@ -613,7 +670,7 @@ class _ActivityCard extends StatelessWidget {
                 ),
               ],
             ),
-            const Icon(Icons.chevron_right, color: AppTheme.onSurfaceVariant),
+             Icon(Icons.chevron_right, color: AppTheme.onSurfaceVariant),
           ],
         ),
       ),

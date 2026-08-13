@@ -55,7 +55,7 @@ class _BuyerSellerRoleScreenState extends State<BuyerSellerRoleScreen> {
       }
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Role updated successfully'), backgroundColor: AppTheme.primaryContainer),
+         SnackBar(content: Text('Role updated successfully'), backgroundColor: AppTheme.primaryContainer),
       );
       Navigator.of(context).pop();
     } catch (e) {
@@ -76,7 +76,7 @@ class _BuyerSellerRoleScreenState extends State<BuyerSellerRoleScreen> {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
+          icon:  Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Buyer & Seller Role',
@@ -84,7 +84,7 @@ class _BuyerSellerRoleScreenState extends State<BuyerSellerRoleScreen> {
             color: AppTheme.onSurface, fontWeight: FontWeight.w600, fontSize: 22)),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+          ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -127,7 +127,7 @@ class _BuyerSellerRoleScreenState extends State<BuyerSellerRoleScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: _saving
-                        ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.onPrimary))
+                        ?  SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.onPrimary))
                         : const Text('Save Changes', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
                   ),
                 ],

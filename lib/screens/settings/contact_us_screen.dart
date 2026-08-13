@@ -27,7 +27,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     await Future.delayed(const Duration(seconds: 1));
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Message sent. We will get back to you soon.'),
+         SnackBar(content: Text('Message sent. We will get back to you soon.'),
           backgroundColor: AppTheme.primaryContainer),
       );
       Navigator.of(context).pop();
@@ -42,7 +42,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
+          icon:  Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Contact Us',
@@ -62,7 +62,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               const SizedBox(height: 32),
               TextFormField(
                 controller: _subjectCtrl,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   labelText: 'Subject',
                   prefixIcon: Icon(Icons.subject, color: AppTheme.onSurfaceVariant),
                 ),
@@ -72,7 +72,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               TextFormField(
                 controller: _messageCtrl,
                 maxLines: 6,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   labelText: 'Message',
                   alignLabelWithHint: true,
                   prefixIcon: Padding(
@@ -92,7 +92,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: _sending
-                    ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.onPrimary))
+                    ?  SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.onPrimary))
                     : const Text('Send Message', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
               ),
             ],

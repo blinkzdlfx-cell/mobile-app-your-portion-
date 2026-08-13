@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+           SnackBar(
             content: Text('Google sign-in failed. Please try again.'),
             backgroundColor: AppTheme.error,
           ),
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+           SnackBar(
             content: Text('Apple sign-in failed. Please try again.'),
             backgroundColor: AppTheme.error,
           ),
@@ -162,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           color: AppTheme.surface,
         ),
         child: SafeArea(
@@ -334,7 +334,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           child: _isLoading
-                              ? const SizedBox(
+                              ?  SizedBox(
                                   width: 24,
                                   height: 24,
                                   child: CircularProgressIndicator(
@@ -355,7 +355,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Divider
                         Row(
                           children: [
-                            const Expanded(child: Divider(color: AppTheme.surfaceVariant)),
+                             Expanded(child: Divider(color: AppTheme.surfaceVariant)),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Text(
@@ -365,7 +365,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                            const Expanded(child: Divider(color: AppTheme.surfaceVariant)),
+                             Expanded(child: Divider(color: AppTheme.surfaceVariant)),
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -385,7 +385,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           style: OutlinedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 56),
-                            side: const BorderSide(color: AppTheme.outlineVariant),
+                            side:  BorderSide(color: AppTheme.outlineVariant),
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -401,7 +401,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           style: OutlinedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 56),
-                            side: const BorderSide(color: AppTheme.outlineVariant),
+                            side:  BorderSide(color: AppTheme.outlineVariant),
                           ),
                         ),
                         const SizedBox(height: 32),

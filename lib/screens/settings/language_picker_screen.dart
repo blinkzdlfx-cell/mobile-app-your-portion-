@@ -32,7 +32,7 @@ class _LanguagePickerScreenState extends State<LanguagePickerScreen> {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
+          icon:  Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Language',
@@ -81,7 +81,7 @@ class _LanguagePickerScreenState extends State<LanguagePickerScreen> {
                             ),
                             child: Center(
                               child: Text(lang.substring(0, 2).toUpperCase(),
-                                style: const TextStyle(color: AppTheme.secondary, fontWeight: FontWeight.w600, fontSize: 14)),
+                                style:  TextStyle(color: AppTheme.secondary, fontWeight: FontWeight.w600, fontSize: 14)),
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -91,7 +91,7 @@ class _LanguagePickerScreenState extends State<LanguagePickerScreen> {
                                 color: AppTheme.onSurface)),
                           ),
                           if (selected)
-                            const Icon(Icons.check_circle, color: AppTheme.primaryContainer, size: 22),
+                             Icon(Icons.check_circle, color: AppTheme.primaryContainer, size: 22),
                         ],
                       ),
                     ),
@@ -109,7 +109,7 @@ class _LanguagePickerScreenState extends State<LanguagePickerScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.info_outline, size: 20, color: AppTheme.onSurfaceVariant),
+                   Icon(Icons.info_outline, size: 20, color: AppTheme.onSurfaceVariant),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text('Language changes are currently visual only. Full i18n coming soon.',

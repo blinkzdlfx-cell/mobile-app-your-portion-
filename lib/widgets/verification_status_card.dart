@@ -94,7 +94,7 @@ class VerificationStatusCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.info_outline, size: 18, color: AppTheme.onErrorContainer),
+                       Icon(Icons.info_outline, size: 18, color: AppTheme.onErrorContainer),
                       const SizedBox(width: 8),
                       Text('Reason from admin',
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(

@@ -75,7 +75,7 @@ class WelcomeScreen extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppTheme.onSurface,
                       minimumSize: const Size(double.infinity, 56),
-                      side: const BorderSide(color: AppTheme.outlineVariant, width: 2),
+                      side:  BorderSide(color: AppTheme.outlineVariant, width: 2),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: const Text('Create Account'),

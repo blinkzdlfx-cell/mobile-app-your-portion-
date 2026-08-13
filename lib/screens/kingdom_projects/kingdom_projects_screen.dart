@@ -120,7 +120,7 @@ class _KingdomProjectsScreenState extends State<KingdomProjectsScreen> {
                   child: LinearProgressIndicator(
                     value: progress,
                     backgroundColor: AppTheme.surfaceVariant,
-                    valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.primaryContainer),
+                    valueColor:  AlwaysStoppedAnimation<Color>(AppTheme.primaryContainer),
                     minHeight: 8,
                   ),
                 ),
@@ -166,7 +166,7 @@ class _KingdomProjectsScreenState extends State<KingdomProjectsScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.primary),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   const Spacer(),
@@ -174,7 +174,7 @@ class _KingdomProjectsScreenState extends State<KingdomProjectsScreen> {
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 22)),
                   const Spacer(),
-                  const NotificationBell(iconColor: AppTheme.primary),
+                   NotificationBell(iconColor: AppTheme.primary),
                 ],
               ),
             ),
@@ -235,7 +235,7 @@ class _KingdomProjectsScreenState extends State<KingdomProjectsScreen> {
             const SizedBox(height: 16),
             Expanded(
               child: _isLoading
-                  ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                  ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
                   : RefreshIndicator(
                       onRefresh: _load,
                       color: AppTheme.primary,
@@ -287,7 +287,7 @@ class _KingdomProjectsScreenState extends State<KingdomProjectsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/create-kingdom-project'),
         backgroundColor: AppTheme.primaryContainer,
-        child: const Icon(Icons.add, color: AppTheme.onPrimary, size: 28),
+        child:  Icon(Icons.add, color: AppTheme.onPrimary, size: 28),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavBar(
@@ -329,13 +329,13 @@ class _ProjectCard extends StatelessWidget {
             Container(
               height: 140,
               width: double.infinity,
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 color: AppTheme.surfaceVariant,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               ),
               child: Stack(
                 children: [
-                  const Center(child: Icon(Icons.construction_rounded, size: 48, color: AppTheme.outlineVariant)),
+                   Center(child: Icon(Icons.construction_rounded, size: 48, color: AppTheme.outlineVariant)),
                   Positioned(
                     top: 16, left: 16,
                     child: Container(
@@ -425,7 +425,7 @@ class _ProjectCard extends StatelessWidget {
                     child: LinearProgressIndicator(
                       value: progress,
                       backgroundColor: AppTheme.surfaceVariant,
-                      valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.primaryContainer),
+                      valueColor:  AlwaysStoppedAnimation<Color>(AppTheme.primaryContainer),
                       minHeight: 8,
                     ),
                   ),

@@ -83,7 +83,7 @@ class EmptyStateScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (actionLabel == 'Go Home')
-                            const Icon(Icons.home, size: 20, color: AppTheme.onPrimary),
+                             Icon(Icons.home, size: 20, color: AppTheme.onPrimary),
                           if (actionLabel == 'Go Home') const SizedBox(width: 8),
                           Text(actionLabel!),
                         ],

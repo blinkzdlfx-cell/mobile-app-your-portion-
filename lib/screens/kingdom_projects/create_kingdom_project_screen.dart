@@ -41,7 +41,7 @@ class _CreateKingdomProjectScreenState extends State<CreateKingdomProjectScreen>
     if (!canSell && mounted) {
       Navigator.of(context).pushReplacementNamed('/kingdom-projects');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
           content: Text('You need to be a verified seller to create kingdom projects.'),
           backgroundColor: AppTheme.error,
         ),
@@ -85,7 +85,7 @@ class _CreateKingdomProjectScreenState extends State<CreateKingdomProjectScreen>
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+           SnackBar(
             content: Text('Project submitted! An admin will review it shortly.'),
             backgroundColor: AppTheme.primaryContainer,
           ),
@@ -126,7 +126,7 @@ class _CreateKingdomProjectScreenState extends State<CreateKingdomProjectScreen>
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.onSurfaceVariant),
                   ),
                   const Spacer(),
                   Text('Create Kingdom Project',
@@ -146,7 +146,7 @@ class _CreateKingdomProjectScreenState extends State<CreateKingdomProjectScreen>
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.info_outline, size: 18, color: AppTheme.primaryContainer),
+                     Icon(Icons.info_outline, size: 18, color: AppTheme.primaryContainer),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
@@ -205,7 +205,7 @@ class _CreateKingdomProjectScreenState extends State<CreateKingdomProjectScreen>
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: _isSubmitting
-                      ? const SizedBox(
+                      ?  SizedBox(
                           width: 24, height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,

@@ -40,7 +40,7 @@ class SuccessScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Icon(
+                child:  Icon(
                   Icons.check_rounded,
                   size: 56,
                   color: AppTheme.onPrimary,

@@ -28,7 +28,7 @@ class _SendFeedbackScreenState extends State<SendFeedbackScreen> {
     await Future.delayed(const Duration(seconds: 1));
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Thank you for your feedback!'),
+         SnackBar(content: Text('Thank you for your feedback!'),
           backgroundColor: AppTheme.primaryContainer),
       );
       Navigator.of(context).pop();
@@ -43,7 +43,7 @@ class _SendFeedbackScreenState extends State<SendFeedbackScreen> {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
+          icon:  Icon(Icons.arrow_back_ios_new, color: AppTheme.onSurface),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Send Feedback',
@@ -87,7 +87,7 @@ class _SendFeedbackScreenState extends State<SendFeedbackScreen> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _subjectCtrl,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   labelText: 'Subject',
                   prefixIcon: Icon(Icons.subject, color: AppTheme.onSurfaceVariant),
                 ),
@@ -97,7 +97,7 @@ class _SendFeedbackScreenState extends State<SendFeedbackScreen> {
               TextFormField(
                 controller: _messageCtrl,
                 maxLines: 6,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   labelText: 'Your feedback',
                   alignLabelWithHint: true,
                   prefixIcon: Padding(
@@ -117,7 +117,7 @@ class _SendFeedbackScreenState extends State<SendFeedbackScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: _sending
-                    ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.onPrimary))
+                    ?  SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.onPrimary))
                     : const Text('Send Feedback', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
               ),
             ],

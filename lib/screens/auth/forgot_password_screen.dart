@@ -100,7 +100,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           color: AppTheme.surface,
         ),
         child: SafeArea(
@@ -216,7 +216,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               ),
                             ),
                             child: _isLoading
-                                ? const SizedBox(
+                                ?  SizedBox(
                                     width: 24,
                                     height: 24,
                                     child: CircularProgressIndicator(

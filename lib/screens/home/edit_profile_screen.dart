@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
@@ -45,8 +48,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _locationController = TextEditingController();
 
   bool _isSaving = false;
+  bool _isUploadingAvatar = false;
   String _avatarInitials = '?';
   Color _avatarColor = AppTheme.primaryContainer;
+  String? _avatarUrl;
+  Uint8List? _newAvatarBytes;
 
   @override
   void initState() {
@@ -60,6 +66,55 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _locationController.text = meta?['location'] as String? ?? '';
     _avatarInitials = _initials(name);
     _avatarColor = _colorForUser(user?.id ?? '');
+    _loadAvatar();
+  }
+
+  Future<void> _loadAvatar() async {
+    final profile = await _supabaseService.getCurrentProfile();
+    if (mounted && profile?.avatarUrl != null) {
+      setState(() => _avatarUrl = profile!.avatarUrl);
+    }
+  }
+
+  Future<void> _pickAvatar() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(type: FileType.image);
+      final bytes = result?.files.single.bytes;
+      final name = result?.files.single.name ?? '';
+      if (bytes == null) return;
+
+      setState(() {
+        _newAvatarBytes = bytes;
+        _isUploadingAvatar = true;
+      });
+
+      final ext = name.contains('.')
+          ? name.split('.').last.toLowerCase()
+          : 'jpg';
+      final url = await _supabaseService.uploadAvatar(bytes: bytes, extension: ext);
+      if (url == null) {
+        throw Exception('Avatar upload failed');
+      }
+      await _supabaseService.updateProfile({'avatar_url': url});
+      if (!mounted) return;
+      setState(() {
+        _avatarUrl = url;
+        _isUploadingAvatar = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+          content: Text('Avatar updated'),
+          backgroundColor: AppTheme.primaryContainer,
+        ),
+      );
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isUploadingAvatar = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Avatar upload failed: $e'), backgroundColor: AppTheme.error),
+        );
+      }
+    }
   }
 
   Future<void> _saveProfile() async {
@@ -93,7 +148,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           _avatarInitials = _initials(name);
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+           SnackBar(
             content: Text('Profile updated successfully!'),
             backgroundColor: AppTheme.primaryContainer,
           ),
@@ -137,7 +192,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.primary),
                   ),
                   const Spacer(),
                   Text(
@@ -154,41 +209,81 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               const SizedBox(height: 16),
               // Avatar
-              Stack(
-                children: [
-                  Container(
-                    width: 96,
-                    height: 96,
-                    decoration: BoxDecoration(
-                      color: _avatarColor,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppTheme.surfaceVariant),
-                    ),
-                    child: Center(
-                      child: Text(
-                        _avatarInitials,
-                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          color: AppTheme.onPrimary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 32,
-                      height: 32,
+              GestureDetector(
+                onTap: _isUploadingAvatar ? null : _pickAvatar,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 96,
+                      height: 96,
                       decoration: BoxDecoration(
-                        color: AppTheme.surface,
+                        color: _avatarColor,
                         shape: BoxShape.circle,
                         border: Border.all(color: AppTheme.surfaceVariant),
                       ),
-                      child: const Icon(Icons.edit, size: 18, color: AppTheme.primary),
+                      clipBehavior: Clip.antiAlias,
+                      child: _newAvatarBytes != null
+                          ? Image.memory(_newAvatarBytes!, fit: BoxFit.cover)
+                          : _avatarUrl != null
+                              ? CachedNetworkImage(
+                                  imageUrl: _avatarUrl!,
+                                  fit: BoxFit.cover,
+                                  placeholder: (_, _) => Container(
+                                    color: _avatarColor,
+                                    child: Center(
+                                      child: Text(
+                                        _avatarInitials,
+                                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                          color: AppTheme.onPrimary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  errorWidget: (_, _, _) => Container(
+                                    color: _avatarColor,
+                                    child: Center(
+                                      child: Text(
+                                        _avatarInitials,
+                                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                          color: AppTheme.onPrimary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Center(
+                                  child: Text(
+                                    _avatarInitials,
+                                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                      color: AppTheme.onPrimary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: AppTheme.surface,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppTheme.surfaceVariant),
+                        ),
+                        child: _isUploadingAvatar
+                            ? const Padding(
+                                padding: EdgeInsets.all(8),
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            :  Icon(Icons.edit, size: 18, color: AppTheme.primary),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 32),
               // Personal Information
@@ -224,7 +319,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: _isSaving
-                      ? const SizedBox(
+                      ?  SizedBox(
                           width: 24,
                           height: 24,
                           child: CircularProgressIndicator(

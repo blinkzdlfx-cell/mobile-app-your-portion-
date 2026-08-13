@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../models/property.dart';
@@ -55,7 +56,7 @@ class PropertyCard extends StatelessWidget {
             const SizedBox(height: 4),
             Row(
               children: [
-                const Icon(Icons.location_on, size: 16, color: AppTheme.onSurfaceVariant),
+                 Icon(Icons.location_on, size: 16, color: AppTheme.onSurfaceVariant),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
@@ -87,7 +88,7 @@ class PropertyCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Text(
+                         Text(
                           'Verified Seller',
                           style: TextStyle(color: AppTheme.onSurface),
                         ),
@@ -123,7 +124,7 @@ class PropertyCard extends StatelessWidget {
       children: [
         Container(
           color: AppTheme.surfaceVariant,
-          child: const Center(
+          child:  Center(
             child: Icon(Icons.image_outlined, size: 48, color: AppTheme.outlineVariant),
           ),
         ),
@@ -136,27 +137,21 @@ class PropertyCard extends StatelessWidget {
   Widget _buildImage(BuildContext context, String imageUrl) {
     return Stack(
       children: [
-        Image.network(
-          imageUrl,
+        CachedNetworkImage(
+          imageUrl: imageUrl,
           width: double.infinity,
           height: 160,
           fit: BoxFit.cover,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              color: AppTheme.surfaceVariant,
-              child: Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                      : null,
-                  strokeWidth: 2,
-                  color: AppTheme.primary,
-                ),
+          placeholder: (context, url) => Container(
+            color: AppTheme.surfaceVariant,
+            child: Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppTheme.primary,
               ),
-            );
-          },
-          errorBuilder: (context, error, stackTrace) => _buildPlaceholder(context),
+            ),
+          ),
+          errorWidget: (context, error, stackTrace) => _buildPlaceholder(context),
         ),
         _buildCategoryBadge(context),
         if (onSaveToggle != null) _buildSaveButton(),

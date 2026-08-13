@@ -9,12 +9,12 @@ import '../theme/app_theme.dart';
 /// admin action inserts a notification. Refreshes after the user returns
 /// from the notifications screen (where notifications get marked read).
 class NotificationBell extends StatefulWidget {
-  final Color iconColor;
+  final Color? iconColor;
   final Color? backgroundColor;
 
   const NotificationBell({
     super.key,
-    this.iconColor = AppTheme.onSurface,
+    this.iconColor,
     this.backgroundColor,
   });
 

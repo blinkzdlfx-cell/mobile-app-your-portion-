@@ -66,7 +66,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
       if (mounted) {
         setState(() => _isSubmitted = true);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+           SnackBar(
             content: Text('Verification submitted for review! An admin will verify your seller account.'),
             backgroundColor: AppTheme.primaryContainer,
           ),
@@ -120,7 +120,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: AppTheme.onBackground),
+                    icon:  Icon(Icons.arrow_back, color: AppTheme.onBackground),
                     style: IconButton.styleFrom(backgroundColor: AppTheme.surfaceContainer),
                   ),
                   const Spacer(),
@@ -143,7 +143,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
                   color: AppTheme.primaryContainer.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child:  Icon(
                   Icons.badge_outlined,
                   size: 40,
                   color: AppTheme.primaryContainer,
@@ -373,7 +373,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: _isUploading
-                      ? const SizedBox(
+                      ?  SizedBox(
                           width: 24,
                           height: 24,
                           child: CircularProgressIndicator(
@@ -392,7 +392,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppTheme.onSurfaceVariant,
                     minimumSize: const Size(double.infinity, 56),
-                    side: const BorderSide(color: AppTheme.outlineVariant),
+                    side:  BorderSide(color: AppTheme.outlineVariant),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: const Text('Skip for now — verify later from profile'),
@@ -409,7 +409,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.info_outline, size: 18, color: AppTheme.onSurfaceVariant),
+                     Icon(Icons.info_outline, size: 18, color: AppTheme.onSurfaceVariant),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
