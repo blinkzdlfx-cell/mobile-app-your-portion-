@@ -431,10 +431,10 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
             width: 80, height: 80,
             child: isNetwork
                 ? Image.network(networkUrl!, fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
+                    errorBuilder: (_, _, _) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
                 : bytes != null
                     ? Image.memory(bytes, fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
+                        errorBuilder: (_, _, _) => Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)))
                     : Container(color: AppTheme.surfaceVariant, child: const Icon(Icons.broken_image, color: AppTheme.outlineVariant)),
           ),
         ),

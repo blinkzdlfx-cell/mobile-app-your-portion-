@@ -126,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
 
           setState(() => _isLoading = false);
+          if (!mounted) return;
 
           Navigator.pushReplacementNamed(context, '/home');
           return;

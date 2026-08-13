@@ -3,6 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/notification_bell.dart';
+import '../../models/daily_portion.dart';
+import '../../services/supabase_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +15,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  final _supabaseService = SupabaseService();
   bool _isSearchExpanded = false;
+  bool _portionLoaded = false;
+  DailyPortion? _todayPortion;
   final _searchController = TextEditingController();
   final _searchFocusNode = FocusNode();
   late final AnimationController _arrowAnim;
@@ -29,6 +34,20 @@ class _HomeScreenState extends State<HomeScreen>
     _arrowOffset = Tween<double>(begin: 0, end: 6).animate(
       CurvedAnimation(parent: _arrowAnim, curve: Curves.easeInOut),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_portionLoaded) {
+      _portionLoaded = true;
+      _loadTodayPortion();
+    }
+  }
+
+  Future<void> _loadTodayPortion() async {
+    final portion = await _supabaseService.getTodayPortion();
+    if (mounted) setState(() => _todayPortion = portion);
   }
 
   String _firstName() {
@@ -188,44 +207,39 @@ class _HomeScreenState extends State<HomeScreen>
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'The Wisdom of Stewardship',
+                            _todayPortion?.title ?? "Today's Portion",
                             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                               color: AppTheme.primary,
                               fontSize: 28,
                             ),
                           ),
                           const SizedBox(height: 12),
-                          Wrap(
-                            spacing: 16,
-                            runSpacing: 8,
-                            children: [
-                              Text(
-                                'Pastor David Mitchell',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: AppTheme.secondary,
-                                ),
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.menu_book, size: 16, color: AppTheme.secondary),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    'Proverbs 3:9-10',
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: AppTheme.secondary,
-                                    ),
+                          if (_todayPortion?.scriptureReference != null)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.menu_book, size: 16, color: AppTheme.secondary),
+                                const SizedBox(width: 4),
+                                Text(
+                                  _todayPortion!.scriptureReference!,
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: AppTheme.secondary,
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
                           const SizedBox(height: 16),
                           Text(
-                            'Discover how ancient principles of managing resources apply to modern wealth, real estate, and community building.',
+                            _todayPortion != null
+                                ? (_todayPortion!.paragraphs.isNotEmpty
+                                    ? _todayPortion!.paragraphs.first
+                                    : _todayPortion!.content)
+                                : 'Read today\'s devotional portion.',
                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: AppTheme.onSurfaceVariant,
                             ),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: 24),
                           SizedBox(

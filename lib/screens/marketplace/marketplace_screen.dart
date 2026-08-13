@@ -19,6 +19,11 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   bool _initialized = false;
   bool _isLoadingProperties = false;
   bool _isLoadingSaved = false;
+  bool _isLoadingMore = false;
+  bool _hasMore = true;
+  int _page = 0;
+  static const int _pageSize = 20;
+  final _scrollController = ScrollController();
 
   double _minPrice = 0;
   double _maxPrice = 500000;
@@ -58,7 +63,22 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 300) {
+      _loadMoreProperties();
+    }
+  }
+
+  @override
   void dispose() {
+    _scrollController.dispose();
     _locationController.dispose();
     super.dispose();
   }
@@ -80,11 +100,32 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   Future<void> _loadProperties() async {
     if (mounted) setState(() { _isLoadingProperties = true; });
     try {
-      final properties = await _supabaseService.getProperties();
+      _page = 0;
+      _hasMore = true;
+      final properties = await _supabaseService.getProperties(page: 0, pageSize: _pageSize);
       if (mounted) setState(() { _allProperties = properties; });
     } catch (_) {
     } finally {
       if (mounted) setState(() { _isLoadingProperties = false; });
+    }
+  }
+
+  Future<void> _loadMoreProperties() async {
+    if (_isLoadingMore || !_hasMore || _isLoadingProperties || !mounted) return;
+    _isLoadingMore = true;
+    try {
+      final nextPage = _page + 1;
+      final more = await _supabaseService.getProperties(page: nextPage, pageSize: _pageSize);
+      if (!mounted) return;
+      setState(() {
+        _page = nextPage;
+        _allProperties = [..._allProperties, ...more];
+        if (more.length < _pageSize) _hasMore = false;
+      });
+    } catch (_) {
+      _hasMore = false;
+    } finally {
+      _isLoadingMore = false;
     }
   }
 
@@ -297,6 +338,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
             // Content
             Expanded(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,6 +405,16 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           onTap: () => Navigator.pushNamed(context, '/property-detail', arguments: p),
                         ),
                       )),
+                      if (_isLoadingMore)
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Center(
+                            child: SizedBox(
+                              width: 24, height: 24,
+                              child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primary),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),

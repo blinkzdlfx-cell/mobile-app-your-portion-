@@ -53,15 +53,15 @@ class _BecomeTrustedMemberScreenState extends State<BecomeTrustedMemberScreen> {
         phone: _phoneController.text.trim(),
         reason: _reasonController.text.trim(),
       );
-      if (mounted) {
-        await _checkExisting();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Verification request submitted! An admin will review it shortly.'),
-            backgroundColor: AppTheme.primaryContainer,
-          ),
-        );
-      }
+      if (!mounted) return;
+      await _checkExisting();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Verification request submitted! An admin will review it shortly.'),
+          backgroundColor: AppTheme.primaryContainer,
+        ),
+      );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

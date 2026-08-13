@@ -44,20 +44,20 @@ class _BuyerSellerRoleScreenState extends State<BuyerSellerRoleScreen> {
           'role': _selectedRole,
         }).filter('id', 'eq', user.id);
       }
-      if (mounted) {
-        if (_selectedRole == 'seller') {
-          final profile = await SupabaseService().getCurrentProfile();
-          final isVerified = profile?.isSellerVerified ?? false;
-          if (!isVerified) {
-            Navigator.pushReplacementNamed(context, '/document-upload');
-            return;
-          }
+      if (_selectedRole == 'seller') {
+        final profile = await SupabaseService().getCurrentProfile();
+        final isVerified = profile?.isSellerVerified ?? false;
+        if (!isVerified) {
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(context, '/document-upload');
+          return;
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Role updated successfully'), backgroundColor: AppTheme.primaryContainer),
-        );
-        Navigator.of(context).pop();
       }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Role updated successfully'), backgroundColor: AppTheme.primaryContainer),
+      );
+      Navigator.of(context).pop();
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -179,11 +179,9 @@ class _BuyerSellerRoleScreenState extends State<BuyerSellerRoleScreen> {
                 ],
               ),
             ),
-            Radio<String>(
-              value: title.toLowerCase() == 'both' ? 'both' : title.toLowerCase(),
-              groupValue: _selectedRole,
-              onChanged: (v) => setState(() => _selectedRole = v!),
-              activeColor: AppTheme.primaryContainer,
+            Icon(
+              selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+              color: selected ? AppTheme.primaryContainer : AppTheme.surfaceVariant,
             ),
           ],
         ),

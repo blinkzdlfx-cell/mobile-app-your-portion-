@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/property.dart';
 import '../models/kingdom_project.dart';
-import 'imagekit_service.dart';
+import '../models/daily_portion.dart';
 
 class SupabaseService {
   SupabaseClient get _client => Supabase.instance.client;
@@ -16,40 +16,66 @@ class SupabaseService {
   Future<UserProfile?> getCurrentProfile() async {
     final user = _client.auth.currentUser;
     if (user == null) return null;
-    final profiles = await _client.from('profiles').select('*');
-    final list = profiles as List;
-    final match = list.cast<Map<String, dynamic>>().where((p) => p['id'] == user.id).toList();
-    if (match.isEmpty) return null;
-    return UserProfile.fromMap(match.first);
+    final profile = await _client
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .maybeSingle();
+    if (profile == null) return null;
+    return UserProfile.fromMap(profile);
   }
 
   Future<void> updateProfile(Map<String, dynamic> updates) async {
     final user = _client.auth.currentUser;
     if (user == null) return;
-    await _client.from('profiles').update(updates).filter('id', 'eq', user.id);
+    await _client.from('profiles').update(updates).eq('id', user.id);
   }
 
   // ======== PROPERTIES ========
 
-  Future<List<Property>> getProperties({String? category}) async {
-    final response = await _client.from('properties').select('*');
-    var list = (response as List).cast<Map<String, dynamic>>();
-    list = list.where((p) => p['status'] == 'approved').toList();
+  /// Approved listings, filtered and paginated server-side, newest first.
+  Future<List<Property>> getProperties({
+    String? category,
+    int page = 0,
+    int pageSize = 20,
+  }) async {
+    var query = _client
+        .from('properties')
+        .select('*')
+        .eq('status', 'approved');
     if (category != null && category != 'All Listings') {
-      list = list.where((p) => p['category'] == category).toList();
+      query = query.eq('category', category);
     }
-    list.sort((a, b) => (b['created_at'] as String).compareTo(a['created_at'] as String));
-    return list.map((e) => Property.fromMap(e)).toList();
+    final response = await query
+        .order('created_at', ascending: false)
+        .range(page * pageSize, page * pageSize + pageSize - 1);
+    return (response as List)
+        .cast<Map<String, dynamic>>()
+        .map(Property.fromMap)
+        .toList();
+  }
+
+  /// Approved listings by ids (used for saved properties), newest first.
+  Future<List<Property>> getPropertiesByIds(List<String> ids) async {
+    if (ids.isEmpty) return [];
+    final response = await _client
+        .from('properties')
+        .select('*')
+        .inFilter('id', ids)
+        .eq('status', 'approved')
+        .order('created_at', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>().map(Property.fromMap).toList();
   }
 
   Future<List<Property>> getMyProperties() async {
     final user = _client.auth.currentUser;
     if (user == null) return [];
-    final response = await _client.from('properties').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((p) => p['seller_id'] == user.id)
-        .toList();
-    return list.map((e) => Property.fromMap(e)).toList();
+    final response = await _client
+        .from('properties')
+        .select('*')
+        .eq('seller_id', user.id)
+        .order('created_at', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>().map(Property.fromMap).toList();
   }
 
   Future<void> createProperty(Property property) async {
@@ -89,11 +115,14 @@ class SupabaseService {
   Future<List<String>> getSavedPropertyIds() async {
     final user = _client.auth.currentUser;
     if (user == null) return [];
-    final response = await _client.from('saved_properties').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((s) => s['user_id'] == user.id)
+    final response = await _client
+        .from('saved_properties')
+        .select('property_id')
+        .eq('user_id', user.id);
+    return (response as List)
+        .cast<Map<String, dynamic>>()
+        .map((e) => e['property_id'] as String)
         .toList();
-    return list.map((e) => e['property_id'] as String).toList();
   }
 
   Future<void> saveProperty(String propertyId) async {
@@ -114,53 +143,151 @@ class SupabaseService {
   // ======== KINGDOM PROJECTS ========
 
   Future<List<KingdomProject>> getProjects() async {
-    final response = await _client.from('kingdom_projects').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((p) => (p['status'] == 'active' || p['status'] == 'completed'))
-        .toList();
-    return list.map((e) => KingdomProject.fromMap(e)).toList();
+    final response = await _client
+        .from('kingdom_projects')
+        .select('*')
+        .inFilter('status', ['active', 'completed'])
+        .order('created_at', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>().map(KingdomProject.fromMap).toList();
   }
 
   Future<List<KingdomProject>> getMyProjects() async {
     final user = _client.auth.currentUser;
     if (user == null) return [];
-    final response = await _client.from('kingdom_projects').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((p) => p['creator_id'] == user.id)
-        .toList();
-    return list.map((e) => KingdomProject.fromMap(e)).toList();
+    final response = await _client
+        .from('kingdom_projects')
+        .select('*')
+        .eq('creator_id', user.id)
+        .order('created_at', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>().map(KingdomProject.fromMap).toList();
   }
 
   Future<void> createProject(KingdomProject project) async {
     await _client.from('kingdom_projects').insert(project.toMap());
   }
 
+  // ======== DAILY PORTIONS ========
+
+  /// All published portions, newest first.
+  Future<List<DailyPortion>> getPortions() async {
+    final response = await _client
+        .from('daily_portions')
+        .select('*')
+        .eq('is_published', true)
+        .order('publish_date', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>().map(DailyPortion.fromMap).toList();
+  }
+
+  /// The portion published for today, falling back to the latest published
+  /// portion so the app never shows an empty state while content is being seeded.
+  Future<DailyPortion?> getTodayPortion() async {
+    final all = await getPortions();
+    if (all.isEmpty) return null;
+    final today = DateTime.now();
+    for (final p in all) {
+      final date = p.publishDate;
+      if (date != null && date.year == today.year && date.month == today.month && date.day == today.day) {
+        return p;
+      }
+    }
+    return all.first;
+  }
+
+  Future<bool> isPortionRead(String portionId) async {
+    final user = _client.auth.currentUser;
+    if (user == null) return false;
+    try {
+      final row = await _client
+          .from('portion_reads')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('portion_id', portionId)
+          .maybeSingle();
+      return row != null;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> markPortionRead(String portionId) async {
+    final user = _client.auth.currentUser;
+    if (user == null) return;
+    try {
+      await _client.from('portion_reads').upsert(
+        {'user_id': user.id, 'portion_id': portionId, 'read_at': DateTime.now().toIso8601String()},
+        onConflict: 'user_id,portion_id',
+      );
+    } catch (_) {
+      // Table not migrated yet (00012) — read status silently skipped.
+    }
+  }
+
+  Future<String?> getPortionReflection(String portionId) async {
+    final user = _client.auth.currentUser;
+    if (user == null) return null;
+    try {
+      final row = await _client
+          .from('portion_reflections')
+          .select('content')
+          .eq('user_id', user.id)
+          .eq('portion_id', portionId)
+          .maybeSingle();
+      if (row == null) return null;
+      return row['content'] as String?;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> savePortionReflection(String portionId, String content) async {
+    final user = _client.auth.currentUser;
+    if (user == null || content.trim().isEmpty) return;
+    try {
+      await _client.from('portion_reflections').upsert(
+        {
+          'user_id': user.id,
+          'portion_id': portionId,
+          'content': content.trim(),
+          'updated_at': DateTime.now().toIso8601String(),
+        },
+        onConflict: 'user_id,portion_id',
+      );
+    } catch (_) {
+      // Table not migrated yet (00012) — reflection silently skipped.
+    }
+  }
+
   // ======== BOOKMARKED PORTIONS ========
 
-  Future<List<Map<String, dynamic>>> getBookmarkedPortions() async {
+  Future<List<DailyPortion>> getBookmarkedPortions() async {
     final user = _client.auth.currentUser;
     if (user == null) return [];
-    final response = await _client.from('bookmarked_portions').select('*');
-    final bookmarkRows = (response as List).cast<Map<String, dynamic>>()
-        .where((b) => b['user_id'] == user.id)
-        .toList();
-    final portionIds = bookmarkRows.map((b) => b['portion_id'] as String).toList();
+    final rows = await _client
+        .from('bookmarked_portions')
+        .select('portion_id')
+        .eq('user_id', user.id);
+    final portionIds = (rows as List)
+        .cast<Map<String, dynamic>>()
+        .map((b) => b['portion_id'] as String)
+        .toSet();
     if (portionIds.isEmpty) return [];
-    final portions = await _client.from('daily_portions').select('*');
-    final list = (portions as List).cast<Map<String, dynamic>>()
-        .where((p) => portionIds.contains(p['id'] as String))
-        .toList();
-    return list;
+    final portions = await _client
+        .from('daily_portions')
+        .select('*')
+        .inFilter('id', portionIds.toList());
+    return (portions as List).cast<Map<String, dynamic>>().map(DailyPortion.fromMap).toList();
   }
 
   Future<bool> isPortionBookmarked(String portionId) async {
     final user = _client.auth.currentUser;
     if (user == null) return false;
-    final response = await _client.from('bookmarked_portions').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((b) => b['user_id'] == user.id && b['portion_id'] == portionId)
-        .toList();
-    return list.isNotEmpty;
+    final row = await _client
+        .from('bookmarked_portions')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('portion_id', portionId)
+        .maybeSingle();
+    return row != null;
   }
 
   Future<void> bookmarkPortion(String portionId) async {
@@ -223,23 +350,26 @@ class SupabaseService {
   Future<Map<String, dynamic>?> getPendingRequest(String requestType) async {
     final user = _client.auth.currentUser;
     if (user == null) return null;
-    final response = await _client.from('verification_requests').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((r) => r['user_id'] == user.id && r['request_type'] == requestType && r['status'] == 'pending')
-        .toList();
-    return list.isNotEmpty ? list.first : null;
+    return _client
+        .from('verification_requests')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('request_type', requestType)
+        .eq('status', 'pending')
+        .order('created_at', ascending: false)
+        .maybeSingle();
   }
 
   Future<Map<String, dynamic>?> getLatestVerificationRequest(String requestType) async {
     final user = _client.auth.currentUser;
     if (user == null) return null;
-    final response = await _client.from('verification_requests').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((r) => r['user_id'] == user.id && r['request_type'] == requestType)
-        .toList();
-    if (list.isEmpty) return null;
-    list.sort((a, b) => (b['created_at'] as String).compareTo(a['created_at'] as String));
-    return list.first;
+    return _client
+        .from('verification_requests')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('request_type', requestType)
+        .order('created_at', ascending: false)
+        .maybeSingle();
   }
 
   /// Status helpers for a verification request.
@@ -321,15 +451,6 @@ class SupabaseService {
   }
 
   Future<String?> uploadPropertyImage({required Uint8List bytes, required String extension}) async {
-    final imagekit = ImageKitService();
-    if (imagekit.isConfigured) {
-      final fileName = 'property_${DateTime.now().millisecondsSinceEpoch}.$extension';
-      return imagekit.uploadImage(
-        bytes: bytes,
-        fileName: fileName,
-        folder: '/properties/${_client.auth.currentUser?.id}',
-      );
-    }
     try {
       return await _uploadBytes('property_images', '${_client.auth.currentUser?.id}', bytes, extension);
     } catch (_) {
@@ -340,30 +461,30 @@ class SupabaseService {
   // ======== ADMIN METHODS ========
 
   Future<List<Map<String, dynamic>>> getPendingVerificationRequests() async {
-    final response = await _client.from('verification_requests').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((r) => r['status'] == 'pending')
-        .toList();
-    list.sort((a, b) => (b['created_at'] as String).compareTo(a['created_at'] as String));
-    return list;
+    final response = await _client
+        .from('verification_requests')
+        .select('*')
+        .eq('status', 'pending')
+        .order('created_at', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>();
   }
 
   Future<List<Map<String, dynamic>>> getPendingProperties() async {
-    final response = await _client.from('properties').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((p) => p['status'] == 'pending')
-        .toList();
-    list.sort((a, b) => (b['created_at'] as String).compareTo(a['created_at'] as String));
-    return list;
+    final response = await _client
+        .from('properties')
+        .select('*')
+        .eq('status', 'pending')
+        .order('created_at', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>();
   }
 
   Future<List<Map<String, dynamic>>> getPendingProjects() async {
-    final response = await _client.from('kingdom_projects').select('*');
-    final list = (response as List).cast<Map<String, dynamic>>()
-        .where((p) => p['status'] == 'pending')
-        .toList();
-    list.sort((a, b) => (b['created_at'] as String).compareTo(a['created_at'] as String));
-    return list;
+    final response = await _client
+        .from('kingdom_projects')
+        .select('*')
+        .eq('status', 'pending')
+        .order('created_at', ascending: false);
+    return (response as List).cast<Map<String, dynamic>>();
   }
 
   Future<void> approveVerificationRequest(String requestId, String userId, String requestType) async {
@@ -408,10 +529,11 @@ class SupabaseService {
       final response = await _client
           .from('notifications')
           .select('is_read')
-          .filter('user_id', 'eq', user.id)
-          .filter('channel', 'eq', 'in_app');
+          .eq('user_id', user.id)
+          .eq('channel', 'in_app')
+          .eq('is_read', false);
       final list = (response as List).cast<Map<String, dynamic>>();
-      return list.where((n) => n['is_read'] == false).length;
+      return list.length;
     } catch (_) {
       return 0;
     }

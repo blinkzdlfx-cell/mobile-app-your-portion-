@@ -12,7 +12,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme/app_theme.dart';
 import 'config/app_protection.dart';
-import 'services/imagekit_service.dart';
 import 'services/push_notification_service.dart';
 import 'models/property.dart';
 import 'screens/auth/login_screen.dart';
@@ -60,7 +59,6 @@ void main() async {
   
   // Load environment variables
   await dotenv.load(fileName: "assets/.env");
-  ImageKitService().init();
   
   // Initialize Supabase
   await Supabase.initialize(

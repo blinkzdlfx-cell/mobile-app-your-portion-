@@ -28,10 +28,12 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
     final user = Supabase.instance.client.auth.currentUser;
 
     if (session == null || user == null) {
-      if (mounted) setState(() {
-        _isLoaded = true;
-        _hasSession = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoaded = true;
+          _hasSession = false;
+        });
+      }
       return;
     }
 

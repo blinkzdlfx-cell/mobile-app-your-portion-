@@ -24,7 +24,7 @@
 
 ### Home
 - ✅ `HomeScreen` — `/home` (greeting, search, daily portion, categories, kingdom projects — Coming Soon)
-- 🔄 `DailyPortionScreen` — `/daily-portion` (UI exists, real data integration needed)
+- ✅ `DailyPortionScreen` — `/daily-portion` (real API data: today's published portion with fallback, bookmark, mark-as-read, saved reflection)
 - ✅ `NotificationsScreen` — `/notifications` (real API data, realtime updates, New/Earlier sections, mark-all-read, relative timestamps)
 - ✅ `ProfileScreen` — `/profile` (gradient avatar, badges, role-based visibility, pull-to-refresh, auto-refresh on foreground)
   - ✅ Pull-to-refresh
@@ -49,7 +49,7 @@
   - ✅ Save/unsave properties
   - ✅ Property detail screen with image gallery (full-screen PageView + dot indicators)
   - ✅ Image display from `property.images` (loading spinner + error fallback)
-  - ⬜ Pagination / infinite scroll
+  - ✅ Pagination / infinite scroll (server-side `.range()`, 20/page)
   - ⬜ Search bar integration
   - ⬜ Sort options (price, date, location)
 - ⬜ `SearchResultsScreen` — `/search-results`
@@ -59,7 +59,7 @@
   - ⬜ Image display in saved property cards
 - ✅ `CreatePropertyScreen` — `/create-property` (checks canSell, verification prompt if not verified, edit mode)
   - ✅ Image picker (FileType.image — any format)
-  - ✅ Upload to ImageKit.io (falls back to Supabase Storage)
+  - ✅ Upload to Supabase Storage `property_images` bucket (RLS-protected; private-key ImageKit uploads removed for security)
   - ✅ 8-image limit with live counter
   - ✅ Image preview thumbnails with X remove
   - ✅ Save Draft + Submit Property
@@ -94,6 +94,8 @@
 ## Services & Data Layer
 
 ### SupabaseService
+- ✅ Server-side filtered queries everywhere (`.eq()`, `.inFilter()`, `.order()` — no more fetch-all-then-filter)
+- ✅ Paginated `getProperties` (page/pageSize) + `getPropertiesByIds` for saved listings
 - ✅ Profile CRUD (`getCurrentProfile`, `updateProfile`)
 - ✅ Property CRUD (`getProperties`, `getMyProperties`, `createProperty`, `updateProperty`, `deleteProperty`)
   - ✅ `getProperties` filters to `status == 'approved'` for marketplace
@@ -116,11 +118,9 @@
 
 ### Storage
 - ✅ `verification_documents` bucket (created in migration)
-- ✅ ImageKit.io integration for property images (CDN, optimization, resizing)
-  - ✅ `ImageKitService` — upload via REST API with private key auth
-  - ✅ Falls back to Supabase Storage if ImageKit not configured
-  - ⬜ Avatar upload via ImageKit
-  - ⬜ Project image upload via ImageKit
+- ✅ `property_images` bucket (created in migration, RLS-protected)
+- ✅ All image uploads go through Supabase Storage with user-scoped paths
+- ✅ ImageKit private-key upload removed from the client (security — keys in app binaries are extractable)
 - ⬜ `avatars` bucket (needs creation)
 - ⬜ `project_images` bucket (needs creation)
 
@@ -147,14 +147,9 @@
 - ✅ Notifications sent on verification approve/reject/terminate
 - ✅ Admin storage proxy `/api/storage/[...path]` + `DocumentViewer` component — admins can view uploaded ID/face documents
 
-### Property Images — ✅ Complete
-- ✅ ImageKit.io service — upload via REST API, CDN delivery
-- ✅ Supabase Storage fallback when ImageKit not configured
-- ✅ SQL migration `00007_storage_property_images.sql` — storage bucket + RLS
-- ✅ Extract `PropertyCard` to standalone widget
-- ✅ Render `Image.network` from `property.images` in cards
-- ✅ Build `PropertyDetailScreen` with swipeable image gallery
-- ✅ Loading spinner and error fallback for images
+### Property Images — ✅ Complete (secured)
+- ✅ Uploads via Supabase Storage `property_images` bucket (RLS-protected)
+- ✅ ImageKit private-key auth removed from the client — previously extractable from the app binary
 - ✅ 8-image limit per property post
 
 ### Property Management (Seller)
@@ -189,11 +184,15 @@
 - ⬜ Average rating calculation
 - ⬜ Reviewer identity (verified buyer badge)
 
-### Daily Portion
-- ⬜ Fetch from `daily_portions` table
-- ⬜ Bookmark/read status tracking
-- ⬜ Daily refresh logic
-- ⬜ Rich text rendering for portion content
+### Daily Portion — ✅ Complete
+- ✅ Fetch from `daily_portions` table (published only, newest first)
+- ✅ Today's portion logic (`getTodayPortion` — date match with latest-published fallback)
+- ✅ Read status tracking (`portion_reads` table, migration `00012`)
+- ✅ Reflection saving per user per portion (`portion_reflections` table, migration `00012`)
+- ✅ Bookmark/read status tracking with real portion IDs
+- ✅ Home screen "Today's Portion" card shows real title, scripture reference, and content snippet
+- ✅ `DailyPortion` model with paragraph rendering (`paragraphs`)
+- ⬜ Rich text / links inside portion content
 
 ### Notifications
 - ✅ Fetch from `notifications` table
@@ -265,7 +264,8 @@
 - ✅ Migration: `00009_verification_setup.sql` — verification request columns + storage bucket (idempotent)
 - ✅ Migration: `00010_notifications_and_termination.sql` — `notifications` table + realtime, termination columns (idempotent)
 - ✅ Migration: `00011_device_tokens.sql` — `device_tokens` table for FCM push (idempotent)
-- ⬜ Migrations 00009–00011 pending execution in Supabase SQL Editor
+- ✅ Migration: `00012_portion_reads.sql` — `portion_reads` (read status) + `portion_reflections` tables (idempotent)
+- ⬜ Migrations 00009–00012 pending execution in Supabase SQL Editor
 
 ---
 
@@ -275,8 +275,8 @@
 - ✅ google_fonts ^6.1.0 (Inter)
 - ✅ flutter_dotenv — environment variables
 - ✅ file_picker — document/image uploads
-- ✅ ImageKit.io — cloud image CDN with optimization (`ImageKitService`, REST API upload)
-- ✅ `http` ^1.2.0 — HTTP client for ImageKit API
+- ✅ Supabase Storage buckets for all image uploads (`property_images`, RLS-protected)
+- ✅ `http` ^1.2.0 — HTTP client for direct Supabase Storage uploads
 - ✅ firebase_core + firebase_messaging — FCM push notifications (guarded)
 - ✅ git ignored .env for security
 - ✅ GitHub Actions keep-alive workflow
@@ -291,7 +291,9 @@
 - ✅ `AppProtection` — root/jailbreak detection, screen protection, debug detection
 - ✅ RLS policies on all tables
 - ✅ Profiles INSERT/UPDATE policies
-- ✅ `.env` gitignored
+- ✅ `.env` and `android/app/google-services.json` gitignored (Firebase keys never committed)
+- ✅ No secret keys in the app binary (ImageKit private key removed)
+- ✅ `flutter analyze` clean (0 issues incl. `use_build_context_synchronously` crash risks)
 
 ## Design
 - ✅ `AppTheme` — full Serene Covenant palette (50+ color tokens), Inter typography
@@ -308,7 +310,7 @@ cd your-portion
 
 # Flutter app
 flutter pub get
-cp assets/.env.example assets/.env   # fill in your real Supabase/ImageKit keys
+cp assets/.env.example assets/.env   # fill in your real Supabase keys
 
 # Admin dashboard
 cd admin-dashboard
@@ -318,12 +320,12 @@ cd ..
 ```
 
 ## Next Priority Order
-1. ✅ **Property Images** — migration, ImageKit, card, image display, detail screen, 8-image limit
+1. ✅ **Property Images** — migration, secure Storage uploads, card, image display, detail screen, 8-image limit
 2. ✅ **Property Management** — edit/delete/archive/reactivate, status badges, rejection reason, submit draft
 3. ✅ **Notifications & Push** — realtime in-app, FCM push, admin notify, verification termination
 4. 🔄 **Profile & Settings** — change password, role toggle, notification prefs, language picker done; ⬜ avatar upload, dark mode, phone/email verification badge
-5. ⬜ **Kingdom Projects** — full CRUD, donations
-6. ⬜ **Reviews & Ratings**
-7. ⬜ **Daily Portion** — real data
+5. ✅ **Daily Portion** — real data (today's portion, read status, reflections, bookmarks)
+6. ⬜ **Kingdom Projects** — full CRUD, donations
+7. ⬜ **Reviews & Ratings**
 8. ⬜ **Search** — cross-entity
 9. ⬜ **Infrastructure** — error tracking, caching, CI/CD

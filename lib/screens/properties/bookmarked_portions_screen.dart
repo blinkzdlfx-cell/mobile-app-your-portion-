@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../models/daily_portion.dart';
 
 class BookmarkedPortionsScreen extends StatefulWidget {
   const BookmarkedPortionsScreen({super.key});
@@ -11,7 +12,7 @@ class BookmarkedPortionsScreen extends StatefulWidget {
 
 class _BookmarkedPortionsScreenState extends State<BookmarkedPortionsScreen> {
   final _supabaseService = SupabaseService();
-  List<Map<String, dynamic>> _portions = [];
+  List<DailyPortion> _portions = [];
   bool _loading = true;
 
   @override
@@ -74,7 +75,7 @@ class _BookmarkedPortionsScreenState extends State<BookmarkedPortionsScreen> {
                           padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
                           itemCount: _portions.length,
                           separatorBuilder: (_, _) => const SizedBox(height: 12),
-                          itemBuilder: (context, i) {
+                            itemBuilder: (context, i) {
                             final p = _portions[i];
                             return Container(
                               padding: const EdgeInsets.all(20),
@@ -90,25 +91,22 @@ class _BookmarkedPortionsScreenState extends State<BookmarkedPortionsScreen> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
-                                        child: Text(p['title'] as String? ?? '',
+                                        child: Text(p.title,
                                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                             color: AppTheme.onSurface, fontWeight: FontWeight.w600)),
                                       ),
                                       IconButton(
                                         icon: const Icon(Icons.bookmark, color: AppTheme.primaryContainer, fill: 1),
                                         onPressed: () async {
-                                          final id = p['id'] as String?;
-                                          if (id != null) {
-                                            await _supabaseService.removeBookmarkedPortion(id);
-                                            _load();
-                                          }
+                                          await _supabaseService.removeBookmarkedPortion(p.id);
+                                          _load();
                                         },
                                       ),
                                     ],
                                   ),
-                                  if (p['content'] != null) ...[
+                                  if (p.content.isNotEmpty) ...[
                                     const SizedBox(height: 8),
-                                    Text(p['content'] as String,
+                                    Text(p.content,
                                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.onSurfaceVariant),
                                       maxLines: 3, overflow: TextOverflow.ellipsis),
                                   ],

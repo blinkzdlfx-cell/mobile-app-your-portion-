@@ -23,8 +23,7 @@ class _SavedPropertiesScreenState extends State<SavedPropertiesScreen> {
 
   Future<void> _load() async {
     final ids = await _supabaseService.getSavedPropertyIds();
-    final all = await _supabaseService.getProperties();
-    final saved = all.where((p) => ids.contains(p.id)).toList();
+    final saved = await _supabaseService.getPropertiesByIds(ids);
     if (mounted) setState(() { _properties = saved; _loading = false; });
   }
 

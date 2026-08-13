@@ -210,7 +210,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
                   width: 72, height: 72,
                   child: p.images.isNotEmpty
                       ? Image.network(p.images.first, fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => _thumbnailPlaceholder())
+                          errorBuilder: (_, _, _) => _thumbnailPlaceholder())
                       : _thumbnailPlaceholder(),
                 ),
               ),

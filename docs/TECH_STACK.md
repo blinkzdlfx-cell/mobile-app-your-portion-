@@ -9,7 +9,7 @@
 | **Fonts** | google_fonts | ^6.1.0 (Inter) |
 | **Env Variables** | flutter_dotenv | ^5.1.0 |
 | **Icons** | Material Icons + Cupertino Icons | ^1.0.8 |
-| **Image CDN** | ImageKit.io (REST API upload, auto-optimization) | — |
+| **Image Storage** | Supabase Storage (RLS-protected buckets) | — |
 | **HTTP Client** | http | ^1.2.0 |
 | **Linting** | flutter_lints | ^6.0.0 |
 | **Database** | PostgreSQL (via Supabase) | — |
@@ -47,8 +47,7 @@ lib/
 │   ├── splash/                   # splash, splash_textured
 │   └── utility/                  # loading, offline, empty_state, success, help_support
 ├── services/
-│   ├── supabase_service.dart     # All Supabase CRUD operations
-│   └── imagekit_service.dart     # ImageKit.io upload via REST API
+│   └── supabase_service.dart     # All Supabase CRUD + storage uploads
 ├── theme/
 │   └── app_theme.dart            # Serene Covenant theme constants
 ├── widgets/

@@ -111,7 +111,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
         child: Icon(icon, color: AppTheme.secondary, size: 18),
       ),
       title: Text(title, style: const TextStyle(color: AppTheme.onSurface, fontSize: 15)),
-      activeColor: AppTheme.primaryContainer,
+      activeThumbColor: AppTheme.primaryContainer,
     );
   }
 }
