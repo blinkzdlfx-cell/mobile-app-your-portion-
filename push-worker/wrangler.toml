@@ -1,0 +1,11 @@
+name = "your-portion-push-worker"
+main = "src/index.ts"
+compatibility_date = "2025-04-01"
+
+# Runs every day at 06:00 (UTC) — posts today's portion, sends the FCM push,
+# and keeps Supabase awake (free tier resumes only after 7 days of zero requests).
+[triggers]
+crons = ["0 6 * * *"]
+
+[vars]
+NEXT_PUBLIC_SUPABASE_URL = "https://ssytwfbufkkidtoitgje.supabase.co"

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../models/daily_portion.dart';
 
 class DailyPortionScreen extends StatefulWidget {
@@ -232,7 +233,7 @@ class _DailyPortionScreenState extends State<DailyPortionScreen> {
 
   Widget _buildBody() {
     if (_loading) {
-      return  Center(child: CircularProgressIndicator(color: AppTheme.primary));
+      return const SkeletonArticle();
     }
     final portion = _portion;
     if (portion == null) {

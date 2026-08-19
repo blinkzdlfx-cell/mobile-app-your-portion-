@@ -49,7 +49,7 @@ dependencies:
   supabase: ^2.13.4
 
   # File picking for document upload
-  file_picker: ^8.0.0
+  file_picker: 10.0.0
 
   # HTTP client for ImageKit.io uploads
   http: ^1.2.0
@@ -59,7 +59,7 @@ dependencies:
   firebase_core: ^4.13.0
   firebase_messaging: ^16.5.0
   cached_network_image: ^3.4.1
-  sentry_flutter: ^8.14.2
+  sentry_flutter: 9.0.0
   shared_preferences: ^2.5.5
 
 dev_dependencies:

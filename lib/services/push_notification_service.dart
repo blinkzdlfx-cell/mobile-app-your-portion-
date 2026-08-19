@@ -32,12 +32,15 @@ class PushNotificationService {
         badge: true,
         sound: true,
       );
+      debugPrint('Push: permission=${settings.authorizationStatus}');
       if (settings.authorizationStatus == AuthorizationStatus.denied) return;
 
       _ready = true;
 
       messaging.onTokenRefresh.listen((token) => _syncToken(token));
-      _syncToken(await messaging.getToken() ?? '');
+      final token = await messaging.getToken() ?? '';
+      debugPrint('Push: got token (len=${token.length})');
+      _syncToken(token);
 
       Supabase.instance.client.auth.onAuthStateChange.listen((data) {
         final user = data.session?.user;
@@ -65,8 +68,9 @@ class PushNotificationService {
         },
         onConflict: 'user_id,token',
       );
-    } catch (_) {
-      // DB not set up yet (migration 00011 not run) — push silently skipped.
+      debugPrint('Push: token synced to device_tokens');
+    } catch (e) {
+      debugPrint('Push: token sync failed: $e');
     }
   }
 

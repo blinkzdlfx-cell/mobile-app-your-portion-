@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../models/property.dart';
 
 class SavedPropertiesScreen extends StatefulWidget {
@@ -53,7 +54,7 @@ class _SavedPropertiesScreenState extends State<SavedPropertiesScreen> {
             ),
             Expanded(
               child: _loading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const SkeletonPropertyList(itemCount: 3)
                   : _properties.isEmpty
                       ? Center(
                           child: Padding(

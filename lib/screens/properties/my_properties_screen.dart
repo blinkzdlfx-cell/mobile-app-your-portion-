@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
+﻿import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../models/property.dart';
 
 class MyPropertiesScreen extends StatefulWidget {
@@ -158,7 +159,7 @@ class _MyPropertiesScreenState extends State<MyPropertiesScreen> {
             ),
             Expanded(
               child: _loading
-                  ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                  ? const SkeletonPropertyList(itemCount: 3)
                   : _properties.isEmpty
                       ? Center(
                           child: Padding(
@@ -389,3 +390,4 @@ class _ActionButton extends StatelessWidget {
     );
   }
 }
+

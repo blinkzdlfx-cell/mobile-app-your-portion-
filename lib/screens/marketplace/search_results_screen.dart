@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme/app_theme.dart';
@@ -6,6 +6,7 @@ import '../../models/property.dart';
 import '../../models/kingdom_project.dart';
 import '../../models/daily_portion.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   const SearchResultsScreen({super.key, this.initialQuery});
@@ -241,7 +242,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
     }
 
     if (_searching) {
-      return  Center(child: CircularProgressIndicator(color: AppTheme.primary));
+      return const SkeletonSearchResults();
     }
 
     if (!_searchedOnce || (_properties.isEmpty && _projects.isEmpty && _portions.isEmpty)) {
@@ -291,9 +292,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
               title: 'Properties (${_properties.length})',
               children: _properties.map((p) => _SearchResultCard(
                 icon: Icons.home_rounded,
-                badge: 'Property · ${p.category}',
+                badge: 'Property Â· ${p.category}',
                 title: p.title,
-                subtitle: '${p.formattedPrice} · ${p.location}',
+                subtitle: '${p.formattedPrice} Â· ${p.location}',
                 onTap: () => Navigator.pushNamed(context, '/property-detail', arguments: p),
               )).toList(),
             ),
@@ -427,3 +428,4 @@ class _SearchResultCard extends StatelessWidget {
     );
   }
 }
+

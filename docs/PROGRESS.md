@@ -222,11 +222,21 @@
 - ✅ Sentry crash reporting (initialized when `--dart-define=SENTRY_DSN=...` is provided)
 - ✅ Image caching (cached_network_image across property card/detail/gallery/avatars)
 - ✅ Test suite (18 tests: all 5 model unit-test groups + app-boot smoke test)
+- ✅ Debug APK build green (Flutter 3.44.0, Gradle 8.14, AGP 8.13.0, Kotlin 2.3.20, JDK 17, NDK 28.2.13676358) — see "Android Toolchain" below
 - ⬜ Replace GitHub keep-alive with Cloudflare cron triggers (see Backend Plan below)
 - ⬜ Push notification worker on Cloudflare Workers (scheduled sends + keep-alive; admin `notifyUser()` already covers manual admin sends)
 - ⬜ Offline support / local cache
 - ⬜ Deep linking / universal links
 - ⬜ Analytics (Firebase?)
+
+### Android Toolchain — ✅ Debug build green (2026-08-19)
+- Root cause of the long build saga: repo scaffolded on bleeding-edge AGP 9.0.1 + Kotlin 2.3.20 + Gradle 9.1 while plugins (`sentry_flutter`, `file_picker`, `jni`) still apply classic KGP / old compileSdk — per Flutter 3.44 docs, AGP 9 requires plugins migrated to built-in Kotlin (not the case yet).
+- Fixed by pinning the documented known-good matrix: **Gradle 8.14 / AGP 8.13.0 / Kotlin 2.3.20 / JDK 17** (`android/settings.gradle.kts`, wrapper) + `android/build.gradle.kts` overrides:
+  - `languageVersion = KOTLIN_2_0` on `sentry_flutter`/`package_info_plus` KotlinCompile (they hard-code 1.6, rejected by modern KGP)
+  - `ndkVersion = "28.2.13676358"` + `compileSdk = 36` on every `com.android.library` module, set in `subprojects { afterEvaluate { } }` so it wins over module-declared values (fixes `:jni` (jni-0.14.1) compiling against android-31 → AAR metadata check failures)
+- `android/gradle.properties`: added `org.gradle.internal.repository.max.retries=10` + backoff (this machine's connection to dl.google.com dropped mid-download twice — flaky network, fixed by retries)
+- Package bumps (uncommitted): `sentry_flutter` ^9.0.0, `file_picker` ^10.0.0
+- Relevant warnings (benign, future work): "Unsupported Kotlin plugin version" (Flutter tooling embedded-kotlin vs KGP 2.2.20 in buildscript — `:gradle` build only), KGP-applying plugins warning (upgrade path: sentry/package_info_plus → built-in Kotlin once available)
 
 ---
 
@@ -279,6 +289,8 @@
 - ✅ Migration: `00011_device_tokens.sql` — `device_tokens` table for FCM push (idempotent)
 - ✅ Migration: `00012_portion_reads.sql` — `portion_reads` (read status) + `portion_reflections` tables (idempotent)
 - ✅ Migration: `00013_account_and_reviews.sql` — `avatars` bucket + RLS, `property_reviews` DELETE policy, profiles self-delete policy (⚠️ pending execution in SQL Editor)
+- ✅ Migration: `00014_daily_portions_queue.sql` — portions write-ahead queue (⚠️ pending execution in SQL Editor)
+- ✅ Migration: `00015_push_worker.sql` — `push_logs` + `claim_oldest_portion()` RPC (⚠️ pending execution in SQL Editor)
 - ⬜ Deploy edge function `delete-account` (needs `SUPABASE_SERVICE_ROLE_KEY`)
 
 ---
@@ -356,7 +368,7 @@ Infrastructure:
 Deploy ops (needed for shipped features):
 - ⬜ Run migration `00013_account_and_reviews.sql` in Supabase SQL Editor (avatars bucket + RLS, reviews DELETE policy, profiles self-delete)
 - ⬜ Deploy edge function: `supabase functions deploy delete-account` (needs `SUPABASE_SERVICE_ROLE_KEY`; enable "Allow users to delete their account" in Auth settings)
-- ⬜ Replace GitHub keep-alive action with Cloudflare cron triggers; add push worker (see Backend Plan)
+- ⬜ Replace GitHub keep-alive action with Cloudflare cron triggers (push-worker built — deploy + delete workflows; see Backend Plan)
 
 ---
 
@@ -376,7 +388,9 @@ Daily portion flow (agreed):
 Implementation order:
 - ✅ Migration `00014_daily_portions_queue.sql` — `publish_date` default → NULL (drafts must not look published-today), unique partial index on `publish_date` (idempotency guard) — ⚠️ pending SQL Editor run
 - ✅ Admin dashboard: Daily Portions section — API routes (`GET/POST /api/portions`, `PATCH/DELETE /api/portions/[id]`) + UI (`/portions`: Unposted/Posted tabs, write-ahead form, edit inline, publish-now, unpost, delete)
-- ⬜ Cloudflare Worker `push-worker/`: 6am cron → claim oldest unposted portion → insert `publish_date = today` → FCM v1 send to `device_tokens` → log to `push_logs`; keep-alive comes free with the same job
+- ✅ Migration `00015_push_worker.sql` — `push_logs` delivery table + `claim_oldest_portion()` RPC (atomic, idempotent, service-role only) — ⚠️ pending SQL Editor run
+- ✅ Cloudflare Worker `push-worker/` — written, typechecked, builds (⚠️ needs `npm run deploy` + `wrangler secret put SUPABASE_SERVICE_ROLE_KEY` / `FCM_SERVICE_ACCOUNT`; 6am UTC cron posts one portion per day → FCM v1 push to `device_tokens` → stale-token pruning → `push_logs`; `/run` manual trigger; keep-alive comes free with the same job)
+- ⬜ Delete GitHub keep-alive workflows once the push-worker cron has run once (`.github/workflows/supabase-keep-alive.yml` + `supabase_keep_alive.yml`)
 - ⬜ AI portion writer (later): fills the unposted pool through the same admin API; cron unchanged
 - ⬜ Appwrite: NOT planned — superseded by the direct-FCM decision above
 

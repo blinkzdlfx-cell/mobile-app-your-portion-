@@ -3,6 +3,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/property_card.dart';
 import '../../widgets/notification_bell.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../services/supabase_service.dart';
 import '../../models/property.dart';
 
@@ -345,13 +346,11 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 8),
-                      // Loading indicator
+                      // Loading skeleton
                       if (_isLoadingProperties || _isLoadingSaved)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Center(
-                            child: CircularProgressIndicator(color: AppTheme.primary),
-                          ),
+                          child: const SkeletonPropertyList(itemCount: 2),
                         ),
                       // Search
                       Container(

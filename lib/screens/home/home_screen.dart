@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/notification_bell.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../models/daily_portion.dart';
 import '../../services/supabase_service.dart';
 
@@ -18,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen>
   final _supabaseService = SupabaseService();
   bool _isSearchExpanded = false;
   bool _portionLoaded = false;
+  bool _portionLoading = true;
   DailyPortion? _todayPortion;
   final _searchController = TextEditingController();
   final _searchFocusNode = FocusNode();
@@ -46,8 +48,12 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future<void> _loadTodayPortion() async {
-    final portion = await _supabaseService.getTodayPortion();
-    if (mounted) setState(() => _todayPortion = portion);
+    try {
+      final portion = await _supabaseService.getTodayPortion();
+      if (mounted) setState(() => _todayPortion = portion);
+    } finally {
+      if (mounted) setState(() => _portionLoading = false);
+    }
   }
 
   String _firstName() {
@@ -189,7 +195,9 @@ class _HomeScreenState extends State<HomeScreen>
                         border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.3)),
                         boxShadow: [AppTheme.ambientShadow],
                       ),
-                      child: Column(
+                      child: _portionLoading
+                          ? const SkeletonPortionCard()
+                          : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(

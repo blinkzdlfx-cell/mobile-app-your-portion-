@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../models/property.dart';
 import '../../models/property_review.dart';
 import '../../services/supabase_service.dart';
@@ -109,10 +110,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         width: double.infinity,
                         height: 300,
                         fit: BoxFit.cover,
-                        placeholder: (context, progress) => Container(
-                          color: AppTheme.surfaceVariant,
-                          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                        ),
+                        placeholder: (context, progress) => const SkeletonDetailGallery(),
                         errorWidget: (context, error, stackTrace) => Container(
                           color: AppTheme.surfaceVariant,
                           child:  Center(

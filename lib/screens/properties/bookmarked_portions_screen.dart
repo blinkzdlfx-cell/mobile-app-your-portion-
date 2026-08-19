@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../models/daily_portion.dart';
 
 class BookmarkedPortionsScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _BookmarkedPortionsScreenState extends State<BookmarkedPortionsScreen> {
             ),
             Expanded(
               child: _loading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const SkeletonPortionList()
                   : _portions.isEmpty
                       ? Center(
                           child: Padding(

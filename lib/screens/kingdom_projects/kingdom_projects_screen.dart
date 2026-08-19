@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/notification_bell.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../models/kingdom_project.dart';
 
 class KingdomProjectsScreen extends StatefulWidget {
@@ -235,7 +236,7 @@ class _KingdomProjectsScreenState extends State<KingdomProjectsScreen> {
             const SizedBox(height: 16),
             Expanded(
               child: _isLoading
-                  ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                  ? const SkeletonKingdomProjectList()
                   : RefreshIndicator(
                       onRefresh: _load,
                       color: AppTheme.primary,
@@ -466,3 +467,4 @@ class _ContactRow extends StatelessWidget {
     );
   }
 }
+

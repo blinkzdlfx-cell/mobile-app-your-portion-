@@ -38,6 +38,16 @@ migrate_working_dir/
 *.env
 !.env.example
 
+# Node.js / workers
+node_modules/
+push-worker/dist/
+push-worker/.wrangler/
+push-worker/.wrangler-dist/
+
+# Cloudflare push worker local secrets
+push-worker/.dev.vars
+push-worker/firebase-service-account.json
+
 # Scratch files
 error.txt
 err.txt

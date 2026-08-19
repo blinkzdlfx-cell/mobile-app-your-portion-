@@ -1,0 +1,285 @@
+================================================================================
+ANDROID BUILD FIX GUIDE — "flutter run" / "flutter build apk" repair
+================================================================================
+Written: 2026-08-19  |  Project: Your Portion (Flutter app, Windows host)
+Purpose: Anyone (AI agent or solo developer) must be able to reproduce,
+         understand, and re-apply every fix that unblocked the Android
+         debug build. Read top to bottom BEFORE changing anything.
+
+--------------------------------------------------------------------------------
+1. THE PROBLEM (symptoms, in the order they appeared)
+--------------------------------------------------------------------------------
+`flutter run` and `flutter build apk --debug` on Windows kept failing with a
+chain of different errors, one after another. Every fix revealed the next
+error. The full chain was:
+
+  1. sentry_flutter compile error:
+       "Language version 1.6 is no longer supported ... supported language
+        versions are: 2.0 ... 2.1" (Kotlin compiler rejected it)
+  2. After bumping sentry_flutter: `:app:mergeDebugNativeLibs` failed with
+     a corrupted Gradle transform cache ("metadata.bin" errors) — caused by
+     killed/interrupted builds.
+  3. file_picker java compile error:
+       "package androidx.core.app does not exist" (under AGP 9.x)
+  4. `:jni` CMake build error:
+       "[CXX1101] NDK at ...ndk\27.0.12077973 did not have a source.properties
+        file" — the NDK 27 install on the machine is partial/corrupt.
+  5. Plugin resolution error: "Plugin [id: 'com.android.application',
+     version: '8.13.0' ...] was not found" — transient network/DNS failure
+     to dl.google.com (verified: the artifact EXISTS; the machine's
+     connection dropped mid-download, twice, ~40+ seconds per attempt).
+  6. `:app_links:extractDebugAnnotations` download error:
+       "Could not download lint-31.13.0.jar ... No such host is known
+        (dl.google.com)" and "commons-codec-1.10.jar ... (repo.maven.apache.org)"
+       — same flaky network, different artifacts.
+  7. `:jni:checkDebugAarMetadata` error (20 issues):
+       "Dependency 'androidx.fragment:fragment:1.7.1' requires ... compile
+        against version 34 or later ... :jni is currently compiled against
+        android-31."
+       => The `jni` plugin module (from the pub-cache package `jni 0.14.1`,
+          dependency of sentry's native stack) pins compileSdk 31 while its
+          androidx dependencies need 34+.
+
+MORAL: these were NOT independent bugs. They all trace back to ONE root
+cause + one environmental cause (see section 2).
+
+--------------------------------------------------------------------------------
+2. ROOT CAUSE (read this — it explains everything)
+--------------------------------------------------------------------------------
+A) TOOLCHAIN AHEAD OF THE PLUGIN ECOSYSTEM (main cause)
+   The project was scaffolded with the newest Android toolchain:
+     AGP 9.0.1 + Kotlin (KGP) 2.3.20 + Gradle 9.1.0
+   Per the official "What's new in Flutter 3.44" release notes:
+     * AGP 9.0 introduced BUILT-IN KOTLIN. Apps and PLUGINS that still apply
+       the Kotlin Gradle Plugin (KGP) themselves will fail to build.
+     * Plugin authors must migrate to built-in Kotlin and require
+       Flutter >= 3.44 in their pubspec.
+   The plugins we depend on have NOT migrated yet:
+     * sentry_flutter 9.0.0  — applies KGP, hard-codes Kotlin languageVersion
+       1.6 (rejected by modern Kotlin compilers)
+     * package_info_plus    — same pattern
+     * jni 0.14.1 (via sentry) — compiles against android-31
+     * file_picker          — breaks under AGP 9.x classpath resolution
+   Fighting these against AGP 9 was a dead end. Flutter itself documents
+   the known-good ceiling for its own tooling (flutter_tools/gradle_utils):
+     * maxKnownAgpVersionWithFullKotlinSupport = 8.13.0
+     * maxKnownAndSupportedKgpVersion         = 2.3.0  (2.3.x line)
+   => We pinned the documented, fully-supported matrix instead of chasing
+      "latest" (AGP 9.3 exists, but would recreate the same failure class).
+
+B) FLAKY NETWORK (environmental cause)
+   The machine's connection to dl.google.com / repo.maven.apache.org drops
+   intermittently (DNS stalls, mid-stream disconnects). Gradle failed 3+
+   builds because a single JAR download failed once with no retry.
+
+C) CORRUPT SDK INSTALLS (machine state)
+   * NDK 27.0.12077973 exists but has no source.properties (partial).
+   * Installed (good) NDKs: 28.2.13676358 and 30.0.14904198.
+   * A stale `platform-tools.backup` folder and a `cmake/3.22.1-2` dup exist.
+
+--------------------------------------------------------------------------------
+3. THE FIX — the full, current, VERIFIED toolchain matrix
+--------------------------------------------------------------------------------
+| Piece      | Version            | Where                                         |
+|------------|--------------------|-----------------------------------------------|
+| Flutter    | 3.44.0 stable      | (keep installed; do NOT "flutter upgrade" yet)|
+| Gradle     | 8.14 (wrapper)     | android/gradle/wrapper/gradle-wrapper.properties |
+| AGP        | 8.13.0             | android/settings.gradle.kts                   |
+| Kotlin KGP | 2.3.20             | android/settings.gradle.kts                   |
+| JDK        | 17                 | android/app/build.gradle.kts (compileOptions; verify your JAVA_HOME/gradle daemon JVM) |
+| NDK        | 28.2.13676358      | android/build.gradle.kts (override block)     |
+| compileSdk | 36 (all modules)   | android/build.gradle.kts (override block)     |
+| minSdk     | 24 (app)           | android/app/build.gradle.kts                  |
+| targetSdk  | flutter default    | android/app/build.gradle.kts                  |
+Why these versions:
+  * AGP 8.13.0  -> Flutter 3.44's documented max with FULL Kotlin support.
+  * KGP 2.3.x   -> Flutter 3.44's documented max known/supported version.
+  * Gradle 8.14 -> satisfies AGP 8.13 (min 8.13) AND KGP 2.3.x (max 9.x).
+  * AGP 8.11-8.13 default NDK is 27.0.12077973 (the corrupt one) -> force 28.2.
+
+--------------------------------------------------------------------------------
+4. EXACT FILE CHANGES (apply all of these)
+--------------------------------------------------------------------------------
+4.1 android/settings.gradle.kts  — plugin versions block:
+    ------------------------------------------------------------------
+    plugins {
+        id("dev.flutter.flutter-plugin-loader") version "1.0.0"
+        id("com.android.application") version "8.13.0" apply false
+        id("org.jetbrains.kotlin.android") version "2.3.20" apply false
+    }
+    ------------------------------------------------------------------
+
+4.2 android/gradle/wrapper/gradle-wrapper.properties  — distributionUrl:
+    ------------------------------------------------------------------
+    distributionUrl=https\://services.gradle.org/distributions/gradle-8.14-all.zip
+    ------------------------------------------------------------------
+
+4.3 android/gradle.properties  — add repository download retries
+    (fixes flaky networks; without this a single failed JAR download
+    kills the whole build):
+    ------------------------------------------------------------------
+    org.gradle.jvmargs=-Xmx8G -XX:MaxMetaspaceSize=4G -XX:ReservedCodeCacheSize=512m -XX:+HeapDumpOnOutOfMemoryError
+    systemProp.org.gradle.internal.http.connectionTimeout=60000
+    systemProp.org.gradle.internal.http.socketTimeout=180000
+    systemProp.org.gradle.internal.repository.max.retries=10
+    systemProp.org.gradle.internal.repository.initial.backoff=1000
+    android.useAndroidX=true
+    # newDsl/builtInKotlin flags added by the Flutter template — leave as-is:
+    android.newDsl=false
+    android.builtInKotlin=false
+    ------------------------------------------------------------------
+
+4.4 android/build.gradle.kts  — the override block (CRITICAL):
+    ------------------------------------------------------------------
+    // Legacy plugins (sentry_flutter, package_info_plus) still declare
+    // kotlinOptions { languageVersion = "1.6" }, which newer Kotlin (KGP)
+    // rejects. Force a supported language version on those modules only.
+    subprojects {
+        if (name in listOf("sentry_flutter", "package_info_plus")) {
+            tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+                compilerOptions {
+                    languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+                }
+            }
+        }
+    }
+
+    // Some plugins (jni_flutter/jni-0.14.1 etc.) don't pin an NDK and AGP's
+    // default picks up a broken local install — force a known-good NDK on
+    // every library module. Also force compileSdk so plugin modules
+    // (e.g. :jni at android-31) satisfy the AAR metadata checks of their
+    // androidx dependencies (requires 34+).
+    // IMPORTANT: applied in afterEvaluate so it WINS over the values the
+    // plugin build.gradle files declare themselves (a plain
+    // plugins.withId { } block runs too early inside those modules).
+    subprojects {
+        afterEvaluate {
+            if (plugins.hasPlugin("com.android.library")) {
+                extensions.configure<com.android.build.api.dsl.LibraryExtension> {
+                    ndkVersion = "28.2.13676358"
+                    compileSdk = 36
+                }
+            }
+        }
+    }
+    ------------------------------------------------------------------
+
+4.5 pubspec.yaml  — package bumps (both currently needed):
+    sentry_flutter: ^9.0.0     (was ^8.14.2 — the 1.6 languageVersion fix)
+    file_picker:   ^10.0.0     (was ^8.x — AGP 9 conflict workaround)
+
+--------------------------------------------------------------------------------
+5. BUILD & VERIFY PROCEDURE (exact commands, Windows PowerShell)
+--------------------------------------------------------------------------------
+  # one-time: accept SDK licenses (also installs missing Build-Tools)
+  flutter doctor --android-licenses
+
+  # regenerate plugin registrations + lockfile
+  flutter pub get
+
+  # --- FULL VERIFICATION SEQUENCE (in this order, NEVER in parallel —
+  #     two flutter commands at once fight over the startup lock) ---
+  flutter analyze
+  flutter test
+  flutter build apk --debug          # or: flutter run (with device attached)
+
+  # Faster iteration loop (skip the flutter tool startup overhead):
+  cd android
+  .\gradlew.bat assembleDebug --console=plain
+  cd ..
+
+  # Output artifact:
+  #   build\app\outputs\flutter-apk\app-debug.apk
+
+Build time expectations on a slow machine: first build 20-40+ min (downloads
+dependencies, builds CMake for 4 ABIs). Subsequent builds are incremental,
+~3-8 min. If the shell tool times out, RE-RUN the same command — Gradle
+resumes from cached tasks.
+
+--------------------------------------------------------------------------------
+6. GOTCHAS / LESSONS (each one cost a build cycle)
+--------------------------------------------------------------------------------
+1. Two flutter commands in parallel => "Waiting for another flutter command
+   to release the startup lock" + filesystem lock errors. Run sequentially.
+2. A single dead JAR download aborts the whole build. Retries in
+   gradle.properties fix it. If a run still fails with "Could not download
+   ... lint-*.jar" from dl.google.com, the network is down again — just
+   re-run; the file is only ~1 MB and Gradle caches successful downloads.
+3. Verify DNS yourself: `Test-NetConnection dl.google.com -Port 443` and
+   `Resolve-DnsName dl.google.com` — you CAN reach Google even while the
+   build intermittently fails.
+4. The afterEvaluate() trick matters: plugin modules declare their own
+   compileSdk inside their build.gradle AFTER plugin application. Any
+   compileSdk override registered via plugins.withId() inside subprojects{}
+   is overwritten by the module's own android{} block. afterEvaluate wins.
+5. AGP 9.x is a trap until every Flutter plugin you use has migrated to
+   built-in Kotlin. Check the warning Flutter prints at build time:
+   "Your app uses the following plugins that apply Kotlin Gradle Plugin
+   (KGP): package_info_plus, sentry_flutter ... upgrade to a version that
+   supports Built-in Kotlin." On this project it is benign (build succeeds);
+   treat it as future work, not an error.
+6. The "Unsupported Kotlin plugin version" warning at configure time refers
+   to the `:gradle` build (Flutter tooling's buildscript uses embedded
+   Kotlin 2.0.21 vs our KGP 2.2.20 in `buildscript {}`). Benign.
+7. A stale `.flutter-plugins-dependencies` can map a plugin name to an old
+   pub-cache folder (`jni -> jni-0.14.1`). `flutter pub get` regenerates it;
+   check module paths with:
+       (Get-Content .flutter-plugins-dependencies -Raw | ConvertFrom-Json)
+       .plugins.android | % { "$($_.name) -> $($_.path)" }
+8. About the `:jni` module: it is NOT jni_flutter's android dir — the plugin
+   registry points it at the standalone `jni` Dart package's android folder.
+   Its build.gradle is in the pub cache; do not edit pub-cache files, the
+   afterEvaluate override handles it.
+9. If you see "":jni is currently compiled against android-31"" again,
+   the afterEvaluate override was removed or reordered. Never move it above
+   the subprojects block that sets it afterEvaluate.
+10. NDK: don't try to "fix" NDK 27.0.12077973 — just pin 28.2.13676358.
+    (Repairing = delete folder + let AGP re-download 27: slow, unnecessary.)
+
+--------------------------------------------------------------------------------
+7. WHAT THIS UNBLOCKS NEXT (remaining project steps)
+--------------------------------------------------------------------------------
+- flutter run on a physical phone — also registers the FCM device token
+  (that's how the push worker gets a token to send to).
+- Release APK: `flutter build apk --release` still needs a real signing
+  config (upload keystore / Play Console) — currently release uses the
+  debug signing key (see android/app/build.gradle.kts).
+- The KGP-applying plugin warning should be revisited when sentry_flutter /
+  package_info_plus publish built-in-Kotlin versions (then remove the
+  KOTLIN_2_0 languageVersion override and optionally move to AGP 9.x).
+- Do NOT run `flutter upgrade` casually: it shifts the whole matrix above
+  and can re-introduce the exact failures documented here. When Flutter
+  itself is upgraded, re-derive the matrix from the Flutter 3.4x release
+  notes + Kotlin/AGP compatibility tables (see section 8).
+
+--------------------------------------------------------------------------------
+8. SOURCES / DOCS USED FOR THE DECISION
+--------------------------------------------------------------------------------
+- Flutter 3.44 "What's new" (release notes, May 2026): AGP 9 built-in Kotlin,
+  plugin migration requirement, Flutter >= 3.44 pubspec constraint.
+- Flutter repo gradle_utils.dart: maxKnownAgpVersionWithFullKotlinSupport =
+  8.13.0, maxKnownAndSupportedKgpVersion = 2.3.0.
+- Kotlin docs KGP-Gradle-AGP compatibility table (2.2.x / 2.3.x / 2.4.x).
+- Google AGP release notes compatibility matrix (AGP 8.11-8.13 -> Gradle
+  8.13+, AGP 9.0 -> Gradle 9.1, AGP 9.3 -> Gradle 9.5; NDK defaults).
+- Google Maven metadata (https://dl.google.com/dl/android/maven2/...)
+  used to confirm artifact existence before blaming the toolchain.
+
+--------------------------------------------------------------------------------
+9. QUICK RECOVERY CHECKLIST (reproduce the green build on a fresh machine)
+--------------------------------------------------------------------------------
+[ ] Flutter 3.44.0 stable installed, `flutter doctor` clean-ish (Android OK)
+[ ] android/settings.gradle.kts  -> AGP 8.13.0, KGP 2.3.20 (sec 4.1)
+[ ] gradle-wrapper               -> 8.14 (sec 4.2)
+[ ] gradle.properties            -> retries + timeouts (sec 4.3)
+[ ] build.gradle.kts             -> KOTLIN_2_0 override + afterEvaluate
+                                   ndk/compileSdk block (sec 4.4)
+[ ] pubspec.yaml                 -> sentry_flutter ^9.0.0, file_picker ^10.0.0
+[ ] flutter pub get
+[ ] flutter analyze && flutter test && flutter build apk --debug
+[ ] APK exists at build\app\outputs\flutter-apk\app-debug.apk
+
+If a step fails with an error NOT in this guide: quote the exact task name
+(e.g. ":jni:checkDebugAarMetadata"), the exact version numbers in the error,
+and check section 2's root causes before touching build files.
+================================================================================

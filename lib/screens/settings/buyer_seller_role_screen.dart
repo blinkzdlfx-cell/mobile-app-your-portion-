@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 
 class BuyerSellerRoleScreen extends StatefulWidget {
   const BuyerSellerRoleScreen({super.key});
@@ -84,7 +85,7 @@ class _BuyerSellerRoleScreenState extends State<BuyerSellerRoleScreen> {
             color: AppTheme.onSurface, fontWeight: FontWeight.w600, fontSize: 22)),
       ),
       body: _loading
-          ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
+          ? const SkeletonFormLines(inputs: 3)
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -189,3 +190,4 @@ class _BuyerSellerRoleScreenState extends State<BuyerSellerRoleScreen> {
     );
   }
 }
+

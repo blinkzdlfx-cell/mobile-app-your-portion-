@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../models/property.dart';
+import 'skeleton/skeleton.dart';
 
 class PropertyCard extends StatelessWidget {
   final Property property;
@@ -142,14 +143,8 @@ class PropertyCard extends StatelessWidget {
           width: double.infinity,
           height: 160,
           fit: BoxFit.cover,
-          placeholder: (context, url) => Container(
-            color: AppTheme.surfaceVariant,
-            child: Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: AppTheme.primary,
-              ),
-            ),
+          placeholder: (context, url) => const Skeleton(
+            child: SkeletonBox(width: double.infinity, height: 160, radius: 0),
           ),
           errorWidget: (context, error, stackTrace) => _buildPlaceholder(context),
         ),

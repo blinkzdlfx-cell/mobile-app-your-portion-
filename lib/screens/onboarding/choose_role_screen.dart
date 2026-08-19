@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 
 class ChooseRoleScreen extends StatefulWidget {
   const ChooseRoleScreen({super.key});
@@ -103,7 +104,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
   Widget build(BuildContext context) {
     if (!_isLoaded) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: SkeletonSessionCheck(),
       );
     }
     return Scaffold(
@@ -385,3 +386,4 @@ class _RoleCard extends StatelessWidget {
     );
   }
 }
+

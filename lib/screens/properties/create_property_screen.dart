@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
+﻿import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:typed_data';
 import '../../theme/app_theme.dart';
 import '../../services/supabase_service.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../models/property.dart';
 
 class CreatePropertyScreen extends StatefulWidget {
@@ -239,7 +240,10 @@ class _CreatePropertyScreenState extends State<CreatePropertyScreen> {
       backgroundColor: AppTheme.surface,
       body: SafeArea(
         child: !_isEditMode && _canSell == null
-            ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
+            ? const Padding(
+                padding: EdgeInsets.all(20),
+                child: SkeletonFormLines(inputs: 5),
+              )
             : _isEditMode || _canSell! ? _buildForm() : _buildVerificationNeeded(),
       ),
     );
@@ -558,3 +562,4 @@ class _FeatureCheckbox extends StatelessWidget {
     );
   }
 }
+

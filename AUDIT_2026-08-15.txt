@@ -1,0 +1,101 @@
+AUDIT — Push Worker (push-worker/) — 2026-08-15
+===============================================
+
+STATUS SNAPSHOT
+- Day 1 of the Cloudflare push-worker rollout (see Backend Plan in docs/PROGRESS.md).
+- Code is WRITTEN, TYPECHECKED, BUNDLES CLEAN. NOT yet deployed to Cloudflare.
+- Local dev server booted successfully with all 3 secrets loaded.
+
+===============================================
+
+DONE
+----
+[1] Migration 00015_push_worker.sql written.
+    - Replaces the portions write-ahead idea end-to-end:
+      push_logs table + claim_oldest_portion() RPC (atomic, idempotent).
+    - claim_oldest_portion() restricted to service_role only (revoked public/anon/auth).
+[2] User ran the SQL part in Supabase SQL Editor (per user: "done the sql part").
+    NOTE: ASSUMPTION — verify 00015 (and 00014) actually ran before tomorrow's session.
+[3] push-worker/ scaffolded:
+    - wrangler.toml — name your-portion-push-worker, main src/index.ts,
+      cron [triggers] "0 6 * * *" (06:00 UTC daily), NEXT_PUBLIC_SUPABASE_URL var.
+    - package.json — @supabase/supabase-js ^2, jose ^5 (FCM OAuth), wrangler ^4, ts ^5.
+    - tsconfig.json — strict, ES2022, workers-types ^5 (wrangler 4.123 peer requires ^5).
+    - src/fcm.ts — OAuth2 mint (jose, cached), FCM HTTP v1 send, unregistered-token
+      detection, 25/batch fan-out. Ported from admin-dashboard/src/lib/notifications.ts.
+    - src/index.ts — scheduled() + fetch(). runDailyPush(): claim -> push -> prune stale
+      tokens -> log to push_logs. /run manual trigger, /health endpoint.
+[4] Verified in sandbox:
+    - `npx tsc --noEmit`   -> clean (source only; fix applied: FcmResult in index.ts,
+      rpc without generic, RunSummary.status).
+    - `wrangler deploy --dry-run -c wrangler.toml` -> upload 764 KB / gzip 151 KB, OK.
+    - `wrangler dev -c wrangler.toml` -> served, all 3 env bindings loaded from .dev.vars.
+    NOTE: `wrangler dev` WITHOUT `-c wrangler.toml` picks up the ROOT wrangler.jsonc
+    (admin dashboard config) and tries a custom build. ALWAYS pass `-c wrangler.toml`
+    for this worker, or cd into push-worker and run there — investigate why root config
+    wins over push-worker/wrangler.toml next session.
+[5] Local secrets:
+    - push-worker/firebase-service-account.json saved (user-uploaded, 2360 bytes).
+    - push-worker/.dev.vars generated: NEXT_PUBLIC_SUPABASE_URL +
+      SUPABASE_SERVICE_ROLE_KEY (from admin-dashboard/.env) + FCM_SERVICE_ACCOUNT
+      (minified one-line JSON). Verified: URL present, service key = valid JWT header,
+      FCM JSON parses, project_id/client_email/private_key all present.
+    - Both files added to .gitignore (never commit).
+[6] docs/PROGRESS.md updated — Backend Plan bullets, migrations list, deploy ops note.
+
+===============================================
+
+UNDONE / NEXT (in order)
+-----------------------
+[1] DEPLOY AUTH + DEPLOY:
+    run from push-worker/:
+      npx wrangler login                  <- INTERACTIVE browser login required.
+                                             wrangler whoami currently says auth expired.
+      npx wrangler deploy -c wrangler.toml
+[2] PROD SECRETS (wrangler secret put — prompt is interactive TTY, must be run by user):
+      npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY   (value = key in admin-dashboard/.env)
+      npx wrangler secret put FCM_SERVICE_ACCOUNT          (value = contents of
+        push-worker/firebase-service-account.json, entire JSON in one paste)
+    NOTE: these run inside the push-worker config context. If wrangler flips to the
+    root config again, use: wrangler secret put NAME --config push-worker/wrangler.toml
+[3] VERIFY LOCALLY /RUN BEFORE DEPLOY (still to do):
+    Boot `npx wrangler dev -c wrangler.toml`, then:
+      GET http://127.0.0.1:8787/run        -> claims today's portion + sends push + logs
+      GET http://127.0.0.1:8787/health
+    Confirm: no_portion (no draft) -> no push, logged; with a draft -> sent counts.
+[4] E2E CHECK AFTER DEPLOY:
+    - Open https://your-portion-push-worker.<ACCOUNT>.workers.dev/run (manual run).
+    - Check push_logs in Supabase Table Editor.
+    - With a device token registered: confirm phone actually receives the notification.
+    (Needs at least one draft portion in admin /portions -> Unposted tab.)
+[5] REQUIREMENTS:
+    - Supabase migrations 00014 + 00015 must be executed (00015 needed for RPC/push_logs).
+    - Re-check that CLAIM_OLDEST_PORTION revoke/grant took effect (try RPC via anon -> should 403).
+[6] AFTER FIRST CRON RUN:
+    - Delete .github/workflows/supabase-keep-alive.yml and supabase_keep_alive.yml.
+    - Keep .github/workflows/ci.yml.
+[7] WATCH-OUTS:
+    - FCM sender project must be the SAME Firebase project the mobile app uses,
+      otherwise FCM rejects the send (SENDER_ID_MISMATCH).
+    - Legacy FCM server key path NOT built into push-worker (only v1). Only add later
+      if service-account key creation stays blocked by org policy.
+    - wrangler config-resolution quirk (root wrangler.jsonc picked over push-worker
+      wrangler.toml when `-c` omitted) — always pass `-c wrangler.toml`.
+
+===============================================
+
+FILES TOUCHED THIS SESSION
+--------------------------
+- NEW:  supabase/migrations/00015_push_worker.sql
+- NEW:  push-worker/wrangler.toml
+- NEW:  push-worker/package.json
+- NEW:  push-worker/tsconfig.json
+- NEW:  push-worker/src/index.ts
+- NEW:  push-worker/src/fcm.ts
+- NEW:  push-worker/README.md
+- NEW:  push-worker/firebase-service-account.json  (GITIGNORED - SECRET)
+- NEW:  push-worker/.dev.vars                     (GITIGNORED - SECRET)
+- EDIT: .gitignore (added push-worker/.dev.vars + firebase-service-account.json)
+- EDIT: docs/PROGRESS.md
+
+NOT COMMITTED — all of the above is uncommitted working-tree state.

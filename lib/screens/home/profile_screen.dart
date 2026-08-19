@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/bottom_nav_bar.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 import '../../services/supabase_service.dart';
 
 List<Color> _avatarGradient(String id) {
@@ -53,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   bool _isAdmin = false;
   bool _hasPendingVerification = false;
   bool _loaded = false;
+  bool _profileReady = false;
   String? _avatarUrl;
 
   @override
@@ -108,6 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         _avatarColors = _avatarGradient(user.id);
         _avatarUrl = profile?.avatarUrl;
         _emailVerified = emailVerified;
+        _profileReady = true;
       });
     }
   }
@@ -230,7 +233,12 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
             // Content
             Expanded(
-              child: RefreshIndicator(
+              child: !_profileReady
+                  ? const Padding(
+                      padding: EdgeInsets.fromLTRB(16, 0, 16, 100),
+                      child: SkeletonProfileHeader(),
+                    )
+                  : RefreshIndicator(
                 onRefresh: _loadProfile,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),

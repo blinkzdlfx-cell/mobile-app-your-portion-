@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../services/supabase_service.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/skeleton/skeleton_layouts.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -114,7 +115,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             ),
             Expanded(
               child: _loading
-                  ?  Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                  ? const SkeletonNotificationList()
                   : RefreshIndicator(
                       onRefresh: _load,
                       color: AppTheme.primary,
