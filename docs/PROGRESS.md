@@ -1,5 +1,9 @@
 # Your Portion — Progress Tracker
 
+> **Workflow rule (since `ed52627`):** future edits go on a branch, get
+> verified (analyze/test/apk), then merge to `main` only after confirmation.
+> Full checklist: `docs/BRANCH_WORKFLOW.md`.
+
 ## Legend
 - ✅ Complete
 - 🔄 In Progress
