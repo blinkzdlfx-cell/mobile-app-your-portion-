@@ -40,13 +40,13 @@ BEGIN
 
   UPDATE daily_portions
   SET is_published = true, publish_date = today
-  WHERE id = (
-    SELECT dp.id FROM daily_portions dp
-    WHERE dp.is_published = false AND dp.publish_date IS NULL
-    ORDER BY dp.created_at ASC
+  WHERE daily_portions.id = (
+    SELECT d.id FROM daily_portions d
+    WHERE d.is_published = false AND d.publish_date IS NULL
+    ORDER BY d.created_at ASC
     LIMIT 1
   )
-  RETURNING id INTO claimed_id;
+  RETURNING daily_portions.id INTO claimed_id;
 
   IF claimed_id IS NOT NULL THEN
     RETURN QUERY
