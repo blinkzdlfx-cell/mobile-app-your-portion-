@@ -48,6 +48,9 @@ push-worker/.wrangler-dist/
 push-worker/.dev.vars
 push-worker/firebase-service-account.json
 
+# Supabase CLI (contains DB credentials)
+supabase/.temp/
+
 # Scratch files
 error.txt
 err.txt
